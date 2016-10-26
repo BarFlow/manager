@@ -6,10 +6,13 @@ export default store => next => action => {
   // Check if this action is a redux-api-middleware action.
   if (callApi) {
     // Inject the Authorization header from localStorage.
-    callApi.headers = Object.assign({}, callApi.headers, {
-      Authorization: `Bearer ${localStorage.getItem('token')}` || undefined,
-      'Content-Type': callApi.headers['Content-Type'] || 'application/json'
-    })
+    callApi.headers = {
+      ...callApi.headers,
+      Authorization: `Bearer ${store.getState().auth.token}`,
+      'Content-Type': callApi.headers && callApi.headers['Content-Type']
+        ? callApi.headers['Content-Type']
+        : 'application/json'
+    }
   }
 
   // Pass the FSA to the next action.
