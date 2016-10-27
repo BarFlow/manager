@@ -1,4 +1,5 @@
 import { injectReducer } from '../../store/reducers'
+import protectRoute from '../utils/protectRoute.js'
 
 export default (store) => ({
   path : 'counter',
@@ -20,5 +21,6 @@ export default (store) => ({
 
     /* Webpack named bundle   */
     }, 'counter')
-  }
+  },
+  onEnter: (nextState, replace) => protectRoute(nextState, replace, store)
 })
