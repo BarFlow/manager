@@ -8,7 +8,6 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 // ------------------------------------
 const ACTION_HANDLERS = {
   [LOGIN_SUCCESS] : (state, action) => {
-    console.log(action)
     return {
       ...state,
       token: action.payload.token,

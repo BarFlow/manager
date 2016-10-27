@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware'
+import { browserHistory } from 'react-router'
 
 // ------------------------------------
 // Constants
@@ -8,9 +9,9 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 
 export const userLogin = (creds) => {
-  return {
-    [CALL_API]: {
-      endpoint: 'http://api.stockmate.co.uk/auth/login',
+  return (dispatch, getState) => {
+    dispatch({ [CALL_API]: {
+      endpoint: 'https://api.stockmate.co.uk/auth/login',
       method: 'POST',
       body: JSON.stringify(creds),
       types: [
@@ -22,8 +23,11 @@ export const userLogin = (creds) => {
             if (contentType && ~contentType.indexOf('json')) {
               // Just making sure res.json() does not raise an error
               return res.json().then((json) => {
+                // Store token and user
                 localStorage.setItem('token', json.token)
                 localStorage.setItem('user', JSON.stringify(json.user))
+
+                // return payload
                 return json
               })
             }
@@ -31,7 +35,10 @@ export const userLogin = (creds) => {
         },
         LOGIN_FAILURE
       ]
-    }
+    } })
+    .then(response => {
+      browserHistory.push(getState().location.query.next || '/')
+    })
   }
 }
 
