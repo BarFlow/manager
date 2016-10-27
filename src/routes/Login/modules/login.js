@@ -11,7 +11,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const userLogin = (creds) => {
   return (dispatch, getState) => {
     dispatch({ [CALL_API]: {
-      endpoint: 'https://api.stockmate.co.uk/auth/login',
+      endpoint: '/auth/login',
       method: 'POST',
       body: JSON.stringify(creds),
       types: [

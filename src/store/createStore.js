@@ -4,13 +4,13 @@ import { apiMiddleware } from 'redux-api-middleware'
 import { browserHistory } from 'react-router'
 import makeRootReducer from './reducers'
 import { updateLocation } from './location'
-import apiHeadersMiddleware from './middlewares/apiHeaders'
+import apiDefaultConfig from './middlewares/apiDefaultConfig'
 
 export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk, apiHeadersMiddleware, apiMiddleware]
+  const middleware = [thunk, apiDefaultConfig, apiMiddleware]
 
   // ======================================================
   // Store Enhancers
