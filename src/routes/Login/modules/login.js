@@ -37,7 +37,8 @@ export const userLogin = (creds) => {
       ]
     } })
     .then(response => {
-      browserHistory.push(getState().location.query.next || '/')
+      const redirectTo = getState().location ? getState().location.query.next || '/' : '/'
+      browserHistory.push(redirectTo)
     })
   }
 }

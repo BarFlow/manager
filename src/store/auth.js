@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 // Constants
 // ------------------------------------
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGOUT = 'LOGOUT'
+export const USER_LOGOUT = 'USER_LOGOUT'
 
 // ------------------------------------
 // Actions
@@ -14,7 +14,7 @@ export function logout () {
   localStorage.removeItem('user')
   browserHistory.push('/login')
   return {
-    type: LOGOUT
+    type: USER_LOGOUT
   }
 }
 
@@ -25,16 +25,9 @@ const ACTION_HANDLERS = {
   [LOGIN_SUCCESS] : (state, action) => {
     return {
       ...state,
+      isAuthenticated: true,
       token: action.payload.token,
       user: action.payload.user
-    }
-  },
-  [LOGOUT] : (state, action) => {
-    return {
-      ...state,
-      isAuthenticated: false,
-      token: null,
-      user: null
     }
   }
 }
