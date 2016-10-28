@@ -3,11 +3,19 @@ import locationReducer from './location'
 import authReducer from './auth'
 
 export const makeRootReducer = (asyncReducers) => {
-  return combineReducers({
+  const appReducer = combineReducers({
     auth: authReducer,
     location: locationReducer,
     ...asyncReducers
   })
+
+  return (state, action) => {
+    if (action.type === 'USER_LOGOUT') {
+      state = undefined
+    }
+
+    return appReducer(state, action)
+  }
 }
 
 export const injectReducer = (store, { key, reducer }) => {
