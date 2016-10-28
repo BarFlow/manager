@@ -1,6 +1,23 @@
 import { connect } from 'react-redux'
 import { userLogin } from '../modules/login'
 
+function formApiAdapter (dispatch, actionCreator) {
+  return (...args) =>
+    new Promise((resolve, reject) => {
+      dispatch(actionCreator(...args)).then(response => {
+        if (response.error) {
+          reject(formatErrors(response))
+        } else {
+          resolve(response)
+        }
+      })
+    })
+}
+function formatErrors (response) {
+  // ...translate your API's error response into a redux-form-compatible error object
+  return { _error: 'Login failed!' }
+}
+
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
     wiring in the actions and state necessary to render a presentational
@@ -12,9 +29,9 @@ import Login from '../components/Login'
     Keys will be passed as props to presentational components. Here we are
     implementing our wrapper around increment; the component doesn't care   */
 
-const mapDispatchToProps = {
-  userLogin
-}
+const mapDispatchToProps = (dispatch) => ({
+  userLogin: formApiAdapter(dispatch, userLogin)
+})
 
 const mapStateToProps = (state) => ({
   state : state.auth
