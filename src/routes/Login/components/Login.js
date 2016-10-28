@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { Component } from 'react'
+import LoginForm from './LoginForm'
 
-export const Counter = (props) => (
-  <div style={{ margin: '0 auto' }} >
-    <button className='btn btn-default' onClick={() => {
-      props.userLogin({ email:'demo@barflow.io', password: 'demo' })
-    }}>
-      Login
-    </button>
-  </div>
-)
+class Login extends Component {
+  constructor (props) {
+    super(props)
+    this.formSubmit = this.formSubmit.bind(this)
+  }
 
-Counter.propTypes = {
+  formSubmit (values) {
+    return this.props.userLogin(values)
+  }
+
+  render () {
+    return (
+      <div>
+        <LoginForm onSubmit={this.formSubmit} />
+      </div>
+    )
+  }
+}
+
+Login.propTypes = {
   userLogin   : React.PropTypes.func.isRequired
 }
 
-export default Counter
+export default Login

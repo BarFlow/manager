@@ -10,7 +10,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 
 export const userLogin = (creds) => {
   return (dispatch, getState) => {
-    dispatch({ [CALL_API]: {
+    return dispatch({ [CALL_API]: {
       endpoint: '/auth/login',
       method: 'POST',
       body: JSON.stringify(creds),
@@ -37,8 +37,11 @@ export const userLogin = (creds) => {
       ]
     } })
     .then(response => {
-      const redirectTo = getState().location ? getState().location.query.next || '/' : '/'
-      browserHistory.push(redirectTo)
+      if (!response.error) {
+        const redirectTo = getState().location ? getState().location.query.next || '/' : '/'
+        browserHistory.push(redirectTo)
+      }
+      return response
     })
   }
 }
