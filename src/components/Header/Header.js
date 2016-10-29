@@ -7,9 +7,11 @@ export const Header = ({ user, handleLogOut }) => (
   <Navbar collapseOnSelect fixedTop>
     <Navbar.Header>
       <Navbar.Brand>
-        <IndexLinkContainer to='/'><a href='#'>BarFlow Manager</a></IndexLinkContainer>
+        <IndexLinkContainer to='/'><a href='#'>BarFlow</a></IndexLinkContainer>
       </Navbar.Brand>
-      <Navbar.Toggle />
+      {user &&
+        <Navbar.Toggle />
+      }
     </Navbar.Header>
     {user &&
     <Navbar.Collapse>
