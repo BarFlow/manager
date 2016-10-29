@@ -1,22 +1,6 @@
 import { connect } from 'react-redux'
 import { userLogin } from '../modules/login'
-
-function formApiAdapter (dispatch, actionCreator) {
-  return (...args) =>
-    new Promise((resolve, reject) => {
-      dispatch(actionCreator(...args)).then(response => {
-        if (response.error) {
-          reject(formatErrors(response))
-        } else {
-          resolve(response)
-        }
-      })
-    })
-}
-function formatErrors (response) {
-  // ...translate your API's error response into a redux-form-compatible error object
-  return { _error: 'Login failed!' }
-}
+import formApiAdapter from '../../../utils/formApiAdapter'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

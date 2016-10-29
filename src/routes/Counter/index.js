@@ -1,5 +1,5 @@
 import { injectReducer } from '../../store/reducers'
-import protectRoute from '../utils/protectRoute.js'
+import protectRoute from '../../utils/protectRoute'
 
 export default (store) => ({
   path : 'profile',
