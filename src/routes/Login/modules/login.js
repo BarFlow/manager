@@ -53,37 +53,37 @@ export const actions = {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const ACTION_HANDLERS = {
-  [LOGIN_REQUEST] : (state, action) => {
-    return {
-      ...state,
-      isFetching: true
-    }
-  },
-  [LOGIN_SUCCESS] : (state, action) => {
-    return {
-      ...state,
-      isFetching: false,
-      errorMessage: undefined
-    }
-  },
-  [LOGIN_FAILURE] : (state, action) => {
-    return {
-      ...state,
-      isFetching: false,
-      errorMessage: action.message
-    }
-  }
-}
+// const ACTION_HANDLERS = {
+//   [LOGIN_REQUEST] : (state, action) => {
+//     return {
+//       ...state,
+//       isFetching: true
+//     }
+//   },
+//   [LOGIN_SUCCESS] : (state, action) => {
+//     return {
+//       ...state,
+//       isFetching: false,
+//       errorMessage: undefined
+//     }
+//   },
+//   [LOGIN_FAILURE] : (state, action) => {
+//     return {
+//       ...state,
+//       isFetching: false,
+//       errorMessage: action.message
+//     }
+//   }
+// }
 
 // ------------------------------------
 // Reducer
 // -----------------------------------
-const initialState = {
-  isFetching: false
-}
-export default function authReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+// const initialState = {
+//   isFetching: false
+// }
+// export default function authReducer (state = initialState, action) {
+//   const handler = ACTION_HANDLERS[action.type]
+//
+//   return handler ? handler(state, action) : state
+// }

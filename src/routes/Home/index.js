@@ -1,5 +1,5 @@
 import HomeView from './components/HomeView'
-import protectRoute from '../utils/protectRoute'
+import protectRoute from '../../utils/protectRoute'
 
 // Sync route definition
 export default (store) => ({
