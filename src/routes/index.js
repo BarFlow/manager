@@ -1,7 +1,7 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import BaseLayout from '../layouts/BaseLayout/BaseLayout'
-import HomeRoute from './Home'
+import InventoryRoute from './Inventory'
 import CounterRoute from './Counter'
 import LoginRoute from './Login'
 
@@ -11,13 +11,13 @@ import LoginRoute from './Login'
 export const createRoutes = (store) => ({
   path        : '/',
   component   : BaseLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/home') },
+  indexRoute: { onEnter: (nextState, replace) => replace('/inventory') },
   childRoutes : [
     {
       component: CoreLayout,
       childRoutes: [
         CounterRoute(store),
-        HomeRoute(store)
+        InventoryRoute(store)
       ]
     },
     LoginRoute(store)

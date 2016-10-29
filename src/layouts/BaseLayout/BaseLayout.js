@@ -4,10 +4,12 @@ import './BaseLayout.scss'
 import '../../styles/core.scss'
 
 export const BaseLayout = ({ children }) => (
-  <div className='container container-fluid base-layout'>
+  <div>
     <Header />
-    <div className='content'>
-      {children}
+    <div className='container container-fluid base-layout'>
+      <div className='content'>
+        {children}
+      </div>
     </div>
   </div>
 )
