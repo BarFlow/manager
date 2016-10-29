@@ -1,22 +1,31 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
 import buildSchema from 'redux-form-schema'
+import { FormGroup, ControlLabel, HelpBlock, FormControl, Button, Alert, Jumbotron } from 'react-bootstrap'
 
 const LoginForm = ({ fields: { email, password }, error, handleSubmit, submitting }) => (
-  <form onSubmit={handleSubmit}>
-    <div>
-      <input type='text' placeholder='E-mail' {...email} />
-      {email.touched && email.error && <div>{email.error}</div>}
-    </div>
-    <div>
-      <input type='password' placeholder='Password' {...password} />
-      {password.touched && password.error && <div>{password.error}</div>}
-    </div>
-    {error && <div>{error}</div>}
-    <button type='submit' disabled={submitting}>
-      Login
-    </button>
-  </form>
+  <Jumbotron>
+    <form onSubmit={handleSubmit}>
+      <FormGroup validationState={email.touched && email.error && 'error'}>
+        <ControlLabel>E-mail</ControlLabel>
+        <FormControl type='email' placeholder='Enter E-mail' {...email} />
+        <HelpBlock>{email.touched && email.error && <div>{email.error}</div>}</HelpBlock>
+      </FormGroup>
+      <FormGroup validationState={password.touched && password.error && 'error'}>
+        <ControlLabel>Password</ControlLabel>
+        <FormControl type='password' placeholder='Enter Password' {...password} />
+        <HelpBlock>{password.touched && password.error && <div>{password.error}</div>}</HelpBlock>
+      </FormGroup>
+      {error &&
+        <Alert bsStyle='danger'>
+          <strong>Woops!</strong> {error}
+        </Alert>
+      }
+      <Button type='submit' disabled={submitting}>
+        Login
+      </Button>
+    </form>
+  </Jumbotron>
 )
 
 const { validate, fields } = buildSchema({

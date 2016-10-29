@@ -6,7 +6,7 @@ import '../../styles/core.scss'
 export const BaseLayout = ({ children }) => (
   <div className='container container-fluid base-layout'>
     <Header />
-    <div className='container content'>
+    <div className='content'>
       {children}
     </div>
   </div>

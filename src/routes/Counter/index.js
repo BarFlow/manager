@@ -2,7 +2,7 @@ import { injectReducer } from '../../store/reducers'
 import protectRoute from '../utils/protectRoute.js'
 
 export default (store) => ({
-  path : 'counter',
+  path : 'profile',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point

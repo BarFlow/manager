@@ -20,12 +20,7 @@ export const createRoutes = (store) => ({
         HomeRoute(store)
       ]
     },
-    {
-      component: BaseLayout,
-      childRoutes: [
-        LoginRoute(store)
-      ]
-    }
+    LoginRoute(store)
   ]
 })
 
