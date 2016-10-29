@@ -1,0 +1,26 @@
+.sidebar{
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #353535;
+  ul{
+    a{
+      color: #fff;
+    }
+    a:hover{
+      color: #353535;
+    }
+    .active > a,
+    .active > a:hover,
+    .active > a:focus {
+      color: #fff;
+      background-color: #428bca;
+    }
+  }
+}
