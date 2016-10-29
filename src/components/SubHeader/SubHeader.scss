@@ -1,0 +1,15 @@
+.sub-header{
+  position: fixed;
+  top: 51px;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 0px;
+  width: 100%;
+  background: #909090;
+  h3{
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 1rem 0 1rem 1.5rem;
+  }
+}

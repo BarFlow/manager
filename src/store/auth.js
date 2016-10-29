@@ -29,6 +29,14 @@ const ACTION_HANDLERS = {
       token: action.payload.token,
       user: action.payload.user
     }
+  },
+  [USER_LOGOUT] : (state, action) => {
+    return {
+      ...state,
+      isAuthenticated: false,
+      token: null,
+      user: null
+    }
   }
 }
 
