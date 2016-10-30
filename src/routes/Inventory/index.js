@@ -1,9 +1,9 @@
-import InventoryView from './components/InventoryView'
+import Inventory from './components/Inventory'
 import protectRoute from '../../utils/protectRoute'
 
 // Sync route definition
 export default (store) => ({
   path: 'inventory',
-  component : InventoryView,
+  component : Inventory,
   onEnter: (nextState, replace) => protectRoute(nextState, replace, store)
 })

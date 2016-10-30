@@ -29,7 +29,7 @@ class Sidebar extends Component {
           <IndexLinkContainer to='/inventory' activeHref='active'>
             <NavItem>Inventory</NavItem>
           </IndexLinkContainer>
-          <LinkContainer to='/profile' activeHref='active'>
+          <LinkContainer to='/products' activeHref='active'>
             <NavItem>Products</NavItem>
           </LinkContainer>
         </Nav>

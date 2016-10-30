@@ -2,6 +2,7 @@
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import BaseLayout from '../layouts/BaseLayout/BaseLayout'
 import InventoryRoute from './Inventory'
+import ProductsRoute from './Products'
 import CounterRoute from './Counter'
 import LoginRoute from './Login'
 
@@ -17,7 +18,8 @@ export const createRoutes = (store) => ({
       component: CoreLayout,
       childRoutes: [
         CounterRoute(store),
-        InventoryRoute(store)
+        InventoryRoute(store),
+        ProductsRoute(store)
       ]
     },
     LoginRoute(store)

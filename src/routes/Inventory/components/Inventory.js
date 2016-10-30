@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import DuckImage from '../assets/Duck.jpg'
-import './InventoryView.scss'
+import './Inventory.scss'
 import SubHeader from '../../../components/SubHeader'
 
-export const InventoryView = () => (
+export const Inventory = () => (
   <div className='row'>
     <SubHeader
       left={<h3>Inventory</h3>}
@@ -19,4 +19,4 @@ export const InventoryView = () => (
   </div>
 )
 
-export default InventoryView
+export default Inventory
