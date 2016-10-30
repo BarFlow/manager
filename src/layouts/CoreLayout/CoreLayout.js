@@ -1,7 +1,7 @@
 import React from 'react'
 import './CoreLayout.scss'
 import '../../styles/core.scss'
-import Sidebar from '../../components/Sidebar'
+import Sidebar from '../../containers/SidebarContainer'
 
 export const CoreLayout = ({ children }) => (
   <div className='row core-layout'>

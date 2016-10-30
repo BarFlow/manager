@@ -1,24 +1,47 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap'
-import { Nav, NavItem } from 'react-bootstrap'
+import { Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap'
 import './Sidebar.scss'
 
-export const Sidebar = ({ user, handleLogOut, className }) => (
-  <div className={className + ' sidebar'}>
-    <Nav>
-      <IndexLinkContainer to='/inventory' activeHref='active'>
-        <NavItem>Inventory</NavItem>
-      </IndexLinkContainer>
-      <LinkContainer to='/profile' activeHref='active'>
-        <NavItem>Products</NavItem>
-      </LinkContainer>
-    </Nav>
-  </div>
-)
+class Sidebar extends Component {
+  constructor (props) {
+    super(props)
+    this.props = props
+    this.fetchVenues = this.props.fetchVenues.bind(this)
+    this.handleVenueChange = this.props.handleVenueChange.bind(this)
+
+    this.fetchVenues()
+  }
+
+  render () {
+    const { className = '', venue = { items:[] }, handleVenueChange } = this.props
+    const venues = venue.items.map(item =>
+      <option key={item._id} value={item._id}>{item.profile.name}</option>
+    )
+    return (
+      <div className={className + ' sidebar'}>
+        <FormGroup>
+          <FormControl componentClass='select' onChange={(event) => handleVenueChange(event.target.value)}>
+            {venues}
+          </FormControl>
+        </FormGroup>
+        <Nav>
+          <IndexLinkContainer to='/inventory' activeHref='active'>
+            <NavItem>Inventory</NavItem>
+          </IndexLinkContainer>
+          <LinkContainer to='/profile' activeHref='active'>
+            <NavItem>Products</NavItem>
+          </LinkContainer>
+        </Nav>
+      </div>
+    )
+  }
+}
 
 Sidebar.propTypes = {
-  user : React.PropTypes.object,
-  handleLogOut: React.PropTypes.func.isRequired,
+  venue : React.PropTypes.object,
+  fetchVenues: React.PropTypes.func.isRequired,
+  handleVenueChange: React.PropTypes.func.isRequired,
   className: React.PropTypes.string
 }
 export default Sidebar
