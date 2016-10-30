@@ -3,14 +3,20 @@ import React from 'react'
 // import { Nav, NavItem } from 'react-bootstrap'
 import './SubHeader.scss'
 
-export const Sidebar = ({ children, className }) => (
+export const SubHeader = ({ left, right, className = '' }) => (
   <div className={className + ' sub-header'}>
-    {children}
+    <div className='container-fluid'>
+      <div className='row'>
+        <div className='col-xs-12 col-sm-6 left'>{left}</div>
+        <div className='col-xs-12 col-sm-6 right'>{right}</div>
+      </div>
+    </div>
   </div>
 )
 
-Sidebar.propTypes = {
-  children : React.PropTypes.element.isRequired,
+SubHeader.propTypes = {
+  left : React.PropTypes.element.isRequired,
+  right : React.PropTypes.element,
   className : React.PropTypes.string
 }
-export default Sidebar
+export default SubHeader
