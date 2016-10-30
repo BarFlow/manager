@@ -4,7 +4,7 @@ import '../../styles/core.scss'
 import Sidebar from '../../components/Sidebar'
 
 export const CoreLayout = ({ children }) => (
-  <div className='core-layout'>
+  <div className='row core-layout'>
     <Sidebar className='col-sm-3 col-md-2' />
     <div className='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2'>
       {children}

@@ -1,14 +1,15 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
 import DuckImage from '../assets/Duck.jpg'
 import './InventoryView.scss'
 import SubHeader from '../../../components/SubHeader'
 
 export const InventoryView = () => (
-  <div>
-    <SubHeader className='col-sm-offset-3 col-md-offset-2'>
-      <h3>Inventory</h3>
-    </SubHeader>
-    <div className='main'>
+  <div className='row'>
+    <SubHeader
+      left={<h3>Inventory</h3>}
+      right={<Button>Export</Button>} />
+    <div className='col-xs-12'>
       <h4>Welcome!</h4>
       <img
         alt='This is a duck, because Redux!'
