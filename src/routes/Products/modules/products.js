@@ -10,19 +10,20 @@ export const PRODUCTS_FETCH_FAILURE = 'PRODUCTS_FETCH_FAILURE'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchProducts = (venueId) => {
-  return (dispatch, getState) => {
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/inventory?populate=true&venue_id=${venueId}`,
-        method: 'GET',
-        types: [
-          PRODUCTS_FETCH_REQUEST,
-          PRODUCTS_FETCH_SUCCESS,
-          PRODUCTS_FETCH_FAILURE
-        ]
-      }
-    })
+export const fetchProducts = (filters) => {
+  const params = Object.keys(filters).reduce((mem, key) =>
+    mem + '&' + key + '=' + filters[key]
+  , '').substring(1)
+  return {
+    [CALL_API]: {
+      endpoint: `/inventory?populate=true&${params}`,
+      method: 'GET',
+      types: [
+        PRODUCTS_FETCH_REQUEST,
+        PRODUCTS_FETCH_SUCCESS,
+        PRODUCTS_FETCH_FAILURE
+      ]
+    }
   }
 }
 
@@ -37,7 +38,8 @@ const ACTION_HANDLERS = {
   [PRODUCTS_FETCH_REQUEST] : (state, action) => {
     return {
       ...state,
-      isFetching: true
+      isFetching: true,
+      items: []
     }
   },
   [PRODUCTS_FETCH_SUCCESS] : (state, action) => {

@@ -11,13 +11,13 @@ class Products extends Component {
     this.fetchProducts = this.props.fetchProducts.bind(this)
 
     if (this.props.venueId) {
-      this.fetchProducts(this.props.venueId)
+      this.fetchProducts({ venue_id: this.props.venueId })
     }
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.venueId !== nextProps.venueId) {
-      this.fetchProducts(nextProps.venueId)
+      this.fetchProducts({ venue_id: this.props.venueId })
     }
   }
 
@@ -32,8 +32,12 @@ class Products extends Component {
         <SubHeader
           left={<h3>Products</h3>}
           right={<Button>Add new</Button>} />
-        <div className='col-xs-12'>
-          {ProductList}
+        <div className='col-xs-12 col-md-10 col-md-offset-1'>
+          {!products.isFetching ? (
+            ProductList
+          ) : (
+            <div>Loading...</div>
+          )}
         </div>
       </div>
     )

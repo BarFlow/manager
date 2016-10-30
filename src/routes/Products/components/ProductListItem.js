@@ -1,27 +1,29 @@
 import React from 'react'
-import { Media, Label } from 'react-bootstrap'
+import { Media, Label, Panel } from 'react-bootstrap'
 
 const ProductListItem = ({ product }) => {
   const { name, type, category, subCategory, capacity, images } = product
   return (
-    <Media>
-      <Media.Left>
-        <img width={70} height={70} src={images.thumbnail} alt={name} />
-      </Media.Left>
-      <Media.Body>
-        <Media.Heading>{name}</Media.Heading>
-        <p>
-          <Label>{type}</Label>{' '}
-          <Label>{category}</Label>{' '}
-          {subCategory &&
-            <span>
-              <Label>{subCategory}</Label>{' '}
-            </span>
-          }
-          <Label>{capacity} ml</Label>
-        </p>
-      </Media.Body>
-    </Media>
+    <Panel>
+      <Media>
+        <Media.Left>
+          <img width={70} height={70} src={images.thumbnail} alt={name} />
+        </Media.Left>
+        <Media.Body>
+          <Media.Heading>{name}</Media.Heading>
+          <p>
+            <Label>{type}</Label>{' '}
+            <Label>{category}</Label>{' '}
+            {subCategory &&
+              <span>
+                <Label>{subCategory}</Label>{' '}
+              </span>
+            }
+            <Label>{capacity} ml</Label>
+          </p>
+        </Media.Body>
+      </Media>
+    </Panel>
   )
 }
 
