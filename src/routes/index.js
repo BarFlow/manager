@@ -17,11 +17,11 @@ export const createRoutes = (store) => ({
     {
       component: CoreLayout,
       childRoutes: [
-        CounterRoute(store),
         InventoryRoute(store),
         ProductsRoute(store)
       ]
     },
+    CounterRoute(store),
     LoginRoute(store)
   ]
 })

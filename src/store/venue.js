@@ -53,7 +53,7 @@ const ACTION_HANDLERS = {
       ...state,
       isFetching: false,
       items: action.payload,
-      current: action.payload[0]._id
+      current: state.current || action.payload[0]._id
     }
   },
   [VENUE_CURRENT_CHANGE] : (state, action) => {
