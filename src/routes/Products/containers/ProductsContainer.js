@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { fetchProducts } from '../modules/products'
+import { fetchProducts, updateProduct } from '../modules/products'
+import formApiAdapter from '../../../utils/formApiAdapter'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -12,9 +13,10 @@ import Products from '../components/Products'
     Keys will be passed as props to presentational components. Here we are
     implementing our wrapper around fetchProdcusts; the component doesn't care   */
 
-const mapDispatchToProps = {
-  fetchProducts
-}
+const mapDispatchToProps = (dispatch) => ({
+  fetchProducts: (...args) => dispatch(fetchProducts(...args)),
+  updateProduct: formApiAdapter(dispatch, updateProduct)
+})
 
 const mapStateToProps = (state) => ({
   products : state.products,

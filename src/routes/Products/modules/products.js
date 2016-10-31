@@ -7,6 +7,10 @@ export const PRODUCTS_FETCH_REQUEST = 'PRODUCTS_FETCH_REQUEST'
 export const PRODUCTS_FETCH_SUCCESS = 'PRODUCTS_FETCH_SUCCESS'
 export const PRODUCTS_FETCH_FAILURE = 'PRODUCTS_FETCH_FAILURE'
 
+export const PRODUCT_UPDATE_REQUEST = 'PRODUCT_UPDATE_REQUEST'
+export const PRODUCT_UPDATE_SUCCESS = 'PRODUCT_UPDATE_SUCCESS'
+export const PRODUCT_UPDATE_FAILURE = 'PRODUCT_UPDATE_FAILURE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -27,8 +31,24 @@ export const fetchProducts = (filters) => {
   }
 }
 
+export const updateProduct = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/inventory/${payload._id}?populate=true`,
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      types: [
+        PRODUCT_UPDATE_REQUEST,
+        PRODUCT_UPDATE_SUCCESS,
+        PRODUCT_UPDATE_FAILURE
+      ]
+    }
+  }
+}
+
 export const actions = {
-  fetchProducts
+  fetchProducts,
+  updateProduct
 }
 
 // ------------------------------------
@@ -47,6 +67,17 @@ const ACTION_HANDLERS = {
       ...state,
       isFetching: false,
       items: action.payload
+    }
+  },
+  [PRODUCT_UPDATE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      items: state.items.map((item) => {
+        if (item._id === action.payload._id) {
+          item = action.payload
+        }
+        return item
+      })
     }
   }
 }
