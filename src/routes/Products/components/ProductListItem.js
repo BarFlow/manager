@@ -7,7 +7,7 @@ const ProductListItem = ({ product }) => {
     <Panel>
       <Media>
         <Media.Left>
-          <img width={70} height={70} src={images.thumbnail} alt={name} />
+          <img width={70} height={70} src={images && images.thumbnail} alt={name} />
         </Media.Left>
         <Media.Body>
           <Media.Heading>{name}</Media.Heading>
