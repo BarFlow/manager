@@ -17,7 +17,7 @@ class Products extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.props.venueId !== nextProps.venueId) {
-      this.fetchProducts({ venue_id: this.props.venueId })
+      this.fetchProducts({ venue_id: nextProps.venueId })
     }
   }
 

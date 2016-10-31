@@ -16,7 +16,12 @@ class Sidebar extends Component {
   render () {
     const { className = '', venue = { items:[] }, handleVenueChange } = this.props
     const venues = venue.items.map(item =>
-      <option key={item._id} value={item._id}>{item.profile.name}</option>
+      <option
+        key={item._id}
+        value={item._id}
+        selected={item._id === venue.current}>
+        {item.profile.name}
+      </option>
     )
     return (
       <div className={className + ' sidebar'}>
