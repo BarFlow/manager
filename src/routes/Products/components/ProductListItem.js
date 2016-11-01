@@ -30,20 +30,25 @@ class ProductListItem extends Component {
               }
               <Label>{capacity} ml</Label>
             </p>
-            <Collapse in={this.state.isFormOpen}>
-              <div>
-                <ProductListItemForm
-                  form={this.props.item._id}
-                  initialValues={this.props.item}
-                  onSubmit={this.props.updateProduct} />
-              </div>
-            </Collapse>
           </Media.Body>
           <Media.Right>
             <Button onClick={() => { this.setState({ isFormOpen: !this.state.isFormOpen }) }}>
-              Edit
+              {!this.state.isFormOpen ? (
+                'Edit'
+              ) : (
+                'Done'
+              )}
             </Button>
           </Media.Right>
+          <Collapse in={this.state.isFormOpen}>
+            <div>
+              <hr />
+              <ProductListItemForm
+                form={this.props.item._id}
+                initialValues={this.props.item}
+                onSubmit={this.props.updateProduct} />
+            </div>
+          </Collapse>
         </Media>
       </Panel>
     )

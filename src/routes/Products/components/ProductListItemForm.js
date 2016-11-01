@@ -7,8 +7,9 @@ const ProductListItemForm = ({
   fields: { supplier_product_code, par_level, _id },
   error, handleSubmit, submitting
 }) => (
-  <form onSubmit={handleSubmit}>
-    <FormGroup validationState={supplier_product_code.touched && supplier_product_code.error && 'error'}>
+  <form onSubmit={handleSubmit} className={'row'}>
+    <FormGroup className={'col-xs-12 col-md-6'}
+      validationState={supplier_product_code.touched && supplier_product_code.error && 'error'}>
       <ControlLabel>SKU</ControlLabel>
       {/*eslint-disable*/}
       <FormControl type='text' {...supplier_product_code} />
@@ -18,7 +19,8 @@ const ProductListItemForm = ({
       </HelpBlock>
     </FormGroup>
 
-    <FormGroup validationState={par_level.touched && par_level.error && 'error'}>
+    <FormGroup className={'col-xs-12 col-md-6'}
+      validationState={par_level.touched && par_level.error && 'error'}>
       <ControlLabel>Par Level</ControlLabel>
       {/*eslint-disable*/}
       <FormControl type='text' {...par_level} />
@@ -26,14 +28,16 @@ const ProductListItemForm = ({
       <HelpBlock>{par_level.touched && par_level.error && <div>{par_level.error}</div>}</HelpBlock>
     </FormGroup>
 
-    {error &&
-      <Alert bsStyle='danger'>
-        <strong>Woops!</strong> {error}
-      </Alert>
-    }
-    <Button type='submit' disabled={submitting}>
-      Save
-    </Button>
+    <div className={'col-xs-12'}>
+      {error &&
+        <Alert bsStyle='danger'>
+          <strong>Woops!</strong> {error}
+        </Alert>
+      }
+      <Button className={'pull-right'} type='submit' disabled={submitting}>
+        Save
+      </Button>
+    </div>
   </form>
 )
 

@@ -34,7 +34,7 @@ class Products extends Component {
         <SubHeader
           left={<h3>Products</h3>}
           right={<Button>Add new</Button>} />
-        <div className='col-xs-12 col-md-10 col-md-offset-1'>
+        <div className='col-xs-12 col-md-10 col-md-offset-1 products'>
           {!products.isFetching ? (
             productList
           ) : (
