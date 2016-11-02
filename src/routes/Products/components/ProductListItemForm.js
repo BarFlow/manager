@@ -4,6 +4,7 @@ import buildSchema from 'redux-form-schema'
 import { Button, Alert } from 'react-bootstrap'
 import Field from '../../../components/FormField'
 
+/* eslint-disable camelcase */
 const ProductListItemForm = ({
   fields: { supplier_product_code, par_level, _id },
   error, handleSubmit, submitting
@@ -35,6 +36,7 @@ const ProductListItemForm = ({
     </div>
   </form>
 )
+/* eslint-enable camelcase */
 
 const { validate, fields } = buildSchema({
   par_level: {
