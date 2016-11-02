@@ -1,5 +1,6 @@
 import React from 'react'
-import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Link } from 'react-router'
 import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
 import './Header.scss'
 
@@ -7,7 +8,7 @@ export const Header = ({ user, handleLogOut }) => (
   <Navbar collapseOnSelect fixedTop fluid>
     <Navbar.Header>
       <Navbar.Brand>
-        <IndexLinkContainer to='/'><a href='#'>BarFlow</a></IndexLinkContainer>
+        <Link to='/'>BarFlow</Link>
       </Navbar.Brand>
       {user &&
         <Navbar.Toggle />
