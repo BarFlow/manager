@@ -1,13 +1,11 @@
+import { SubmissionError } from 'redux-form'
+
 function formApiAdapter (dispatch, actionCreator) {
   return (...args) =>
-    new Promise((resolve, reject) => {
-      dispatch(actionCreator(...args)).then(response => {
-        if (response.error) {
-          reject({ _error: response.payload.response.message })
-        } else {
-          resolve(response)
-        }
-      })
+    dispatch(actionCreator(...args)).then(response => {
+      if (response.error) {
+        throw new SubmissionError({ _error: response.payload.response.message })
+      }
     })
 }
 

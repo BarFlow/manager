@@ -1,27 +1,29 @@
 import React from 'react'
-import { reduxForm } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import buildSchema from 'redux-form-schema'
 import { Button, Alert } from 'react-bootstrap'
-import Field from '../../../components/FormField'
+import FormInput from '../../../components/FormInput'
 
 /* eslint-disable camelcase */
 const ProductListItemForm = ({
-  fields: { supplier_product_code, par_level, _id },
   error, handleSubmit, submitting
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
 
     <Field
-      field={supplier_product_code}
+      name='supplier_product_code'
+      component={FormInput}
       label='SKU'
+      type='text'
       description='The product code associated with the supplier.'
       className={'col-xs-12 col-md-6'} />
 
     <Field
-      field={par_level}
+      name='par_level'
+      component={FormInput}
       label='Par Level'
-      description='The minimum quantity that your business must keep on hand.'
       type='number'
+      description='The minimum quantity that your business must keep on hand.'
       className={'col-xs-12 col-md-6'} />
 
     <div className={'col-xs-12'}>
@@ -38,27 +40,19 @@ const ProductListItemForm = ({
 )
 /* eslint-enable camelcase */
 
-const { validate, fields } = buildSchema({
+const { validate } = buildSchema({
   par_level: {
     label: 'This',
     type: 'decimal'
-  },
-  supplier_product_code: {
-    required: false
-  },
-  _id: {
-    required: false
   }
 })
 
 ProductListItemForm.propTypes = {
-  fields   : React.PropTypes.object.isRequired,
   handleSubmit: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool.isRequired,
   error: React.PropTypes.object
 }
 
 export default reduxForm({
-  fields,
   validate
 })(ProductListItemForm)

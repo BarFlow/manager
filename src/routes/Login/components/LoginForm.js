@@ -1,19 +1,21 @@
 import React from 'react'
-import { reduxForm } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import buildSchema from 'redux-form-schema'
 import { Button, Alert } from 'react-bootstrap'
-import Field from '../../../components/FormField'
+import FormInput from '../../../components/FormInput'
 
-const LoginForm = ({ fields: { email, password }, error, handleSubmit, submitting }) => (
-  <form onSubmit={handleSubmit}>
+const LoginForm = ({ error, handleSubmit, submitting }) => {
+  return <form onSubmit={handleSubmit}>
 
     <Field
-      field={email}
+      name='email'
+      component={FormInput}
       label='E-mail'
       type='email' />
 
     <Field
-      field={password}
+      name='password'
+      component={FormInput}
       label='Password'
       type='password' />
 
@@ -26,9 +28,9 @@ const LoginForm = ({ fields: { email, password }, error, handleSubmit, submittin
       Login
     </Button>
   </form>
-)
+}
 
-const { validate, fields } = buildSchema({
+const { validate } = buildSchema({
   email: {
     label: 'This',
     required: true,
@@ -41,7 +43,6 @@ const { validate, fields } = buildSchema({
 })
 
 LoginForm.propTypes = {
-  fields   : React.PropTypes.object.isRequired,
   handleSubmit: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool.isRequired,
   error: React.PropTypes.object
@@ -49,6 +50,5 @@ LoginForm.propTypes = {
 
 export default reduxForm({
   form: 'login',
-  fields,
   validate
 })(LoginForm)
