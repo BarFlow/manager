@@ -13,13 +13,15 @@ const ProductListItemForm = ({
     <Field
       field={supplier_product_code}
       label='SKU'
-      description='The product code associated with the supplier.' />
+      description='The product code associated with the supplier.'
+      className={'col-xs-12 col-md-6'} />
 
     <Field
       field={par_level}
       label='Par Level'
       description='The minimum quantity that your business must keep on hand.'
-      type='number' />
+      type='number'
+      className={'col-xs-12 col-md-6'} />
 
     <div className={'col-xs-12'}>
       {error &&
