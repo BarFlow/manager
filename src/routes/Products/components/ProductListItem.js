@@ -58,7 +58,10 @@ class ProductListItem extends Component {
               {(this.state.isFormOpen || this.state.isClosing) &&
                 <ProductListItemForm
                   form={this.props.item._id}
-                  initialValues={this.props.item}
+                  initialValues={{
+                    ...this.props.item,
+                    product_id: undefined
+                  }}
                   onSubmit={this.props.updateProduct} />
               }
             </div>
