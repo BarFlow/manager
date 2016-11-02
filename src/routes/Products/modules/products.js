@@ -23,8 +23,18 @@ export const fetchProducts = (filters) => {
       endpoint: `/inventory?populate=true&${params}`,
       method: 'GET',
       types: [
-        PRODUCTS_FETCH_REQUEST,
-        PRODUCTS_FETCH_SUCCESS,
+        {
+          type: PRODUCTS_FETCH_REQUEST,
+          meta: (action, state) => {
+            return filters
+          }
+        },
+        {
+          type: PRODUCTS_FETCH_SUCCESS,
+          meta: (action, state) => {
+            return filters
+          }
+        },
         PRODUCTS_FETCH_FAILURE
       ]
     }
@@ -59,25 +69,34 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: true,
-      items: []
+      items: {
+        ...state.items,
+        [action.meta.venue_id]: []
+      }
     }
   },
   [PRODUCTS_FETCH_SUCCESS] : (state, action) => {
     return {
       ...state,
       isFetching: false,
-      items: action.payload
+      items: {
+        ...state.items,
+        [action.meta.venue_id]: action.payload
+      }
     }
   },
   [PRODUCT_UPDATE_SUCCESS] : (state, action) => {
     return {
       ...state,
-      items: state.items.map((item) => {
-        if (item._id === action.payload._id) {
-          item = action.payload
-        }
-        return item
-      })
+      items: {
+        ...state.items,
+        [action.payload.venue_id]: state.items[action.payload.venue_id].map((item) => {
+          if (item._id === action.payload._id) {
+            item = action.payload
+          }
+          return item
+        })
+      }
     }
   }
 }

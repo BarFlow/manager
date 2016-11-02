@@ -11,32 +11,32 @@ class Products extends Component {
     this.fetchProducts = this.props.fetchProducts.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
 
-    if (this.props.venueId) {
+    // Fetch products if there is no key for current venueId
+    if (this.props.venueId && !this.props.products.items[this.props.venueId]) {
       this.fetchProducts({ venue_id: this.props.venueId })
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.venueId !== nextProps.venueId) {
-      console.log(nextProps.venueId)
+    // Only fetch new products for new venue if we don't have them in cache already
+    if (this.props.venueId !== nextProps.venueId && !this.props.products.items[nextProps.venueId]) {
       this.fetchProducts({ venue_id: nextProps.venueId })
     }
   }
 
   render () {
-    const { products } = this.props
-    const productList = products.items.map(item => {
-      item.subCategory = item.sub_category
-      return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
-    })
+    const { products, venueId } = this.props
+
     return (
       <div className='row'>
         <SubHeader
           left={<h3>Products</h3>}
           right={<Button>Add new</Button>} />
-        <div className='col-xs-12 col-md-10 col-md-offset-1 products'>
-          {!products.isFetching ? (
-            productList
+        <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
+          {!products.isFetching && products.items[venueId] ? (
+            products.items[venueId].map(item => {
+              return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
+            })
           ) : (
             <div>Loading...</div>
           )}

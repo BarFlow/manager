@@ -10,7 +10,9 @@ class Sidebar extends Component {
     this.fetchVenues = this.props.fetchVenues.bind(this)
     this.handleVenueChange = this.props.handleVenueChange.bind(this)
 
-    this.fetchVenues()
+    if (!this.props.venue.items.length) {
+      this.fetchVenues()
+    }
   }
 
   render () {

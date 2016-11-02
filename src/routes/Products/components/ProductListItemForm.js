@@ -1,32 +1,25 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
 import buildSchema from 'redux-form-schema'
-import { FormGroup, ControlLabel, HelpBlock, FormControl, Button, Alert } from 'react-bootstrap'
+import { Button, Alert } from 'react-bootstrap'
+import Field from '../../../components/FormField'
 
 const ProductListItemForm = ({
   fields: { supplier_product_code, par_level, _id },
   error, handleSubmit, submitting
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
-    <FormGroup className={'col-xs-12 col-md-6'}
-      validationState={supplier_product_code.touched && supplier_product_code.error && 'error'}>
-      <ControlLabel>SKU</ControlLabel>
-      {/*eslint-disable*/}
-      <FormControl type='text' {...supplier_product_code} />
-      {/*eslint-enable*/}
-      <HelpBlock>
-        {supplier_product_code.touched && supplier_product_code.error && <div>{supplier_product_code.error}</div>}
-      </HelpBlock>
-    </FormGroup>
 
-    <FormGroup className={'col-xs-12 col-md-6'}
-      validationState={par_level.touched && par_level.error && 'error'}>
-      <ControlLabel>Par Level</ControlLabel>
-      {/*eslint-disable*/}
-      <FormControl type='text' {...par_level} />
-      {/*eslint-enable*/}
-      <HelpBlock>{par_level.touched && par_level.error && <div>{par_level.error}</div>}</HelpBlock>
-    </FormGroup>
+    <Field
+      field={supplier_product_code}
+      label='SKU'
+      description='The product code associated with the supplier.' />
+
+    <Field
+      field={par_level}
+      label='Par Level'
+      description='The minimum quantity that your business must keep on hand.'
+      type='number' />
 
     <div className={'col-xs-12'}>
       {error &&
@@ -43,8 +36,8 @@ const ProductListItemForm = ({
 
 const { validate, fields } = buildSchema({
   par_level: {
-    label: 'Par level',
-    type: 'int'
+    label: 'This',
+    type: 'decimal'
   },
   supplier_product_code: {
     required: false

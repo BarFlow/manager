@@ -7,9 +7,21 @@ class ProductListItem extends Component {
     super(props)
     this.props = props
     this.state = {
-      isFormOpen: false
+      isFormOpen: false,
+      isClosing: false
     }
+
+    this.toggleCollapse = this.toggleCollapse.bind(this)
   }
+
+  toggleCollapse () {
+    if (this.state.isFormOpen) {
+      this.state.isClosing = true
+      setTimeout(() => this.setState({ isClosing: false }), 300)
+    }
+    this.setState({ isFormOpen: !this.state.isFormOpen })
+  }
+
   render () {
     const { name, type, category, subCategory, capacity, images } = this.props.item.product_id
     return (
@@ -32,7 +44,7 @@ class ProductListItem extends Component {
             </p>
           </Media.Body>
           <Media.Right>
-            <Button onClick={() => { this.setState({ isFormOpen: !this.state.isFormOpen }) }}>
+            <Button onClick={this.toggleCollapse}>
               {!this.state.isFormOpen ? (
                 'Edit'
               ) : (
@@ -43,10 +55,12 @@ class ProductListItem extends Component {
           <Collapse in={this.state.isFormOpen}>
             <div>
               <hr />
-              <ProductListItemForm
-                form={this.props.item._id}
-                initialValues={this.props.item}
-                onSubmit={this.props.updateProduct} />
+              {(this.state.isFormOpen || this.state.isClosing) &&
+                <ProductListItemForm
+                  form={this.props.item._id}
+                  initialValues={this.props.item}
+                  onSubmit={this.props.updateProduct} />
+              }
             </div>
           </Collapse>
         </Media>
