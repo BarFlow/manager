@@ -4,11 +4,18 @@ import buildSchema from 'redux-form-schema'
 import { Button, Alert } from 'react-bootstrap'
 import FormInput from '../../../components/FormInput'
 
-/* eslint-disable camelcase */
 const ProductListItemForm = ({
   error, handleSubmit, submitting
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
+
+    <Field
+      name='supplier_id'
+      component={FormInput}
+      label='Supplier'
+      type='text'
+      description='The supplier for the product.'
+      className={'col-xs-12 col-md-6'} />
 
     <Field
       name='supplier_product_code'
@@ -26,6 +33,49 @@ const ProductListItemForm = ({
       description='The minimum quantity that your business must keep on hand.'
       className={'col-xs-12 col-md-6'} />
 
+    <Field
+      name='cost_price'
+      component={FormInput}
+      label='Cost Price'
+      type='number'
+      addon='£'
+      description='The price at which the product have been bought.'
+      className={'col-xs-12 col-md-6'} />
+
+    <Field
+      name='sale_unit_size'
+      component={FormInput}
+      label='Serving Measure'
+      type='number'
+      addon='ML'
+      description='The base serving measure for the product.'
+      className={'col-xs-12 col-md-6'} />
+
+    <Field
+      name='sale_price'
+      component={FormInput}
+      label='Sale Price / Measure'
+      type='number'
+      addon='£'
+      description='The price at which the product will be sold.'
+      className={'col-xs-12 col-md-6'} />
+
+    <Field
+      name='package_size'
+      component={FormInput}
+      label='Case Size'
+      type='number'
+      description='The number of bottles in a full package.'
+      className={'col-xs-12 col-md-6'} />
+
+    <Field
+      name='count_as_full'
+      component={FormInput}
+      label='Count as Full'
+      type='number'
+      description='The minimum level of liquid in the bottle to be counted as full during order sheet generation.'
+      className={'col-xs-12 col-md-6'} />
+
     <div className={'col-xs-12'}>
       {error &&
         <Alert bsStyle='danger'>
@@ -38,12 +88,20 @@ const ProductListItemForm = ({
     </div>
   </form>
 )
-/* eslint-enable camelcase */
 
 const { validate } = buildSchema({
   par_level: {
     label: 'This',
     type: 'decimal'
+  },
+  count_as_full: {
+    label: 'This',
+    validate: {
+      float: {
+        min: 0.1,
+        max: 1
+      }
+    }
   }
 })
 
