@@ -69,34 +69,26 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: true,
-      items: {
-        ...state.items,
-        [action.meta.venue_id]: []
-      }
+      filters: action.meta,
+      items:[]
     }
   },
   [PRODUCTS_FETCH_SUCCESS] : (state, action) => {
     return {
       ...state,
       isFetching: false,
-      items: {
-        ...state.items,
-        [action.meta.venue_id]: action.payload
-      }
+      items: action.payload
     }
   },
   [PRODUCT_UPDATE_SUCCESS] : (state, action) => {
     return {
       ...state,
-      items: {
-        ...state.items,
-        [action.payload.venue_id]: state.items[action.payload.venue_id].map((item) => {
-          if (item._id === action.payload._id) {
-            item = action.payload
-          }
-          return item
-        })
-      }
+      items: state.items.map((item) => {
+        if (item._id === action.payload._id) {
+          item = action.payload
+        }
+        return item
+      })
     }
   }
 }
@@ -106,6 +98,7 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
+  filters: {},
   items: []
 }
 export default function productsReducer (state = initialState, action) {
