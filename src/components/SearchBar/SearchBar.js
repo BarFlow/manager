@@ -38,7 +38,7 @@ class SearchBar extends Component {
               placeholder='Product Name'
               onChange={this.handleChange} />
             <InputGroup.Button>
-              <Button type='submit'>
+              <Button type='submit' disabled={this.props.submitting}>
               Search
               </Button>
             </InputGroup.Button>
@@ -51,6 +51,7 @@ class SearchBar extends Component {
 
 SearchBar.propTypes = {
   handleSubmit : React.PropTypes.func.isRequired,
-  filters : React.PropTypes.object
+  filters : React.PropTypes.object,
+  submitting: React.PropTypes.bool
 }
 export default SearchBar
