@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Alert } from 'react-bootstrap'
 import './Products.scss'
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
@@ -28,23 +28,34 @@ class Products extends Component {
   render () {
     const { products, venueId } = this.props
 
+    const ProductList = products.items.map(item => {
+      return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
+    })
+
     return (
       <div className='row'>
+
         <SubHeader
           left={<h3>Products</h3>}
           right={<Button>Add new</Button>} />
+
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
-          <SearchBar filters={{ ...products.filters, venue_id: venueId }} handleSubmit={this.fetchProducts} />
+
+          <SearchBar
+            filters={{ ...products.filters, venue_id: venueId }}
+            handleSubmit={this.fetchProducts}
+            submitting={products.isFetching} />
+
           <div className='items'>
-            {!products.isFetching && products ? (
-              products.items.map(item => {
-                return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
-              })
+            {!products.isFetching && venueId ? (
+              ProductList.length ? (ProductList) : (<Alert bsStyle='warning'>No items found.</Alert>)
             ) : (
-              <div>Loading...</div>
+              <Alert bsStyle='warning'>Loading...</Alert>
             )}
           </div>
+
         </div>
+
       </div>
     )
   }
