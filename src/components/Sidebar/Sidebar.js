@@ -10,14 +10,14 @@ class Sidebar extends Component {
     this.fetchVenues = this.props.fetchVenues.bind(this)
     this.handleVenueChange = this.props.handleVenueChange.bind(this)
 
-    if (!this.props.venue.items.length) {
+    if (!this.props.venues.items.length) {
       this.fetchVenues()
     }
   }
 
   render () {
-    const { className = '', venue = { items:[] }, handleVenueChange } = this.props
-    const venues = venue.items.map(item =>
+    const { className = '', venues = { items:[] }, handleVenueChange } = this.props
+    const venueItems = venues.items.map(item =>
       <option key={item._id} value={item._id}>
         {item.profile.name}
       </option>
@@ -28,8 +28,8 @@ class Sidebar extends Component {
           <FormControl
             componentClass='select'
             onChange={(event) => handleVenueChange(event.target.value)}
-            value={venue.current || ''}>
-            {venues}
+            value={venues.current || ''}>
+            {venueItems}
           </FormControl>
         </FormGroup>
         <Nav>
@@ -46,7 +46,7 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  venue : React.PropTypes.object,
+  venues : React.PropTypes.object,
   fetchVenues: React.PropTypes.func.isRequired,
   handleVenueChange: React.PropTypes.func.isRequired,
   className: React.PropTypes.string

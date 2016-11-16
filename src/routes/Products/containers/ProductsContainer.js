@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   products : state.products,
-  venueId: state.venue.current
+  venueId: state.venues.current
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
