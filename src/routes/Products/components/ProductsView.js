@@ -12,7 +12,9 @@ class Products extends Component {
     this.fetchProducts = this.props.fetchProducts.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
     this.fetchTypes = this.props.fetchTypes.bind(this)
+  }
 
+  componentDidMount () {
     // Fetch products if there is new venueId
     if (this.props.venueId && (this.props.products && this.props.products.filters.venue_id !== this.props.venueId)) {
       this.fetchProducts({ venue_id: this.props.venueId })

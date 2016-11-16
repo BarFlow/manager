@@ -9,7 +9,9 @@ class Sidebar extends Component {
     this.props = props
     this.fetchVenues = this.props.fetchVenues.bind(this)
     this.handleVenueChange = this.props.handleVenueChange.bind(this)
+  }
 
+  componentDidMount () {
     if (!this.props.venues.items.length) {
       this.fetchVenues()
     }
