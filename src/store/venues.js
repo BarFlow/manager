@@ -3,11 +3,11 @@ import { CALL_API } from 'redux-api-middleware'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const VENUE_FETCH_REQUEST = 'VENUE_FETCH_REQUEST'
-export const VENUE_FETCH_SUCCESS = 'VENUE_FETCH_SUCCESS'
-export const VENUE_FETCH_FAILURE = 'VENUE_FETCH_FAILURE'
+export const VENUES_FETCH_REQUEST = 'VENUES_FETCH_REQUEST'
+export const VENUES_FETCH_SUCCESS = 'VENUES_FETCH_SUCCESS'
+export const VENUES_FETCH_FAILURE = 'VENUES_FETCH_FAILURE'
 
-export const VENUE_CURRENT_CHANGE = 'VENUE_CURRENT_CHANGE'
+export const VENUES_CURRENT_CHANGE = 'VENUES_CURRENT_CHANGE'
 
 // ------------------------------------
 // Actions
@@ -18,9 +18,9 @@ export const fetchVenues = () => {
       endpoint: '/venues',
       method: 'GET',
       types: [
-        VENUE_FETCH_REQUEST,
-        VENUE_FETCH_SUCCESS,
-        VENUE_FETCH_FAILURE
+        VENUES_FETCH_REQUEST,
+        VENUES_FETCH_SUCCESS,
+        VENUES_FETCH_FAILURE
       ]
     }
   }
@@ -28,7 +28,7 @@ export const fetchVenues = () => {
 
 export const changeCurrentVenue = (newId) => {
   return {
-    type: VENUE_CURRENT_CHANGE,
+    type: VENUES_CURRENT_CHANGE,
     payload: newId
   }
 }
@@ -42,13 +42,13 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [VENUE_FETCH_REQUEST] : (state, action) => {
+  [VENUES_FETCH_REQUEST] : (state, action) => {
     return {
       ...state,
       isFetching: true
     }
   },
-  [VENUE_FETCH_SUCCESS] : (state, action) => {
+  [VENUES_FETCH_SUCCESS] : (state, action) => {
     return {
       ...state,
       isFetching: false,
@@ -56,7 +56,7 @@ const ACTION_HANDLERS = {
       current: state.current || action.payload[0]._id
     }
   },
-  [VENUE_CURRENT_CHANGE] : (state, action) => {
+  [VENUES_CURRENT_CHANGE] : (state, action) => {
     return {
       ...state,
       current: action.payload

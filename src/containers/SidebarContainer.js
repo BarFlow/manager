@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchVenues, changeCurrentVenue } from '../store/venue'
+import { fetchVenues, changeCurrentVenue } from '../store/venues'
 import { withRouter } from 'react-router'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -19,7 +19,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  venue : state.venue
+  venues : state.venues
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
