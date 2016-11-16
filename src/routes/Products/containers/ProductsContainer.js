@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { fetchProducts, updateProduct } from '../modules/products'
 import formApiAdapter from '../../../utils/formApiAdapter'
+import { fetchTypes } from '../../../store/types'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -15,12 +16,14 @@ import ProductsView from '../components/ProductsView'
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProducts: (...args) => dispatch(fetchProducts(...args)),
+  fetchTypes: (...args) => dispatch(fetchTypes(...args)),
   updateProduct: formApiAdapter(dispatch, updateProduct)
 })
 
 const mapStateToProps = (state) => ({
   products : state.products,
-  venueId: state.venues.current
+  venueId: state.venues.current,
+  types: state.types
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
