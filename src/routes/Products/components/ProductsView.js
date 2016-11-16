@@ -11,10 +11,16 @@ class Products extends Component {
     this.props = props
     this.fetchProducts = this.props.fetchProducts.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
+    this.fetchTypes = this.props.fetchTypes.bind(this)
 
     // Fetch products if there is new venueId
     if (this.props.venueId && (this.props.products && this.props.products.filters.venue_id !== this.props.venueId)) {
       this.fetchProducts({ venue_id: this.props.venueId })
+    }
+
+    // Fetch types if they are not in store yet
+    if (!this.props.types.items.length) {
+      this.fetchTypes()
     }
   }
 
@@ -26,7 +32,7 @@ class Products extends Component {
   }
 
   render () {
-    const { products, venueId } = this.props
+    const { products, types, venueId } = this.props
 
     const ProductList = products.items.map(item => {
       return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
@@ -44,7 +50,8 @@ class Products extends Component {
           <SearchBar
             filters={{ ...products.filters, venue_id: venueId }}
             handleSubmit={this.fetchProducts}
-            submitting={products.isFetching} />
+            submitting={products.isFetching}
+            types={types} />
 
           <div className='items'>
             {!products.isFetching && venueId ? (
@@ -62,6 +69,8 @@ class Products extends Component {
 }
 
 Products.propTypes = {
+  fetchTypes: React.PropTypes.func.isRequired,
+  types: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,

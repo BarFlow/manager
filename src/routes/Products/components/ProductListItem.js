@@ -23,7 +23,7 @@ class ProductListItem extends Component {
   }
 
   render () {
-    const { name, type, category, subCategory, capacity, images } = this.props.item.product_id
+    const { name, type, category, sub_category: subCategory, capacity, images } = this.props.item.product_id
     return (
       <Panel>
         <Media>
@@ -80,7 +80,7 @@ ProductListItem.propTypes = {
       name: React.PropTypes.string.isRequired,
       type: React.PropTypes.string.isRequired,
       category: React.PropTypes.string.isRequired,
-      subCategory: React.PropTypes.string,
+      sub_category: React.PropTypes.string,
       capacity: React.PropTypes.number.isRequired,
       images: React.PropTypes.object.isRequired
     })
