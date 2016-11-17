@@ -15,6 +15,10 @@ export const PRODUCT_UPDATE_FAILURE = 'PRODUCT_UPDATE_FAILURE'
 // Actions
 // ------------------------------------
 export const fetchProducts = (filters) => {
+  filters = {
+    ...{ limit: 20, skip:0 },
+    ...filters
+  }
   const params = Object.keys(filters).reduce((mem, key) =>
     mem + '&' + key + '=' + filters[key]
   , '').substring(1)
@@ -69,10 +73,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: true,
-      filters: {
-        ...state.filters,
-        ...action.meta
-      },
+      filters: action.meta,
       totalCount: 0,
       items:[]
     }
@@ -103,10 +104,7 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
-  filters: {
-    limit: 30,
-    skip: 0
-  },
+  filters: {},
   totalCount: 0,
   items: []
 }
