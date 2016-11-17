@@ -24,11 +24,7 @@ class SearchBar extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      // Reset form is venue_id has changed
-      filters: nextProps.filters.venue_id !== this.state.filters.venue_id ? {
-        ...this.state.filters,
-        ...nextProps.filters
-      } : {
+      filters: {
         ...this.initialFilters,
         ...nextProps.filters
       }
