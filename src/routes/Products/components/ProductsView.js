@@ -3,6 +3,7 @@ import { Button, Alert, Pagination } from 'react-bootstrap'
 import './Products.scss'
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
+import AddProductDialog from './AddProductDialog'
 import ProductListItem from './ProductListItem'
 
 class Products extends Component {
@@ -43,7 +44,7 @@ class Products extends Component {
   }
 
   render () {
-    const { products, types, venueId } = this.props
+    const { products, types, venueId, toggleAddNewDialog, fetchCatalog } = this.props
 
     const ProductList = products.items.map(item => {
       return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
@@ -51,10 +52,14 @@ class Products extends Component {
 
     return (
       <div className='row'>
+        <AddProductDialog
+          close={toggleAddNewDialog}
+          handleSubmit={fetchCatalog}
+          state={products.addNew} />
 
         <SubHeader
           left={<h3>Products</h3>}
-          right={<Button>Add new</Button>} />
+          right={<Button onClick={toggleAddNewDialog}>Add new</Button>} />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
 
@@ -98,6 +103,8 @@ Products.propTypes = {
   types: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
+  toggleAddNewDialog: React.PropTypes.func.isRequired,
+  fetchCatalog: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string
 }
