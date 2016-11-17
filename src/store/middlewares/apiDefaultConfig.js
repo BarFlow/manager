@@ -7,6 +7,7 @@ export default store => next => action => {
   if (callApi) {
     // Setting base API url
     callApi.endpoint = `https://api.stockmate.co.uk${callApi.endpoint}`
+    // callApi.endpoint = `http://localhost:3333${callApi.endpoint}`
     // Inject the Authorization header from localStorage.
     callApi.headers = {
       ...callApi.headers,

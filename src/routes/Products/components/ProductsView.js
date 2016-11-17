@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Alert } from 'react-bootstrap'
+import { Button, Alert, Pagination } from 'react-bootstrap'
 import './Products.scss'
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
@@ -12,6 +12,7 @@ class Products extends Component {
     this.fetchProducts = this.props.fetchProducts.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
     this.fetchTypes = this.props.fetchTypes.bind(this)
+    this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
   }
 
   componentDidMount () {
@@ -31,6 +32,14 @@ class Products extends Component {
     if (this.props.venueId !== nextProps.venueId) {
       this.fetchProducts({ venue_id: nextProps.venueId })
     }
+  }
+
+  handlePaginationSelect (page) {
+    const { products } = this.props
+    this.fetchProducts({
+      ...products.filters,
+      skip: (products.filters.limit * (page - 1))
+    })
   }
 
   render () {
@@ -57,7 +66,21 @@ class Products extends Component {
 
           <div className='items'>
             {!products.isFetching && venueId ? (
-              ProductList.length ? (ProductList) : (<Alert bsStyle='warning'>No items found.</Alert>)
+              products.items.length ? (
+                <div>
+                  {ProductList}
+
+                  {products.totalCount > products.filters.limit &&
+                    <div className='text-center'>
+                      <Pagination prev next first last ellipsis boundaryLinks
+                        items={Math.ceil(products.totalCount / products.filters.limit)}
+                        maxButtons={5}
+                        activePage={(products.filters.skip / products.filters.limit) + 1}
+                        onSelect={this.handlePaginationSelect} />
+                    </div>
+                  }
+                </div>
+              ) : (<Alert bsStyle='warning'>No items found.</Alert>)
             ) : (
               <Alert bsStyle='warning'>Loading...</Alert>
             )}

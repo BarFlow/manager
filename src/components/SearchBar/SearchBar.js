@@ -18,6 +18,7 @@ class SearchBar extends Component {
       }
     }
     this.handleChange = this.handleChange.bind(this)
+    this._onSubmit = this._onSubmit.bind(this)
     this.handleSubmit = this.props.handleSubmit.bind(this)
   }
 
@@ -46,6 +47,14 @@ class SearchBar extends Component {
         },
         [`product[${id}]`]: value
       }
+    })
+  }
+
+  _onSubmit (e) {
+    e.preventDefault()
+    this.handleSubmit({
+      ...this.state.filters,
+      skip: 0
     })
   }
 
@@ -124,7 +133,7 @@ class SearchBar extends Component {
       </FormGroup>
 
     return (
-      <Form className='search-bar row' onSubmit={(e) => { e.preventDefault(); this.handleSubmit(filters) }} >
+      <Form className='search-bar row' onSubmit={this._onSubmit} >
         {typeSelector}
         {categorySelector}
         {subCategorySelector}
