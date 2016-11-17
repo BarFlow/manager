@@ -31,8 +31,8 @@ export const fetchProducts = (filters) => {
         },
         {
           type: PRODUCTS_FETCH_SUCCESS,
-          meta: (action, state) => {
-            return filters
+          meta: (action, state, res) => {
+            return parseInt(res.headers.get('X-Total-Count'), 10)
           }
         },
         PRODUCTS_FETCH_FAILURE
@@ -69,7 +69,11 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: true,
-      filters: action.meta,
+      filters: {
+        ...state.filters,
+        ...action.meta
+      },
+      totalCount: 0,
       items:[]
     }
   },
@@ -77,6 +81,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: false,
+      totalCount: action.meta,
       items: action.payload
     }
   },
@@ -98,7 +103,11 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
-  filters: {},
+  filters: {
+    limit: 30,
+    skip: 0
+  },
+  totalCount: 0,
   items: []
 }
 export default function productsReducer (state = initialState, action) {
