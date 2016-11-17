@@ -59,7 +59,7 @@ class Products extends Component {
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
 
           <SearchBar
-            filters={{ ...products.filters, venue_id: venueId }}
+            filters={products.filters}
             handleSubmit={this.fetchProducts}
             submitting={products.isFetching}
             types={types} />
@@ -72,9 +72,9 @@ class Products extends Component {
 
                   {products.totalCount > products.filters.limit &&
                     <div className='text-center'>
-                      <Pagination prev next first last ellipsis boundaryLinks
+                      <Pagination ellipsis boundaryLinks
                         items={Math.ceil(products.totalCount / products.filters.limit)}
-                        maxButtons={5}
+                        maxButtons={9}
                         activePage={(products.filters.skip / products.filters.limit) + 1}
                         onSelect={this.handlePaginationSelect} />
                     </div>

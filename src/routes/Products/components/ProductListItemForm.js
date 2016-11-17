@@ -47,7 +47,7 @@ const ProductListItemForm = ({
       component={FormInput}
       label='Serving Measure'
       type='number'
-      addon='ML'
+      addon='ml'
       description='The base serving measure for the product.'
       className={'col-xs-12 col-md-6'} />
 
