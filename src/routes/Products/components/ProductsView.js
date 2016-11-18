@@ -46,17 +46,17 @@ class Products extends Component {
 
   render () {
     const { products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct } = this.props
-    console.log(products)
 
     const ProductList = products.filteredItems.map(item =>
       <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
     ).splice(products.filters.skip, products.filters.limit)
 
-    const addProductDialog = <AddProductDialog
+    const addProductDialog = venueId && <AddProductDialog
       close={toggleAddNewDialog}
       handleSubmit={fetchCatalog}
       addProduct={addProduct}
       state={products.addNew}
+      products={products.items}
       venueId={venueId} />
 
     return (
@@ -66,7 +66,7 @@ class Products extends Component {
           right={
             <div>
               {addProductDialog}
-              <Button onClick={toggleAddNewDialog}>Add new</Button>
+              <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add new</Button>
             </div>
           } />
 

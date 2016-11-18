@@ -18,16 +18,15 @@ class AddProductDialog extends Component {
   }
 
   _addProduct (item) {
-    const newProduct = {
+    const product = {
       product_id: item._id,
       venue_id: this.props.venueId
     }
-    console.log(newProduct)
-    // this.props.addProduct(newProduct)
+    this.props.addProduct(product)
   }
 
   render () {
-    const { state, close, handleSubmit } = this.props
+    const { state, close, handleSubmit, products } = this.props
     return (
       <Modal show={state.dialogOpen} onHide={close} className='add-product-dialog'>
         <Modal.Header closeButton>
@@ -36,8 +35,10 @@ class AddProductDialog extends Component {
         <Modal.Body>
           <SearchBar onSubmit={handleSubmit} submitting={state.isFetching} />
           {state.items.length ? (
-            state.items.map(item =>
-              <ListItem key={item._id} item={item} onSelect={this._addProduct} />
+            state.items.map(item => {
+              const added = !!products.find(product => product.product_id._id === item._id)
+              return <ListItem key={item._id} item={item} added={added} onSelect={this._addProduct} />
+            }
             )
           ) : (
             state.isFetching ? (
@@ -58,6 +59,7 @@ class AddProductDialog extends Component {
 AddProductDialog.propTypes = {
   handleSubmit : React.PropTypes.func.isRequired,
   state : React.PropTypes.object,
+  products : React.PropTypes.array,
   close: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string.isRequired
