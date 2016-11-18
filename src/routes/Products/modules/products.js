@@ -11,6 +11,10 @@ export const PRODUCTS_UPDATE_REQUEST = 'PRODUCTS_UPDATE_REQUEST'
 export const PRODUCTS_UPDATE_SUCCESS = 'PRODUCTS_UPDATE_SUCCESS'
 export const PRODUCTS_UPDATE_FAILURE = 'PRODUCTS_UPDATE_FAILURE'
 
+export const PRODUCTS_ADD_REQUEST = 'PRODUCTS_ADD_REQUEST'
+export const PRODUCTS_ADD_SUCCESS = 'PRODUCTS_ADD_SUCCESS'
+export const PRODUCTS_ADD_FAILURE = 'PRODUCTS_ADD_FAILURE'
+
 export const PRODUCTS_TOGGLE_ADD_DIALOG = 'PRODUCTS_TOGGLE_ADD_DIALOG'
 
 export const CATALOG_FETCH_REQUEST = 'CATALOG_FETCH_REQUEST'
@@ -46,6 +50,21 @@ export const fetchProducts = (filters) => {
           }
         },
         PRODUCTS_FETCH_FAILURE
+      ]
+    }
+  }
+}
+
+export const addProduct = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/inventory?populate=true`,
+      method: 'POST',
+      body: JSON.stringify(payload),
+      types: [
+        PRODUCTS_UPDATE_REQUEST,
+        PRODUCTS_UPDATE_SUCCESS,
+        PRODUCTS_UPDATE_FAILURE
       ]
     }
   }
@@ -104,6 +123,7 @@ export const fetchCatalog = (filters) => {
 export const actions = {
   fetchProducts,
   updateProduct,
+  addProduct,
   toggleAddNewDialog,
   fetchCatalog
 }
