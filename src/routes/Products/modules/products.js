@@ -181,7 +181,8 @@ const ACTION_HANDLERS = {
       addNew: {
         dialogOpen: !state.addNew.dialogOpen,
         isFetching: false,
-        items: []
+        items: [],
+        filters: {}
       }
     }
   },
@@ -191,7 +192,8 @@ const ACTION_HANDLERS = {
       addNew: {
         ...state.addNew,
         isFetching: true,
-        items: []
+        items: [],
+        filters: action.meta
       }
     }
   },
@@ -223,6 +225,7 @@ const initialState = {
     isFetching: false,
     isSubmitting: false,
     totalCount: 0,
+    filters: {},
     items: []
   }
 }

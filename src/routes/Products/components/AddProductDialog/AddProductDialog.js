@@ -44,7 +44,8 @@ class AddProductDialog extends Component {
             state.isFetching ? (
               <Alert bsStyle='warning'>Loading...</Alert>
             ) : (
-              <Alert bsStyle='warning'>No items found.</Alert>
+              (state.filters.name) &&
+                <Alert bsStyle='warning'>No items found.</Alert>
             )
           )}
         </Modal.Body>
