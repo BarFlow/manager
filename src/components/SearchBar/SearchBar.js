@@ -1,56 +1,26 @@
 import React, { Component } from 'react'
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
+import { Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import './SearchBar.scss'
 
 class SearchBar extends Component {
   constructor (props) {
     super(props)
-    this.initialFilters = {
-      'product[name]': '',
-      'product[type]': '',
-      'product[category]': '',
-      'product[sub_category]': ''
-    }
-    this.state = {
-      filters: {
-        ...this.initialFilters,
-        ...this.props.filters
-      }
-    }
-    this.handleChange = this.handleChange.bind(this)
-    this._onSubmit = this._onSubmit.bind(this)
-    this.handleSubmit = this.props.handleSubmit.bind(this)
+
+    this._handleChange = this._handleChange.bind(this)
+    this.onChange = this.props.onChange.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      filters: {
-        ...this.initialFilters,
-        ...nextProps.filters
-      }
-    })
-  }
-
-  handleChange (event) {
+  _handleChange (event) {
     const { id, value } = event.target
-    const { filters } = this.state
-    this.setState({
-      filters: {
-        ...filters,
-        ...{
-          'product[category]': id === 'type' ? '' : filters['product[category]'],
-          'product[sub_category]': id === ('type' || 'category') ? '' : filters['product[sub_category]']
-        },
-        [`product[${id}]`]: value
-      }
-    })
-  }
-
-  _onSubmit (e) {
-    e.preventDefault()
-    this.handleSubmit({
-      ...this.state.filters,
-      skip: 0
+    const { filters } = this.props
+    this.onChange({
+      ...filters,
+      ...{
+        skip: 0,
+        category: id === 'type' ? '' : filters.category,
+        sub_category: id === 'type' || id === 'category' ? '' : filters.sub_category
+      },
+      [`${id}`]: value
     })
   }
 
@@ -75,8 +45,7 @@ class SearchBar extends Component {
   }
 
   render () {
-    const { types } = this.props
-    const { filters } = this.state
+    const { types, filters } = this.props
 
     const typeSelector =
       <FormGroup controlId='type' className='col-xs-2'>
@@ -84,8 +53,8 @@ class SearchBar extends Component {
         {' '}
         <FormControl
           componentClass='select'
-          onChange={this.handleChange}
-          value={filters['product[type]']}
+          onChange={this._handleChange}
+          value={filters['type'] || ''}
           disabled={!types.items.length}>
           <option value=''>any</option>
           {types.items.filter(type => !type.parent_id).map(type =>
@@ -100,12 +69,12 @@ class SearchBar extends Component {
         {' '}
         <FormControl
           componentClass='select'
-          onChange={this.handleChange}
-          value={filters['product[category]']}
-          disabled={filters['product[type]'] === ''}>
+          onChange={this._handleChange}
+          value={filters['category'] || ''}
+          disabled={!filters['type'] || filters['type'] === ''}>
           <option value=''>any</option>
           {types.items.filter(item =>
-            item.parent_id === this.findTypeIdByTitle(filters['product[type]'])).map(type =>
+            item.parent_id === this.findTypeIdByTitle(filters['type'])).map(type =>
               <option key={type._id} value={type.title}>{type.title}</option>
           )}
         </FormControl>
@@ -117,44 +86,38 @@ class SearchBar extends Component {
         {' '}
         <FormControl
           componentClass='select'
-          onChange={this.handleChange}
-          value={filters['product[sub_category]']}
-          disabled={filters['product[category]'] === ''}>
+          onChange={this._handleChange}
+          value={filters['sub_category'] || ''}
+          disabled={!filters['category'] || filters['category'] === ''}>
           <option value=''>any</option>
           {types.items.filter(item =>
-            item.parent_id === this.findTypeIdByTitle(filters['product[category]'])).map(type =>
+            item.parent_id === this.findTypeIdByTitle(filters['category'])).map(type =>
               <option key={type._id} value={type.title}>{type.title}</option>
           )}
         </FormControl>
       </FormGroup>
 
     return (
-      <Form className='search-bar row' onSubmit={this._onSubmit} >
+      <Form className='search-bar row' onSubmit={(e) => { e.preventDefault() }} >
+        <FormGroup controlId='name' className='name col-xs-6'>
+          <ControlLabel>Name</ControlLabel>
+          <FormControl
+            type='text'
+            value={filters['name']}
+            placeholder='Product Name'
+            onChange={this._handleChange} />
+        </FormGroup>
         {typeSelector}
         {categorySelector}
         {subCategorySelector}
-        <FormGroup controlId='name' className='name col-xs-6'>
-          <ControlLabel>Name</ControlLabel>
-          <div>
-            <FormControl
-              type='text'
-              value={filters['product[name]']}
-              placeholder='Product Name'
-              onChange={this.handleChange} />
-            <Button type='submit' disabled={this.props.submitting}>
-            Search
-            </Button>
-          </div>
-        </FormGroup>
       </Form>
     )
   }
 }
 
 SearchBar.propTypes = {
-  handleSubmit : React.PropTypes.func.isRequired,
+  onChange : React.PropTypes.func.isRequired,
   filters : React.PropTypes.object,
-  submitting: React.PropTypes.bool,
   types: React.PropTypes.object
 }
 export default SearchBar

@@ -15,6 +15,8 @@ export const PRODUCTS_ADD_REQUEST = 'PRODUCTS_ADD_REQUEST'
 export const PRODUCTS_ADD_SUCCESS = 'PRODUCTS_ADD_SUCCESS'
 export const PRODUCTS_ADD_FAILURE = 'PRODUCTS_ADD_FAILURE'
 
+export const PRODUCTS_FILTER_CHANGE = 'PRODUCTS_FILTER_CHANGE'
+
 export const PRODUCTS_TOGGLE_ADD_DIALOG = 'PRODUCTS_TOGGLE_ADD_DIALOG'
 
 export const CATALOG_FETCH_REQUEST = 'CATALOG_FETCH_REQUEST'
@@ -24,36 +26,28 @@ export const CATALOG_FETCH_FAILURE = 'CATALOG_FETCH_FAILURE'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchProducts = (filters) => {
-  filters = {
-    ...{ limit: 20, skip:0 },
-    ...filters
-  }
-  const params = Object.keys(filters).reduce((mem, key) =>
-    mem + '&' + key + '=' + filters[key]
-  , '').substring(1)
+export const fetchProducts = (venueId) => {
   return {
     [CALL_API]: {
-      endpoint: `/inventory?populate=true&${params}`,
+      endpoint: `/inventory?populate=true&limit=2000&venue_id=${venueId}`,
       method: 'GET',
       types: [
-        {
-          type: PRODUCTS_FETCH_REQUEST,
-          meta: (action, state) => {
-            return filters
-          }
-        },
-        {
-          type: PRODUCTS_FETCH_SUCCESS,
-          meta: (action, state, res) => {
-            return parseInt(res.headers.get('X-Total-Count'), 10)
-          }
-        },
+        PRODUCTS_FETCH_REQUEST,
+        PRODUCTS_FETCH_SUCCESS,
         PRODUCTS_FETCH_FAILURE
       ]
     }
   }
 }
+
+export const changeProductsFilter = (filter) => ({
+  type: PRODUCTS_FILTER_CHANGE,
+  payload: {
+    limit: 20,
+    skip: 0,
+    ...filter
+  }
+})
 
 export const addProduct = (payload) => {
   return {
@@ -136,8 +130,6 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: true,
-      filters: action.meta,
-      totalCount: 0,
       items:[]
     }
   },
@@ -145,8 +137,13 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: false,
-      totalCount: action.meta,
       items: action.payload
+    }
+  },
+  [PRODUCTS_FILTER_CHANGE] : (state, action) => {
+    return {
+      ...state,
+      filters: action.payload
     }
   },
   [PRODUCTS_UPDATE_SUCCESS] : (state, action) => {
@@ -166,7 +163,6 @@ const ACTION_HANDLERS = {
       addNew: {
         dialogOpen: !state.addNew.dialogOpen,
         isFetching: false,
-        totalCount: 0,
         items: []
       }
     }
@@ -177,7 +173,6 @@ const ACTION_HANDLERS = {
       addNew: {
         ...state.addNew,
         isFetching: true,
-        totalCount: 0,
         items: []
       }
     }
@@ -200,8 +195,10 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
-  filters: {},
-  totalCount: 0,
+  filters: {
+    limit: 20,
+    skip: 0
+  },
   items: [],
   addNew: {
     dialogOpen: false,

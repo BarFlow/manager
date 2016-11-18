@@ -1,5 +1,12 @@
 import { connect } from 'react-redux'
-import { fetchProducts, addProduct, updateProduct, toggleAddNewDialog, fetchCatalog } from '../modules/products'
+import {
+  fetchProducts,
+  addProduct,
+  updateProduct,
+  toggleAddNewDialog,
+  fetchCatalog,
+  changeProductsFilter
+} from '../modules/products'
 import formApiAdapter from '../../../utils/formApiAdapter'
 import { fetchTypes } from '../../../store/types'
 
@@ -16,6 +23,7 @@ import ProductsView from '../components/ProductsView'
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProducts: (...args) => dispatch(fetchProducts(...args)),
+  changeProductsFilter: (...args) => dispatch(changeProductsFilter(...args)),
   fetchTypes: (...args) => dispatch(fetchTypes(...args)),
   toggleAddNewDialog: (...args) => dispatch(toggleAddNewDialog(...args)),
   fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
@@ -23,11 +31,28 @@ const mapDispatchToProps = (dispatch) => ({
   addProduct: formApiAdapter(dispatch, addProduct)
 })
 
-const mapStateToProps = (state) => ({
-  products : state.products,
-  venueId: state.venues.current,
-  types: state.types
-})
+const mapStateToProps = (state) => {
+  const { filters } = state.products
+  const filteredItems = state.products.items.filter(item => {
+    const name = new RegExp(filters.name, 'i')
+    if (
+      item.product_id.name.match(name) &&
+      (!filters.type || filters.type === '' || item.product_id.type === filters.type) &&
+      (!filters.category || filters.category === '' || item.product_id.category === filters.category) &&
+      (!filters.sub_category || filters.sub_category === '' || item.product_id.sub_category === filters.sub_category)
+    ) {
+      return true
+    }
+  })
+  return {
+    products : {
+      ...state.products,
+      filteredItems
+    },
+    venueId: state.venues.current,
+    types: state.types
+  }
+}
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
 
