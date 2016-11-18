@@ -11,6 +11,7 @@ class Products extends Component {
     super(props)
     this.props = props
     this.fetchProducts = this.props.fetchProducts.bind(this)
+    this.changeProductsFilter = this.props.changeProductsFilter.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
     this.fetchTypes = this.props.fetchTypes.bind(this)
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
@@ -18,8 +19,8 @@ class Products extends Component {
 
   componentDidMount () {
     // Fetch products if there is new venueId
-    if (this.props.venueId && (this.props.products && this.props.products.filters.venue_id !== this.props.venueId)) {
-      this.fetchProducts({ venue_id: this.props.venueId })
+    if (this.props.venueId && !this.props.products.items.length) {
+      this.fetchProducts(this.props.venueId)
     }
 
     // Fetch types if they are not in store yet
@@ -31,13 +32,13 @@ class Products extends Component {
   componentWillReceiveProps (nextProps) {
     // Only fetch new products for new venue
     if (this.props.venueId !== nextProps.venueId) {
-      this.fetchProducts({ venue_id: nextProps.venueId })
+      this.fetchProducts(nextProps.venueId)
     }
   }
 
   handlePaginationSelect (page) {
     const { products } = this.props
-    this.fetchProducts({
+    this.changeProductsFilter({
       ...products.filters,
       skip: (products.filters.limit * (page - 1))
     })
@@ -45,10 +46,11 @@ class Products extends Component {
 
   render () {
     const { products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct } = this.props
+    console.log(products)
 
-    const ProductList = products.items.map(item => {
-      return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
-    })
+    const ProductList = products.filteredItems.map(item =>
+      <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
+    ).splice(products.filters.skip, products.filters.limit)
 
     const addProductDialog = <AddProductDialog
       close={toggleAddNewDialog}
@@ -72,20 +74,19 @@ class Products extends Component {
 
           <SearchBar
             filters={products.filters}
-            handleSubmit={this.fetchProducts}
-            submitting={products.isFetching}
+            onChange={this.changeProductsFilter}
             types={types} />
 
           <div className='items'>
             {!products.isFetching && venueId ? (
-              products.items.length ? (
+              products.filteredItems.length ? (
                 <div>
                   {ProductList}
 
-                  {products.totalCount > products.filters.limit &&
+                  {products.filteredItems.length > products.filters.limit &&
                     <div className='text-center'>
                       <Pagination ellipsis boundaryLinks
-                        items={Math.ceil(products.totalCount / products.filters.limit)}
+                        items={Math.ceil(products.filteredItems.length / products.filters.limit)}
                         maxButtons={9}
                         activePage={(products.filters.skip / products.filters.limit) + 1}
                         onSelect={this.handlePaginationSelect} />
@@ -109,6 +110,7 @@ Products.propTypes = {
   fetchTypes: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
+  changeProductsFilter: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   toggleAddNewDialog: React.PropTypes.func.isRequired,
