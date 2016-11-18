@@ -28,6 +28,8 @@ class SearchBar extends Component {
           {' '}
           <InputGroup>
             <FormControl
+              autoFocus
+              autoComplete='off'
               type='text'
               value={this.state.filters['name'] || ''}
               placeholder='Product Name'
