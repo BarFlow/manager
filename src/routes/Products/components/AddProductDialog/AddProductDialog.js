@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { Modal, Alert } from 'react-bootstrap'
 import SearchBar from './SearchBar'
+import ListItem from './ListItem'
+import './AddProductDialog.scss'
 
 class AddProductDialog extends Component {
   constructor (props) {
     super(props)
     this.handleSubmit = this.props.handleSubmit.bind(this)
+    this._addProduct = this._addProduct.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -14,10 +17,19 @@ class AddProductDialog extends Component {
     }
   }
 
+  _addProduct (item) {
+    const newProduct = {
+      product_id: item._id,
+      venue_id: this.props.venueId
+    }
+    console.log(newProduct)
+    // this.props.addProduct(newProduct)
+  }
+
   render () {
     const { state, close, handleSubmit } = this.props
     return (
-      <Modal show={state.dialogOpen} onHide={close}>
+      <Modal show={state.dialogOpen} onHide={close} className='add-product-dialog'>
         <Modal.Header closeButton>
           <Modal.Title>Add Product</Modal.Title>
         </Modal.Header>
@@ -25,7 +37,7 @@ class AddProductDialog extends Component {
           <SearchBar onSubmit={handleSubmit} submitting={state.isFetching} />
           {state.items.length ? (
             state.items.map(item =>
-              <div key={item._id}>{item.name}</div>
+              <ListItem key={item._id} item={item} onSelect={this._addProduct} />
             )
           ) : (
             state.isFetching ? (
@@ -36,7 +48,7 @@ class AddProductDialog extends Component {
           )}
         </Modal.Body>
         <Modal.Footer>
-          Total of {state.totalCount} products found.
+          Showing {state.items.length} of {state.totalCount} items.
         </Modal.Footer>
       </Modal>
     )
@@ -46,6 +58,8 @@ class AddProductDialog extends Component {
 AddProductDialog.propTypes = {
   handleSubmit : React.PropTypes.func.isRequired,
   state : React.PropTypes.object,
-  close: React.PropTypes.func.isRequired
+  close: React.PropTypes.func.isRequired,
+  addProduct: React.PropTypes.func.isRequired,
+  venueId: React.PropTypes.string.isRequired
 }
 export default AddProductDialog

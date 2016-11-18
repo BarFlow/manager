@@ -44,22 +44,29 @@ class Products extends Component {
   }
 
   render () {
-    const { products, types, venueId, toggleAddNewDialog, fetchCatalog } = this.props
+    const { products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct } = this.props
 
     const ProductList = products.items.map(item => {
       return <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
     })
 
+    const addProductDialog = <AddProductDialog
+      close={toggleAddNewDialog}
+      handleSubmit={fetchCatalog}
+      addProduct={addProduct}
+      state={products.addNew}
+      venueId={venueId} />
+
     return (
       <div className='row'>
-        <AddProductDialog
-          close={toggleAddNewDialog}
-          handleSubmit={fetchCatalog}
-          state={products.addNew} />
-
         <SubHeader
           left={<h3>Products</h3>}
-          right={<Button onClick={toggleAddNewDialog}>Add new</Button>} />
+          right={
+            <div>
+              {addProductDialog}
+              <Button onClick={toggleAddNewDialog}>Add new</Button>
+            </div>
+          } />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
 
@@ -102,6 +109,7 @@ Products.propTypes = {
   fetchTypes: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
+  addProduct: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   toggleAddNewDialog: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,

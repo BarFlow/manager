@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchProducts, updateProduct, toggleAddNewDialog, fetchCatalog } from '../modules/products'
+import { fetchProducts, addProduct, updateProduct, toggleAddNewDialog, fetchCatalog } from '../modules/products'
 import formApiAdapter from '../../../utils/formApiAdapter'
 import { fetchTypes } from '../../../store/types'
 
@@ -19,7 +19,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTypes: (...args) => dispatch(fetchTypes(...args)),
   toggleAddNewDialog: (...args) => dispatch(toggleAddNewDialog(...args)),
   fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
-  updateProduct: formApiAdapter(dispatch, updateProduct)
+  updateProduct: formApiAdapter(dispatch, updateProduct),
+  addProduct: formApiAdapter(dispatch, addProduct)
 })
 
 const mapStateToProps = (state) => ({
