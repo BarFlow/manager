@@ -82,7 +82,7 @@ ProductListItem.propTypes = {
       category: React.PropTypes.string.isRequired,
       sub_category: React.PropTypes.string,
       capacity: React.PropTypes.number.isRequired,
-      images: React.PropTypes.object.isRequired
+      images: React.PropTypes.object
     })
   }),
   updateProduct: React.PropTypes.func.isRequired

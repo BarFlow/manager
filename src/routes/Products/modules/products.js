@@ -56,9 +56,9 @@ export const addProduct = (payload) => {
       method: 'POST',
       body: JSON.stringify(payload),
       types: [
-        PRODUCTS_UPDATE_REQUEST,
-        PRODUCTS_UPDATE_SUCCESS,
-        PRODUCTS_UPDATE_FAILURE
+        PRODUCTS_ADD_REQUEST,
+        PRODUCTS_ADD_SUCCESS,
+        PRODUCTS_ADD_FAILURE
       ]
     }
   }
@@ -140,6 +140,24 @@ const ACTION_HANDLERS = {
       items: action.payload
     }
   },
+  [PRODUCTS_ADD_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      addNew: {
+        ...state.addNew,
+        isSubmitting: true
+      }
+    }
+  },
+  [PRODUCTS_ADD_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      items: [
+        action.payload,
+        ...state.items
+      ]
+    }
+  },
   [PRODUCTS_FILTER_CHANGE] : (state, action) => {
     return {
       ...state,
@@ -203,6 +221,7 @@ const initialState = {
   addNew: {
     dialogOpen: false,
     isFetching: false,
+    isSubmitting: false,
     totalCount: 0,
     items: []
   }
