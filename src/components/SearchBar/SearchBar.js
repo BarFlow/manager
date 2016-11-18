@@ -102,6 +102,8 @@ class SearchBar extends Component {
         <FormGroup controlId='name' className='name col-xs-6'>
           <ControlLabel>Name</ControlLabel>
           <FormControl
+            autoFocus
+            autoComplete='off'
             type='text'
             value={filters['name']}
             placeholder='Product Name'
