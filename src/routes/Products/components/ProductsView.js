@@ -18,13 +18,15 @@ class Products extends Component {
   }
 
   componentDidMount () {
+    // Flush out filters
+    this.changeProductsFilter({ venue_id: this.props.venueId })
+
     // Fetch products if there is new venueId or no products in store yet
     if (this.props.venueId &&
       !this.props.products.items.length ||
       this.props.venueId !== this.props.products.filters.venue_id
     ) {
       this.fetchProducts(this.props.venueId)
-      this.changeProductsFilter({ venue_id: this.props.venueId })
     }
 
     // Fetch types if they are not in store yet
@@ -37,6 +39,11 @@ class Products extends Component {
     // Only fetch new products for new venue
     if (this.props.venueId !== nextProps.venueId) {
       this.fetchProducts(nextProps.venueId)
+      this.changeProductsFilter({ venue_id: nextProps.venueId })
+    }
+
+    // Flush out filters if there is a click on 'Products' menu
+    if (this.props.location.key !== nextProps.location.key) {
       this.changeProductsFilter({ venue_id: nextProps.venueId })
     }
   }
@@ -113,6 +120,7 @@ class Products extends Component {
 }
 
 Products.propTypes = {
+  location: React.PropTypes.object.isRequired,
   fetchTypes: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,

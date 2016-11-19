@@ -105,7 +105,7 @@ class SearchBar extends Component {
             autoFocus
             autoComplete='off'
             type='text'
-            value={filters['name']}
+            value={filters['name'] || ''}
             placeholder='Product Name'
             onChange={this._handleChange} />
         </FormGroup>
