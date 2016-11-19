@@ -50,7 +50,8 @@ const mapStateToProps = (state) => {
       filteredItems
     },
     venueId: state.venues.current,
-    types: state.types
+    types: state.types,
+    location: state.location
   }
 }
 
