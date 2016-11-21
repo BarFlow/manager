@@ -5,7 +5,7 @@ import { Button, Alert } from 'react-bootstrap'
 import FormInput from '../../../components/FormInput'
 
 const ProductListItemForm = ({
-  error, submitSucceeded, handleSubmit, submitting
+  error, submitSucceeded, handleSubmit, submitting, handleDelete
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
 
@@ -90,6 +90,9 @@ const ProductListItemForm = ({
       <Button className={'pull-right'} type='submit' disabled={submitting}>
         Save
       </Button>
+      <Button className={'pull-right'} bsStyle='danger' onClick={handleDelete} disabled={submitting}>
+        Delete
+      </Button>
     </div>
   </form>
 )
@@ -112,6 +115,7 @@ const { validate } = buildSchema({
 
 ProductListItemForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  handleDelete: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool.isRequired,
   error: React.PropTypes.object,
   submitSucceeded: React.PropTypes.bool

@@ -15,6 +15,7 @@ class Products extends Component {
     this.fetchProducts = this.props.fetchProducts.bind(this)
     this.changeProductsFilter = this.props.changeProductsFilter.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
+    this.deleteProduct = this.props.deleteProduct.bind(this)
     this.fetchTypes = this.props.fetchTypes.bind(this)
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
   }
@@ -63,7 +64,11 @@ class Products extends Component {
     const { products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct } = this.props
 
     const ProductList = products.filteredItems.map(item =>
-      <ProductListItem key={item._id} item={item} updateProduct={this.updateProduct} />
+      <ProductListItem
+        key={item._id}
+        item={item}
+        updateProduct={this.updateProduct}
+        deleteProduct={this.deleteProduct} />
     ).splice(products.filters.skip, products.filters.limit)
 
     const addProductDialog = venueId && <AddProductDialog
@@ -129,6 +134,7 @@ Products.propTypes = {
   changeProductsFilter: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
+  deleteProduct: React.PropTypes.func.isRequired,
   toggleAddNewDialog: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,

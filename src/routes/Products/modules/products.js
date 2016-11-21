@@ -15,6 +15,10 @@ export const PRODUCTS_ADD_REQUEST = 'PRODUCTS_ADD_REQUEST'
 export const PRODUCTS_ADD_SUCCESS = 'PRODUCTS_ADD_SUCCESS'
 export const PRODUCTS_ADD_FAILURE = 'PRODUCTS_ADD_FAILURE'
 
+export const PRODUCTS_DELETE_REQUEST = 'PRODUCTS_DELETE_REQUEST'
+export const PRODUCTS_DELETE_SUCCESS = 'PRODUCTS_DELETE_SUCCESS'
+export const PRODUCTS_DELETE_FAILURE = 'PRODUCTS_DELETE_FAILURE'
+
 export const PRODUCTS_FILTER_CHANGE = 'PRODUCTS_FILTER_CHANGE'
 
 export const PRODUCTS_TOGGLE_ADD_DIALOG = 'PRODUCTS_TOGGLE_ADD_DIALOG'
@@ -79,6 +83,20 @@ export const updateProduct = (payload) => {
   }
 }
 
+export const deleteProduct = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/inventory/${payload._id}`,
+      method: 'DELETE',
+      types: [
+        PRODUCTS_DELETE_REQUEST,
+        PRODUCTS_DELETE_SUCCESS,
+        PRODUCTS_DELETE_FAILURE
+      ]
+    }
+  }
+}
+
 export const toggleAddNewDialog = () => ({
   type: PRODUCTS_TOGGLE_ADD_DIALOG
 })
@@ -117,6 +135,7 @@ export const fetchCatalog = (filters) => {
 export const actions = {
   fetchProducts,
   updateProduct,
+  deleteProduct,
   addProduct,
   toggleAddNewDialog,
   fetchCatalog
@@ -156,6 +175,12 @@ const ACTION_HANDLERS = {
         action.payload,
         ...state.items
       ]
+    }
+  },
+  [PRODUCTS_DELETE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      items: state.items.filter(item => item._id !== action.payload._id)
     }
   },
   [PRODUCTS_FILTER_CHANGE] : (state, action) => {

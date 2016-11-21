@@ -3,6 +3,7 @@ import {
   fetchProducts,
   addProduct,
   updateProduct,
+  deleteProduct,
   toggleAddNewDialog,
   fetchCatalog,
   changeProductsFilter
@@ -28,6 +29,7 @@ const mapDispatchToProps = (dispatch) => ({
   toggleAddNewDialog: (...args) => dispatch(toggleAddNewDialog(...args)),
   fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
   updateProduct: formApiAdapter(dispatch, updateProduct),
+  deleteProduct: formApiAdapter(dispatch, deleteProduct),
   addProduct: formApiAdapter(dispatch, addProduct)
 })
 

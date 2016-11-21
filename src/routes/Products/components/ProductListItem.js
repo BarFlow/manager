@@ -11,15 +11,20 @@ class ProductListItem extends Component {
       isClosing: false
     }
 
-    this.toggleCollapse = this.toggleCollapse.bind(this)
+    this._toggleCollapse = this._toggleCollapse.bind(this)
+    this._handleDelete = this._handleDelete.bind(this)
   }
 
-  toggleCollapse () {
+  _toggleCollapse () {
     if (this.state.isFormOpen) {
       this.state.isClosing = true
       setTimeout(() => this.setState({ isClosing: false }), 300)
     }
     this.setState({ isFormOpen: !this.state.isFormOpen })
+  }
+
+  _handleDelete (event) {
+    this.props.deleteProduct(this.props.item)
   }
 
   render () {
@@ -44,7 +49,7 @@ class ProductListItem extends Component {
             </p>
           </Media.Body>
           <Media.Right>
-            <Button onClick={this.toggleCollapse}>
+            <Button onClick={this._toggleCollapse}>
               {!this.state.isFormOpen ? (
                 'Edit'
               ) : (
@@ -62,7 +67,8 @@ class ProductListItem extends Component {
                     ...this.props.item,
                     product_id: undefined
                   }}
-                  onSubmit={this.props.updateProduct} />
+                  onSubmit={this.props.updateProduct}
+                  handleDelete={this._handleDelete} />
               }
             </div>
           </Collapse>
@@ -85,6 +91,7 @@ ProductListItem.propTypes = {
       images: React.PropTypes.object
     })
   }),
-  updateProduct: React.PropTypes.func.isRequired
+  updateProduct: React.PropTypes.func.isRequired,
+  deleteProduct: React.PropTypes.func.isRequired
 }
 export default ProductListItem
