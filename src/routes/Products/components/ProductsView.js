@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Button, Alert, Pagination } from 'react-bootstrap'
-import './Products.scss'
+
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
 import AddProductDialog from './AddProductDialog'
 import ProductListItem from './ProductListItem'
+
+import './Products.scss'
 
 class Products extends Component {
   constructor (props) {
@@ -43,7 +45,7 @@ class Products extends Component {
     }
 
     // Flush out filters if there is a click on 'Products' menu
-    if (this.props.location.key !== nextProps.location.key) {
+    if (this.props.location && this.props.location.key !== nextProps.location.key) {
       this.changeProductsFilter({ venue_id: nextProps.venueId })
     }
   }
@@ -120,7 +122,7 @@ class Products extends Component {
 }
 
 Products.propTypes = {
-  location: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
