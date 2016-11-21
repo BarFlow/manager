@@ -100,25 +100,22 @@ class Products extends Component {
           <div className='items'>
             {!products.isFetching && venueId ? (
               products.filteredItems.length ? (
-                <div>
-                  {ProductList}
-
-                  {products.filteredItems.length > products.filters.limit &&
-                    <div className='text-center'>
-                      <Pagination ellipsis boundaryLinks
-                        items={Math.ceil(products.filteredItems.length / products.filters.limit)}
-                        maxButtons={9}
-                        activePage={(products.filters.skip / products.filters.limit) + 1}
-                        onSelect={this.handlePaginationSelect} />
-                    </div>
-                  }
-                </div>
+                ProductList
               ) : (<Alert bsStyle='warning'>No items found.</Alert>)
             ) : (
               <Alert bsStyle='warning'>Loading...</Alert>
             )}
           </div>
 
+          {products.filteredItems.length > products.filters.limit &&
+            <div className='text-center'>
+              <Pagination ellipsis boundaryLinks
+                items={Math.ceil(products.filteredItems.length / products.filters.limit)}
+                maxButtons={9}
+                activePage={(products.filters.skip / products.filters.limit) + 1}
+                onSelect={this.handlePaginationSelect} />
+            </div>
+          }
         </div>
 
       </div>

@@ -87,12 +87,14 @@ const ProductListItemForm = ({
           <strong>Success!</strong> Your changes have been saved successfully.
         </Alert>
       }
-      <Button className={'pull-right'} type='submit' disabled={submitting}>
-        Save
-      </Button>
-      <Button className={'pull-right'} bsStyle='danger' onClick={handleDelete} disabled={submitting}>
-        Delete
-      </Button>
+      <div className='product-form-footer'>
+        <Button bsStyle='danger' onClick={handleDelete} disabled={submitting}>
+          Delete
+        </Button>
+        <Button type='submit' disabled={submitting}>
+          Save
+        </Button>
+      </div>
     </div>
   </form>
 )
