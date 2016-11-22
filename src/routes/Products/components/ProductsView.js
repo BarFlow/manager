@@ -14,6 +14,7 @@ class Products extends Component {
     this.props = props
     this.fetchProducts = this.props.fetchProducts.bind(this)
     this.changeProductsFilter = this.props.changeProductsFilter.bind(this)
+    this._updateRouterQuery = this._updateRouterQuery.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
     this.deleteProduct = this.props.deleteProduct.bind(this)
     this.fetchTypes = this.props.fetchTypes.bind(this)
@@ -21,13 +22,11 @@ class Products extends Component {
   }
 
   componentDidMount () {
-    // Flush out filters
-    this.changeProductsFilter({ venue_id: this.props.venueId })
-
     // Fetch products if there is new venueId or no products in store yet
-    if (this.props.venueId &&
-      !this.props.products.items.length ||
-      this.props.venueId !== this.props.products.filters.venue_id
+    if ((this.props.venueId &&
+      !this.props.products.items.length) ||
+      (this.props.venueId &&
+      this.props.venueId !== this.props.products.filters.venue_id)
     ) {
       this.fetchProducts(this.props.venueId)
     }
@@ -36,27 +35,54 @@ class Products extends Component {
     if (!this.props.types.items.length) {
       this.fetchTypes()
     }
+
+    // Load current filters from URI
+    this.changeProductsFilter({
+      venue_id: this.props.venueId,
+      ...this.props.location.query
+    })
+  }
+
+  componentWillUnmount () {
+    // Flush filters when unmount
+    this.changeProductsFilter({ venue_id: this.props.venueId })
   }
 
   componentWillReceiveProps (nextProps) {
-    // Only fetch new products for new venue
     if (this.props.venueId !== nextProps.venueId) {
+      // Only fetch new products for new venue_id
       this.fetchProducts(nextProps.venueId)
-      this.changeProductsFilter({ venue_id: nextProps.venueId })
+
+      // Update venue_id in URI if changed
+      this._updateRouterQuery({
+        ...nextProps.location.query,
+        venue_id: nextProps.venueId
+      })
     }
 
-    // Flush out filters if there is a click on 'Products' menu
-    if (this.props.location && this.props.location.key !== nextProps.location.key) {
-      this.changeProductsFilter({ venue_id: nextProps.venueId })
+    // Update filters when URI is changed
+    if (this.props.location.key !== nextProps.location.key) {
+      this.changeProductsFilter({
+        ...nextProps.location.query,
+        venue_id: nextProps.venueId
+      })
     }
+  }
+
+  _updateRouterQuery (filters) {
+    this.props.router.replace({
+      pathname: this.props.location.pathname,
+      query: filters
+    })
   }
 
   handlePaginationSelect (page) {
     const { products } = this.props
-    this.changeProductsFilter({
+    const filters = {
       ...products.filters,
       skip: (products.filters.limit * (page - 1))
-    })
+    }
+    this._updateRouterQuery(filters)
     window.scrollTo(0, 0)
   }
 
@@ -94,7 +120,7 @@ class Products extends Component {
 
           <SearchBar
             filters={products.filters}
-            onChange={this.changeProductsFilter}
+            onChange={this._updateRouterQuery}
             types={types} />
 
           <div className='items'>
@@ -125,6 +151,7 @@ class Products extends Component {
 
 Products.propTypes = {
   location: React.PropTypes.object,
+  router: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,

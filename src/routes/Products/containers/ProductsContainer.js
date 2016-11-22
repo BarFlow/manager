@@ -8,6 +8,7 @@ import {
   fetchCatalog,
   changeProductsFilter
 } from '../modules/products'
+import { withRouter } from 'react-router'
 import formApiAdapter from '../../../utils/formApiAdapter'
 import { fetchTypes } from '../../../store/types'
 
@@ -71,4 +72,4 @@ const mapStateToProps = (state) => {
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsView)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductsView))

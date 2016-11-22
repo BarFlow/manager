@@ -15,6 +15,18 @@ class Sidebar extends Component {
     if (!this.props.venues.items.length) {
       this.fetchVenues()
     }
+
+    if (this.props.location && this.props.location.query.venue_id) {
+      this.handleVenueChange(this.props.location.query.venue_id)
+    }
+  }
+
+  componentWillReceiveProps (newProps) {
+    const { venue_id: venueId } = this.props.location.query
+    const { newVenueId } = newProps.location.query
+    if (newVenueId && venueId !== newVenueId) {
+      this.handleVenueChange(newVenueId)
+    }
   }
 
   render () {
@@ -49,6 +61,7 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   venues : React.PropTypes.object,
+  location : React.PropTypes.object,
   fetchVenues: React.PropTypes.func.isRequired,
   handleVenueChange: React.PropTypes.func.isRequired,
   className: React.PropTypes.string
