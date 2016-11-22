@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
+
+$blusIshGrey: #F3F4F9;
+$lightGrey: #ccc;
+$darkGrey: #4A4A4A;
+$yellow: #FEBC75;
+$blue: #75B4FE;
+$red: #F08A8A;
+$green: #71C971;
+$purple: #7D75FE;
+
+body{
+  background: $blusIshGrey;
+  color: $darkGrey;
+  font-family: 'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;
+
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: 'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;
+  }
+
+  label, b, strong{
+    font-weight: 500;
+  }
+
+  .btn-default{
+    background-color: transparent;
+    border-color: $lightGrey;
+  }
+  .btn-default:hover, .btn-default:focus, .btn-default:active{
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .btn-danger{
+    background-color: transparent;
+    color: darken( $red, 20% );
+    border-color: $red;
+  }
+  .btn-danger:hover, .btn-danger:focus, .btn-danger:active{
+      background-color: darken( $red, 10% );
+      border-color: darken( $red, 30% );
+  }
+  .btn-danger:focus.btn-danger:active{
+      background-color: darken( $red, 30% );
+      border-color: darken( $red, 50% );
+  }
+
+  .form-control{
+    box-shadow: none;
+  }
+
+  .navbar{
+    background-color: white;
+    border: none;
+
+    .navbar-brand{
+      img{
+        width: 90px;
+      }
+    }
+
+    .navbar-nav>li>a {
+        color: $darkGrey;
+    }
+  }
+
+.sidebar{
+  .venue{
+    background-color: $darkGrey;
+  }
+}
+
+  .panel{
+    border-radius: 0;
+    border: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  }
+
+  .bg-yellow{
+    background-color: $yellow;
+  }
+  .bg-blue{
+    background-color: $blue;
+  }
+  .bg-red{
+    background-color: $red;
+  }
+  .bg-green{
+    background-color: $green;
+  }
+  .bg-purple{
+    background-color: $purple;
+  }
+}

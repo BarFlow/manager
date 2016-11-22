@@ -7,6 +7,7 @@ import SubHeader from '../../../components/SubHeader'
 export const Inventory = () => (
   <div className='row'>
     <SubHeader
+      className='bg-green'
       left={<h3>Inventory</h3>}
       right={<Button>Export</Button>} />
     <div className='col-xs-12'>

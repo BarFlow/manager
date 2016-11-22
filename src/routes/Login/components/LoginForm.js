@@ -5,7 +5,7 @@ import { Button, Alert } from 'react-bootstrap'
 import FormInput from '../../../components/FormInput'
 
 const LoginForm = ({ error, handleSubmit, submitting }) => {
-  return <form onSubmit={handleSubmit}>
+  return <form onSubmit={handleSubmit} className='panel'>
 
     <Field
       name='email'

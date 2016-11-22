@@ -1,6 +1,5 @@
 .sub-header{
   background: #909090;
-
   .row{
     display: flex;
     align-items: center;
@@ -9,11 +8,18 @@
   .right{
     display: flex;
     justify-content: flex-end;
+    .btn-default{
+      color: white;
+      border-color: white;
+    }
+    .btn-default:hover, .btn-default:focus, .btn-default:active{
+        background-color: rgba(255, 255, 255, 0.3);
+    }
   }
 
   h3{
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin: 1rem 0 1rem 0px;
   }
 }

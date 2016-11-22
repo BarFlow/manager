@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap'
-import { Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap'
+import { Nav, NavItem, FormControl } from 'react-bootstrap'
 import './Sidebar.scss'
 
 class Sidebar extends Component {
@@ -38,14 +38,14 @@ class Sidebar extends Component {
     )
     return (
       <div className={className + ' sidebar'}>
-        <FormGroup>
+        <div className='venue'>
           <FormControl
             componentClass='select'
             onChange={(event) => handleVenueChange(event.target.value)}
             value={venues.current || ''}>
             {venueItems}
           </FormControl>
-        </FormGroup>
+        </div>
         <Nav>
           <IndexLinkContainer to='/inventory' activeHref='active'>
             <NavItem>Inventory</NavItem>

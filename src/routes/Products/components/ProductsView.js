@@ -112,6 +112,7 @@ class Products extends Component {
     return (
       <div className='row'>
         <SubHeader
+          className='bg-yellow'
           left={<h3>Products</h3>}
           right={
             <div>

@@ -4,11 +4,13 @@ import { Link } from 'react-router'
 import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap'
 import './Header.scss'
 
+import logoImg from './assets/logo.svg'
+
 export const Header = ({ user, handleLogOut }) => (
   <Navbar collapseOnSelect fixedTop fluid>
     <Navbar.Header>
       <Navbar.Brand>
-        <Link to='/'>BarFlow</Link>
+        <Link to='/'><img src={logoImg} alt='logo' /></Link>
       </Navbar.Brand>
       {user &&
         <Navbar.Toggle />
