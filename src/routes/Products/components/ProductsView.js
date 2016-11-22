@@ -49,15 +49,17 @@ class Products extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    // Only fetch new products for new venue_id
     if (this.props.venueId !== nextProps.venueId) {
-      // Only fetch new products for new venue_id
       this.fetchProducts(nextProps.venueId)
+    }
 
-      // Update venue_id in URI if changed
+    // Update venue_id in URI if it has changed
+    if (this.props.venueId && this.props.venueId !== nextProps.venueId) {
       this._updateProductsFilterAndURI({ venue_id: nextProps.venueId })
     }
 
-    // Update filters when URI is changed
+    // Update filters when URI has changed
     if (nextProps.location.action === 'PUSH' && this.props.location.search !== nextProps.location.search) {
       this.changeProductsFilter({
         ...nextProps.location.query,
