@@ -14,7 +14,7 @@ class Products extends Component {
     this.props = props
     this.fetchProducts = this.props.fetchProducts.bind(this)
     this.changeProductsFilter = this.props.changeProductsFilter.bind(this)
-    this._updateRouterQuery = this._updateRouterQuery.bind(this)
+    this._updateProductsFilterAndURI = this._updateProductsFilterAndURI.bind(this)
     this.updateProduct = this.props.updateProduct.bind(this)
     this.deleteProduct = this.props.deleteProduct.bind(this)
     this.fetchTypes = this.props.fetchTypes.bind(this)
@@ -54,14 +54,11 @@ class Products extends Component {
       this.fetchProducts(nextProps.venueId)
 
       // Update venue_id in URI if changed
-      this._updateRouterQuery({
-        ...nextProps.location.query,
-        venue_id: nextProps.venueId
-      })
+      this._updateProductsFilterAndURI({ venue_id: nextProps.venueId })
     }
 
     // Update filters when URI is changed
-    if (this.props.location.key !== nextProps.location.key) {
+    if (nextProps.location.action === 'PUSH' && this.props.location.search !== nextProps.location.search) {
       this.changeProductsFilter({
         ...nextProps.location.query,
         venue_id: nextProps.venueId
@@ -69,11 +66,16 @@ class Products extends Component {
     }
   }
 
-  _updateRouterQuery (filters) {
-    this.props.router.replace({
-      pathname: this.props.location.pathname,
-      query: filters
-    })
+  _updateProductsFilterAndURI (filters) {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.props.router.replace({
+        pathname: this.props.location.pathname,
+        query: filters
+      })
+    }, 500)
+
+    this.changeProductsFilter(filters)
   }
 
   handlePaginationSelect (page) {
@@ -82,7 +84,7 @@ class Products extends Component {
       ...products.filters,
       skip: (products.filters.limit * (page - 1))
     }
-    this._updateRouterQuery(filters)
+    this._updateProductsFilterAndURI(filters)
     window.scrollTo(0, 0)
   }
 
@@ -120,7 +122,7 @@ class Products extends Component {
 
           <SearchBar
             filters={products.filters}
-            onChange={this._updateRouterQuery}
+            onChange={this._updateProductsFilterAndURI}
             types={types} />
 
           <div className='items'>
