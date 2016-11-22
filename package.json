@@ -19,6 +19,7 @@
     "deploy": "better-npm-run deploy",
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
+    "deploy:docker": "better-npm-run deploy:docker",
     "codecov": "cat coverage/*/lcov.info | codecov"
   },
   "betterScripts": {
@@ -36,7 +37,7 @@
       }
     },
     "deploy": {
-      "command": "npm run lint && npm run test && npm run clean && npm run compile",
+      "command": "npm run lint && npm run clean && npm run compile",
       "env": {
         "DEBUG": "app:*"
       }
@@ -50,6 +51,13 @@
     },
     "deploy:prod": {
       "command": "npm run deploy",
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy:docker": {
+      "command": "npm run deploy && docker build . -t barflow/manager",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"
