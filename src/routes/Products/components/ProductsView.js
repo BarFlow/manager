@@ -61,6 +61,7 @@ class Products extends Component {
 
     // Update filters when URI has changed
     if (nextProps.location.action === 'PUSH' && this.props.location.search !== nextProps.location.search) {
+      window.scrollTo(0, 0)
       this.changeProductsFilter({
         ...nextProps.location.query,
         venue_id: nextProps.venueId

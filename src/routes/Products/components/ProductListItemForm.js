@@ -5,7 +5,7 @@ import { Button, Alert } from 'react-bootstrap'
 import FormInput from '../../../components/FormInput'
 
 const ProductListItemForm = ({
-  error, submitSucceeded, handleSubmit, submitting, handleDelete
+  error, submitSucceeded, handleSubmit, submitting, handleDelete, dirty
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
 
@@ -82,7 +82,7 @@ const ProductListItemForm = ({
           <strong>Woops!</strong> {error}
         </Alert>
       }
-      {submitSucceeded && !submitting &&
+      {submitSucceeded && !submitting && !dirty &&
         <Alert bsStyle='success'>
           <strong>Success!</strong> Your changes have been saved successfully.
         </Alert>
@@ -91,7 +91,7 @@ const ProductListItemForm = ({
         <Button bsStyle='danger' onClick={handleDelete} disabled={submitting}>
           Delete
         </Button>
-        <Button type='submit' disabled={submitting}>
+        <Button type='submit' disabled={submitting || !dirty}>
           Save
         </Button>
       </div>
@@ -120,7 +120,8 @@ ProductListItemForm.propTypes = {
   handleDelete: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool.isRequired,
   error: React.PropTypes.object,
-  submitSucceeded: React.PropTypes.bool
+  submitSucceeded: React.PropTypes.bool,
+  dirty: React.PropTypes.bool
 }
 
 export default reduxForm({
