@@ -67,8 +67,8 @@ class Products extends Component {
       })
     }
 
-    // Scroll to top if search is emptyed or link is clicked
-    if (nextProps.location.action === 'PUSH' || !nextProps.location.search) {
+    // Scroll to top if search is emptyed (left hand menubar link click)
+    if (this.props.location.key !== nextProps.location.key && !nextProps.location.search) {
       window.scrollTo(0, 0)
     }
   }
