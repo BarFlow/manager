@@ -9,6 +9,7 @@ class SearchBar extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.onSubmit = this.props.onSubmit.bind(this)
+    this._onSubmit = this._onSubmit.bind(this)
   }
 
   handleChange (event) {
@@ -24,9 +25,15 @@ class SearchBar extends Component {
     }, 500)
   }
 
+  _onSubmit (e) {
+    e.preventDefault()
+    clearTimeout(this.timer)
+    this.onSubmit(this.state.filters)
+  }
+
   render () {
     return (
-      <Form onSubmit={(e) => { e.preventDefault(); this.onSubmit(this.state.filters) }} >
+      <Form onSubmit={this._onSubmit} >
         <FormGroup controlId='name'>
           <ControlLabel>Search</ControlLabel>
           {' '}
