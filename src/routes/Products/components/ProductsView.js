@@ -59,13 +59,17 @@ class Products extends Component {
       this._updateProductsFilterAndURI({ venue_id: nextProps.venueId })
     }
 
-    // Update filters when URI has changed
+    // Update filters when URI has changed from outside of the component
     if (nextProps.location.action === 'PUSH' && this.props.location.search !== nextProps.location.search) {
-      window.scrollTo(0, 0)
       this.changeProductsFilter({
         ...nextProps.location.query,
         venue_id: nextProps.venueId
       })
+    }
+
+    // Scroll to top if search is emptyed or link is clicked
+    if (nextProps.location.action === 'PUSH' || !nextProps.location.search) {
+      window.scrollTo(0, 0)
     }
   }
 

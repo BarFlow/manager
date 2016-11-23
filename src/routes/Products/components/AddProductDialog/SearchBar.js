@@ -18,6 +18,10 @@ class SearchBar extends Component {
         [event.target.id]: event.target.value
       }
     })
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.onSubmit(this.state.filters)
+    }, 500)
   }
 
   render () {
