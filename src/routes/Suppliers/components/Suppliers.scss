@@ -1,0 +1,37 @@
+.products{
+  padding-top: 2rem;
+}
+.panel{
+  .panel-body{
+    h4.media-heading{
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+  }
+  margin-bottom: 10px;
+  span.label {
+    font-weight: 400;
+    font-size: 0.9rem;
+  }
+}
+
+.delete-product-dialog{
+  .product{
+    text-align: center;
+    margin-top: 10px;
+    img{
+      max-width: 300px;
+      max-height: 300px;
+    }
+  }
+}
+
+.product-form-footer{
+  // padding: 15px 0 0;
+  text-align: right;
+  // border-top: 1px solid #e5e5e5;
+  .btn+.btn {
+    margin-bottom: 0;
+    margin-left: 5px;
+  }
+}

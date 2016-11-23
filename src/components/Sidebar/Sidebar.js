@@ -53,6 +53,9 @@ class Sidebar extends Component {
           <LinkContainer to='/products' activeHref='active'>
             <NavItem>Products</NavItem>
           </LinkContainer>
+          <LinkContainer to='/suppliers' activeHref='active'>
+            <NavItem>Suppliers</NavItem>
+          </LinkContainer>
         </Nav>
       </div>
     )
