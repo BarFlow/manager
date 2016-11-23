@@ -3,9 +3,9 @@ import { CALL_API } from 'redux-api-middleware'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const TYPES_FETCH_REQUEST = 'TYPES_FETCH_REQUEST'
-export const TYPES_FETCH_SUCCESS = 'TYPES_FETCH_SUCCESS'
-export const TYPES_FETCH_FAILURE = 'TYPES_FETCH_FAILURE'
+export const TYPES_FETCH_REQUEST = 'types/FETCH_REQUEST'
+export const TYPES_FETCH_SUCCESS = 'types/FETCH_SUCCESS'
+export const TYPES_FETCH_FAILURE = 'types/FETCH_FAILURE'
 
 // ------------------------------------
 // Actions

@@ -3,11 +3,11 @@ import { CALL_API } from 'redux-api-middleware'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const VENUES_FETCH_REQUEST = 'VENUES_FETCH_REQUEST'
-export const VENUES_FETCH_SUCCESS = 'VENUES_FETCH_SUCCESS'
-export const VENUES_FETCH_FAILURE = 'VENUES_FETCH_FAILURE'
+export const VENUES_FETCH_REQUEST = 'venues/FETCH_REQUEST'
+export const VENUES_FETCH_SUCCESS = 'venues/FETCH_SUCCESS'
+export const VENUES_FETCH_FAILURE = 'venues/FETCH_FAILURE'
 
-export const VENUES_CURRENT_CHANGE = 'VENUES_CURRENT_CHANGE'
+export const VENUES_CURRENT_CHANGE = 'venues/CURRENT_CHANGE'
 
 // ------------------------------------
 // Actions
