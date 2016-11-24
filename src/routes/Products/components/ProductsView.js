@@ -11,76 +11,71 @@ import './Products.scss'
 class Products extends Component {
   constructor (props) {
     super(props)
-    this.props = props
-    this.fetchProducts = this.props.fetchProducts.bind(this)
-    this.changeProductsFilter = this.props.changeProductsFilter.bind(this)
     this._updateProductsFilterAndURI = this._updateProductsFilterAndURI.bind(this)
-    this.updateProduct = this.props.updateProduct.bind(this)
-    this.deleteProduct = this.props.deleteProduct.bind(this)
-    this.fetchTypes = this.props.fetchTypes.bind(this)
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
   }
 
   componentDidMount () {
+    const {
+      venueId, products, changeProductsFilter, fetchProducts, suppliers, fetchSuppliers, types, fetchTypes, location
+    } = this.props
+
     // Fetch products if there is new venueId or no products in store yet
-    if ((this.props.venueId &&
-      !this.props.products.items.length) ||
-      (this.props.venueId &&
-      this.props.venueId !== this.props.products.filters.venue_id)
-    ) {
-      this.fetchProducts(this.props.venueId)
+    if ((venueId && !products.items.length) || (venueId && venueId !== products.filters.venue_id)) {
+      fetchProducts(venueId)
     }
 
     // Fetch suppliers if needed
     if (
-      !this.props.suppliers.items.length &&
-      !this.props.suppliers.isFetching &&
-      this.props.venueId
+      (!suppliers.items.length && !suppliers.isFetching && venueId) ||
+      // Dirty way to check if the current venue_id is valid, should be other way
+      (venueId !== suppliers.items[0].venue_id)
     ) {
-      this.props.fetchSuppliers(this.props.venueId)
+      fetchSuppliers(venueId)
     }
 
     // Fetch types if they are not in store yet
-    if (!this.props.types.items.length) {
-      this.fetchTypes()
+    if (!types.items.length) {
+      fetchTypes()
     }
 
     // Load current filters from URI
-    this.changeProductsFilter({
-      venue_id: this.props.venueId,
-      ...this.props.location.query
+    changeProductsFilter({
+      venue_id: venueId,
+      ...location.query
     })
   }
 
   componentWillUnmount () {
     // Flush filters when unmount
-    this.changeProductsFilter({ venue_id: this.props.venueId })
+    this.props.changeProductsFilter({ venue_id: this.props.venueId })
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.venueId !== nextProps.venueId) {
+    const {
+      venueId, changeProductsFilter, fetchProducts, fetchSuppliers, location
+    } = this.props
+    if (venueId && venueId !== nextProps.venueId) {
       // Only fetch new products for new venue_id
-      this.fetchProducts(nextProps.venueId)
+      fetchProducts(nextProps.venueId)
 
       // Fetch new suppliers
-      this.props.fetchSuppliers(nextProps.venueId)
-    }
+      fetchSuppliers(nextProps.venueId)
 
-    // Update venue_id in URI if it has changed
-    if (this.props.venueId && this.props.venueId !== nextProps.venueId) {
+      // Update venue_id in URI if it has changed
       this._updateProductsFilterAndURI({ venue_id: nextProps.venueId })
     }
 
     // Update filters when URI has changed from outside of the component
-    if (nextProps.location.action === 'PUSH' && this.props.location.search !== nextProps.location.search) {
-      this.changeProductsFilter({
+    if (nextProps.location.action === 'PUSH' && location.search !== nextProps.location.search) {
+      changeProductsFilter({
         ...nextProps.location.query,
         venue_id: nextProps.venueId
       })
     }
 
     // Scroll to top if search is emptyed (left hand menubar link click)
-    if (this.props.location.key !== nextProps.location.key && !nextProps.location.search) {
+    if (location.key !== nextProps.location.key && !nextProps.location.search) {
       window.scrollTo(0, 0)
     }
   }
@@ -94,7 +89,7 @@ class Products extends Component {
       })
     }, 500)
 
-    this.changeProductsFilter(filters)
+    this.props.changeProductsFilter(filters)
   }
 
   handlePaginationSelect (page) {
@@ -108,15 +103,17 @@ class Products extends Component {
   }
 
   render () {
-    const { products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct, suppliers } = this.props
+    const {
+      products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct, updateProduct, deleteProduct, suppliers
+    } = this.props
 
     const ProductList = products.filteredItems.map(item =>
       <ProductListItem
         key={item._id}
         item={item}
         suppliers={suppliers}
-        updateProduct={this.updateProduct}
-        deleteProduct={this.deleteProduct} />
+        updateProduct={updateProduct}
+        deleteProduct={deleteProduct} />
     ).splice(products.filters.skip, products.filters.limit)
 
     const addProductDialog = venueId && <AddProductDialog

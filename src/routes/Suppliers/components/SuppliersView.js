@@ -8,47 +8,36 @@ import SupplierListItem from './SupplierListItem'
 import './Suppliers.scss'
 
 class Suppliers extends Component {
-  constructor (props) {
-    super(props)
-    this.props = props
-    this.fetchSuppliers = this.props.fetchSuppliers.bind(this)
-    this.updateSupplier = this.props.updateSupplier.bind(this)
-    this.deleteSupplier = this.props.deleteSupplier.bind(this)
-  }
-
   componentDidMount () {
+    const { venueId, suppliers, fetchSuppliers } = this.props
     // Fetch products if there is new venueId or no products in store yet
-    if ((this.props.venueId &&
-      !this.props.suppliers.items.length) ||
-      (this.props.venueId &&
+    if (
+      (venueId && !suppliers.items.length) ||
       // Dirty way to check if the current venue_id is valid, should be other way
-      this.props.venueId !== this.props.suppliers.items[0].venue_id)
+      (venueId && venueId !== suppliers.items[0].venue_id)
     ) {
-      this.fetchSuppliers(this.props.venueId)
+      fetchSuppliers(this.props.venueId)
     }
   }
 
   componentWillReceiveProps (nextProps) {
     // Only fetch new products for new venue_id
     if (this.props.venueId !== nextProps.venueId) {
-      this.fetchSuppliers(nextProps.venueId)
+      this.props.fetchSuppliers(nextProps.venueId)
     }
-
-    // Scroll to top if search is emptyed (left hand menubar link click)
-    // if (this.props.location.key !== nextProps.location.key && !nextProps.location.search) {
-    //   window.scrollTo(0, 0)
-    // }
   }
 
   render () {
-    const { suppliers, venueId, toggleAddNewDialog, fetchCatalog, addSupplier } = this.props
+    const {
+      suppliers, venueId, toggleAddNewDialog, fetchCatalog, addSupplier, updateSupplier, deleteSupplier
+    } = this.props
 
     const SupplierList = suppliers.items.map(item =>
       <SupplierListItem
         key={item._id}
         item={item}
-        updateSupplier={this.updateSupplier}
-        deleteSupplier={this.deleteSupplier} />
+        updateSupplier={updateSupplier}
+        deleteSupplier={deleteSupplier} />
     )
 
     const addSupplierDialog = venueId && <AddSupplierDialog
@@ -91,7 +80,6 @@ class Suppliers extends Component {
 }
 
 Suppliers.propTypes = {
-  // location: React.PropTypes.object.isRequired,
   fetchSuppliers: React.PropTypes.func.isRequired,
   addSupplier: React.PropTypes.func.isRequired,
   updateSupplier: React.PropTypes.func.isRequired,
