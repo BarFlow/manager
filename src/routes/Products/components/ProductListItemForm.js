@@ -103,11 +103,11 @@ const ProductListItemForm = ({
 
 const { validate } = buildSchema({
   par_level: {
-    label: 'This',
-    type: 'decimal'
+    error: 'This should be an integer.',
+    type: 'int'
   },
   count_as_full: {
-    label: 'This',
+    error: 'This should be between 0,1 and 1 (default is 0,5).',
     validate: {
       float: {
         min: 0.1,
@@ -116,11 +116,6 @@ const { validate } = buildSchema({
     }
   }
 })
-
-// const validate = (values) => {
-//   console.log(values)
-//   return {}
-// }
 
 ProductListItemForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
