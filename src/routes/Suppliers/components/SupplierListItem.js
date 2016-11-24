@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Media, Label, Panel, Button, Collapse, Modal } from 'react-bootstrap'
+import castNullToStr from '../../../utils/castNullToStr'
 import SupplierListItemForm from './SupplierListItemForm'
 
 class SupplierListItem extends Component {
@@ -86,8 +87,7 @@ class SupplierListItem extends Component {
                   <SupplierListItemForm
                     form={this.props.item._id}
                     initialValues={{
-                      ...this.props.item,
-                      product_id: undefined
+                      ...castNullToStr(this.props.item)
                     }}
                     onSubmit={this.props.updateSupplier}
                     handleDelete={this._toggleConfirmDialog} />

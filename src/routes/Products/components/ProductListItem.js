@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Media, Label, Panel, Button, Collapse, Modal } from 'react-bootstrap'
-import removeEmptyValues from '../../../utils/removeEmptyValues'
+import castNullToStr from '../../../utils/castNullToStr'
 import ProductListItemForm from './ProductListItemForm'
 
 class ProductListItem extends Component {
@@ -94,10 +94,10 @@ class ProductListItem extends Component {
                 <div>
                   <ProductListItemForm
                     form={this.props.item._id}
-                    initialValues={removeEmptyValues({
-                      ...this.props.item,
+                    initialValues={{
+                      ...castNullToStr(this.props.item),
                       product_id: undefined
-                    })}
+                    }}
                     suppliers={this.props.suppliers}
                     onSubmit={this.props.updateProduct}
                     handleDelete={this._toggleConfirmDialog} />
