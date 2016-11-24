@@ -31,6 +31,15 @@ class Products extends Component {
       this.fetchProducts(this.props.venueId)
     }
 
+    // Fetch suppliers if needed
+    if (
+      !this.props.suppliers.items.length &&
+      !this.props.suppliers.isFetching &&
+      this.props.venueId
+    ) {
+      this.props.fetchSuppliers(this.props.venueId)
+    }
+
     // Fetch types if they are not in store yet
     if (!this.props.types.items.length) {
       this.fetchTypes()
@@ -49,9 +58,12 @@ class Products extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // Only fetch new products for new venue_id
     if (this.props.venueId !== nextProps.venueId) {
+      // Only fetch new products for new venue_id
       this.fetchProducts(nextProps.venueId)
+
+      // Fetch new suppliers
+      this.props.fetchSuppliers(nextProps.venueId)
     }
 
     // Update venue_id in URI if it has changed
@@ -96,12 +108,13 @@ class Products extends Component {
   }
 
   render () {
-    const { products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct } = this.props
+    const { products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct, suppliers } = this.props
 
     const ProductList = products.filteredItems.map(item =>
       <ProductListItem
         key={item._id}
         item={item}
+        suppliers={suppliers}
         updateProduct={this.updateProduct}
         deleteProduct={this.deleteProduct} />
     ).splice(products.filters.skip, products.filters.limit)
@@ -164,6 +177,8 @@ Products.propTypes = {
   router: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,
+  suppliers: React.PropTypes.object.isRequired,
+  fetchSuppliers: React.PropTypes.func.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
   changeProductsFilter: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,

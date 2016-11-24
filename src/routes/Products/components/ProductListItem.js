@@ -5,7 +5,6 @@ import ProductListItemForm from './ProductListItemForm'
 class ProductListItem extends Component {
   constructor (props) {
     super(props)
-    this.props = props
     this.state = {
       isFormOpen: false,
       isClosing: false,
@@ -98,6 +97,7 @@ class ProductListItem extends Component {
                       ...this.props.item,
                       product_id: undefined
                     }}
+                    suppliers={this.props.suppliers}
                     onSubmit={this.props.updateProduct}
                     handleDelete={this._toggleConfirmDialog} />
                   {confirmDialog}
@@ -124,6 +124,7 @@ ProductListItem.propTypes = {
       images: React.PropTypes.object
     })
   }),
+  suppliers: React.PropTypes.object.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   deleteProduct: React.PropTypes.func.isRequired
 }

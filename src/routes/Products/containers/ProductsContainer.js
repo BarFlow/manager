@@ -8,6 +8,7 @@ import {
   fetchCatalog,
   changeProductsFilter
 } from '../modules/products'
+import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
 import { withRouter } from 'react-router'
 import formApiAdapter from '../../../utils/formApiAdapter'
 import { fetchTypes } from '../../../store/types'
@@ -29,6 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTypes: (...args) => dispatch(fetchTypes(...args)),
   toggleAddNewDialog: (...args) => dispatch(toggleAddNewDialog(...args)),
   fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
+  fetchSuppliers: (...args) => dispatch(fetchSuppliers(...args)),
   updateProduct: formApiAdapter(dispatch, updateProduct),
   deleteProduct: formApiAdapter(dispatch, deleteProduct),
   addProduct: formApiAdapter(dispatch, addProduct)
@@ -54,7 +56,8 @@ const mapStateToProps = (state) => {
     },
     venueId: state.venues.current,
     types: state.types,
-    location: state.location
+    location: state.location,
+    suppliers: state.suppliers
   }
 }
 

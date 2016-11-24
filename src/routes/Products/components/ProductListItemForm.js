@@ -3,18 +3,20 @@ import { reduxForm, Field } from 'redux-form'
 import buildSchema from 'redux-form-schema'
 import { Button, Alert } from 'react-bootstrap'
 import FormInput from '../../../components/FormInput'
+import FormSelect from '../../../components/FormSelect'
 
 const ProductListItemForm = ({
-  error, submitSucceeded, handleSubmit, submitting, handleDelete, dirty
+  error, submitSucceeded, handleSubmit, submitting, handleDelete, dirty, suppliers
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
 
     <Field
       name='supplier_id'
-      component={FormInput}
+      component={FormSelect}
       label='Supplier'
-      type='text'
+      type='select'
       description='The supplier for the product.'
+      options={suppliers.items}
       className={'col-xs-12 col-md-6'} />
 
     <Field
@@ -115,13 +117,19 @@ const { validate } = buildSchema({
   }
 })
 
+// const validate = (values) => {
+//   console.log(values)
+//   return {}
+// }
+
 ProductListItemForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
   handleDelete: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool.isRequired,
   error: React.PropTypes.object,
   submitSucceeded: React.PropTypes.bool,
-  dirty: React.PropTypes.bool
+  dirty: React.PropTypes.bool,
+  suppliers: React.PropTypes.object
 }
 
 export default reduxForm({
