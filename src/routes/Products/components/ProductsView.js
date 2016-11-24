@@ -29,7 +29,7 @@ class Products extends Component {
     if (
       (!suppliers.items.length && !suppliers.isFetching && venueId) ||
       // Dirty way to check if the current venue_id is valid, should be other way
-      (venueId !== suppliers.items[0].venue_id)
+      (venueId && suppliers.items.length && venueId !== suppliers.items[0].venue_id)
     ) {
       fetchSuppliers(venueId)
     }
@@ -55,13 +55,15 @@ class Products extends Component {
     const {
       venueId, changeProductsFilter, fetchProducts, fetchSuppliers, location
     } = this.props
-    if (venueId && venueId !== nextProps.venueId) {
+    if (venueId !== nextProps.venueId) {
       // Only fetch new products for new venue_id
       fetchProducts(nextProps.venueId)
 
       // Fetch new suppliers
       fetchSuppliers(nextProps.venueId)
+    }
 
+    if (venueId && venueId !== nextProps.venueId) {
       // Update venue_id in URI if it has changed
       this._updateProductsFilterAndURI({ venue_id: nextProps.venueId })
     }
