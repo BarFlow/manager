@@ -105,8 +105,9 @@ class Report extends Component {
 
   render () {
     const {
-      reports, types, venueId, createReport
+      reports, types, venueId, createReport, fetchReport
     } = this.props
+    const rid = this.props.params.id
 
     const ProductList = reports.filteredItems.map(item =>
       <ProductListItem
@@ -119,7 +120,12 @@ class Report extends Component {
         <SubHeader
           className='bg-blue'
           left={<h3>Inventory</h3>}
-          right={<Button onClick={createReport} disabled={!venueId}>Save</Button>} />
+          right={
+            <div>
+              <Button onClick={() => fetchReport({ venueId, rid })} disabled={!venueId}>Refresh</Button>
+              <Button onClick={() => createReport({ venue_id: venueId })} disabled={!venueId}>Save Report</Button>
+            </div>
+          } />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 report'>
 

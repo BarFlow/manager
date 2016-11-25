@@ -11,9 +11,9 @@ export const REPORT_FETCH_REQUEST = 'reports/FETCH_REPORT_REQUEST'
 export const REPORT_FETCH_SUCCESS = 'reports/FETCH_REPORT_SUCCESS'
 export const REPORT_FETCH_FAILURE = 'reports/FETCH_REPORT_FAILURE'
 
-export const REPORTS_CREATE_REQUEST = 'reports/CREATE_REQUEST'
-export const REPORTS_CREATE_SUCCESS = 'reports/CREATE_SUCCESS'
-export const REPORTS_CREATE_FAILURE = 'reports/CREATE_FAILURE'
+export const REPORT_CREATE_REQUEST = 'reports/CREATE_REQUEST'
+export const REPORT_CREATE_SUCCESS = 'reports/CREATE_SUCCESS'
+export const REPORT_CREATE_FAILURE = 'reports/CREATE_FAILURE'
 
 export const REPORTS_FILTER_CHANGE = 'reports/FILTER_CHANGE'
 
@@ -64,9 +64,9 @@ export const createReport = (payload) => {
       method: 'POST',
       body: JSON.stringify(payload),
       types: [
-        REPORTS_CREATE_REQUEST,
-        REPORTS_CREATE_SUCCESS,
-        REPORTS_CREATE_FAILURE
+        REPORT_CREATE_REQUEST,
+        REPORT_CREATE_SUCCESS,
+        REPORT_CREATE_FAILURE
       ]
     }
   }
@@ -120,6 +120,24 @@ const ACTION_HANDLERS = {
       ...state,
       filters: action.payload
     }
+  },
+  [REPORT_CREATE_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      isSaving: true
+    }
+  },
+  [REPORT_CREATE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      isSaving: false,
+      archive: {
+        items: [
+          action.payload,
+          ...state.archive.items
+        ]
+      }
+    }
   }
 }
 
@@ -128,6 +146,7 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
+  isSaving: false,
   filters: {
     limit: 20,
     skip: 0
