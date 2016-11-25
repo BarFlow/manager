@@ -1,0 +1,36 @@
+.report{
+  padding-top: 2rem;
+
+  .panel{
+    cursor: pointer;
+  }
+
+  .stats{
+    width: 270px;
+    div{
+      text-align: center;
+      display: inline-block;
+      width: 90px;
+      p{
+        font-size: 18px;
+      }
+    }
+  }
+  .area{
+    margin-bottom: 10px;
+    .area-row{
+      font-weight: 500;
+      background: #e6e6e6;
+      padding: 10px;
+    }
+    .section-row{
+      font-size: 12px;
+      background: #F2F2F2;
+      padding: 10px;
+      border-top: 2px solid white;
+    }
+  }
+  .area:last-of-type{
+    margin-bottom: 0;
+  }
+}

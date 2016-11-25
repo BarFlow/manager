@@ -67,19 +67,30 @@ body{
     }
   }
 
-.sidebar{
-  .venue{
-    background-color: $darkGrey;
+  .sidebar{
+    .venue{
+      background-color: $darkGrey;
+    }
+    ul .active>a, ul .active>a:focus, ul .active>a:hover {
+      background-color: #7d868e;
+    }
   }
-  ul .active>a, ul .active>a:focus, ul .active>a:hover {
-    background-color: #7d868e;
-  }
-}
 
   .panel{
     border-radius: 0;
     border: none;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+    .panel-body{
+      h4.media-heading{
+        font-weight: 400;
+        margin-bottom: 10px;
+      }
+    }
+    margin-bottom: 10px;
+    span.label {
+      font-weight: 400;
+      font-size: 0.9rem;
+    }
   }
 
   .bg-yellow{

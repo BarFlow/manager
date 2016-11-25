@@ -1,20 +1,35 @@
-import Inventory from './components/Inventory'
-import ReportView from './components/ReportView'
+import { injectReducer } from '../../store/reducers'
 import ArchiveView from './components/ArchiveView'
 import protectRoute from '../../utils/protectRoute'
 
 // Sync route definition
 export default (store) => ({
   path: 'inventory',
-  component : Inventory,
   indexRoute: {
-    component: ReportView,
     onEnter: (nextState, replace) => replace('/inventory/reports/live')
   },
   childRoutes: [
     {
       path: 'reports/:id',
-      component: ReportView
+      /*  Async getComponent is only invoked when route matches   */
+      getComponent (nextState, cb) {
+        /*  Webpack - use 'require.ensure' to create a split point
+            and embed an async module loader (jsonp) when bundling   */
+        require.ensure([], (require) => {
+          /*  Webpack - use require callback to define
+              dependencies for bundling   */
+          const ReportViewContainer = require('./containers/ReportViewContainer').default
+          const reducer = require('./modules/reports').default
+
+          /*  Add the reducer to the store on key 'reports'  */
+          injectReducer(store, { key: 'reports', reducer })
+
+          /*  Return getComponent   */
+          cb(null, ReportViewContainer)
+
+        /* Webpack named bundle   */
+        }, 'reports')
+      }
     },
     {
       path: 'archive',
