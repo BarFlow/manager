@@ -71,6 +71,9 @@ body{
   .venue{
     background-color: $darkGrey;
   }
+  ul .active>a, ul .active>a:focus, ul .active>a:hover {
+    background-color: #7d868e;
+  }
 }
 
   .panel{
