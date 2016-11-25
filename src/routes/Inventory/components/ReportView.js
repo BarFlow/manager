@@ -10,6 +10,9 @@ import './ReportView.scss'
 class Report extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      savingSuccess: false
+    }
     this._updateReportFilterAndURI = this._updateReportFilterAndURI.bind(this)
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
   }
@@ -52,7 +55,7 @@ class Report extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {
-      venueId, changeReportFilters, fetchReport, fetchSuppliers, location
+      venueId, changeReportFilters, fetchReport, fetchSuppliers, location, reports
     } = this.props
     if (venueId !== nextProps.venueId) {
       // Only fetch new reports for new venue_id
@@ -78,6 +81,17 @@ class Report extends Component {
     // Scroll to top if search is emptyed (left hand menubar link click)
     if (location.key !== nextProps.location.key && !nextProps.location.search) {
       window.scrollTo(0, 0)
+    }
+
+    // Show alert if report saved successfully
+    if (reports.isSaving && !nextProps.reports.isSaving) {
+      this.setState({
+        savingSuccess: true
+      })
+    } else {
+      this.setState({
+        savingSuccess: false
+      })
     }
   }
 
@@ -122,13 +136,21 @@ class Report extends Component {
           left={<h3>Inventory</h3>}
           right={
             <div>
-              <Button onClick={() => fetchReport({ venueId, rid })} disabled={!venueId}>Refresh</Button>
-              <Button onClick={() => createReport({ venue_id: venueId })} disabled={!venueId}>Save Report</Button>
+              <Button
+                onClick={() => fetchReport({ venueId, rid })}
+                disabled={!venueId}>Refresh</Button>
+              <Button
+                onClick={() => createReport({ venue_id: venueId })}
+                disabled={!venueId || reports.isSaving}>Save Report</Button>
             </div>
           } />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 report'>
-
+          {this.state.savingSuccess &&
+            <Alert bsStyle='success'>
+              <strong>Success</strong> Your current inventory report has been successfuly saved.
+            </Alert>
+          }
           <SearchBar
             filters={reports.filters}
             onChange={this._updateReportFilterAndURI}
