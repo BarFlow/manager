@@ -74,6 +74,12 @@ body{
     ul .active>a, ul .active>a:focus, ul .active>a:hover {
       background-color: #7d868e;
     }
+    .sub.active{
+      >a, >a:focus, >a:hover {
+        border-left: 5px solid $blue;
+        padding-left: 25px;
+      }
+    }
   }
 
   .panel{

@@ -30,12 +30,22 @@
   }
   ul{
     .sub{
+      background: #2b2b2b;
+      border-bottom: 1px solid #383838;
       a{
+        color: #d8d8d8;
         padding-left: 30px;
       }
     }
-    .sub.active>a, .sub.active>a:focus, .sub.active>a:hover {
-      background-color: #616977;
+    .sub:last-of-type{
+      border-bottom: none;
+    }
+    .sub.active{
+      >a, >a:focus, >a:hover {
+        color: white;
+        font-weight: 500;
+        background-color: #2b2b2b;
+      }
     }
     a{
       color: #fff;
