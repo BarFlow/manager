@@ -29,6 +29,14 @@
     }
   }
   ul{
+    .sub{
+      a{
+        padding-left: 30px;
+      }
+    }
+    .sub.active>a, .sub.active>a:focus, .sub.active>a:hover {
+      background-color: #616977;
+    }
     a{
       color: #fff;
     }

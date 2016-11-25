@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Nav, NavItem, FormControl } from 'react-bootstrap'
 import './Sidebar.scss'
 
@@ -36,6 +36,9 @@ class Sidebar extends Component {
         {item.profile.name}
       </option>
     )
+
+    const inventorySubItemsHidden = location.pathname.match(/^\/inventory/) ? '' : 'hidden'
+
     return (
       <div className={className + ' sidebar'}>
         <div className='venue'>
@@ -47,9 +50,15 @@ class Sidebar extends Component {
           </FormControl>
         </div>
         <Nav>
-          <IndexLinkContainer to='/inventory' activeHref='active'>
+          <LinkContainer to='/inventory' activeHref='active'>
             <NavItem>Inventory</NavItem>
-          </IndexLinkContainer>
+          </LinkContainer>
+          <LinkContainer to='/inventory/reports/live' activeHref='active'>
+            <NavItem className={`sub ${inventorySubItemsHidden}`}>Live</NavItem>
+          </LinkContainer>
+          <LinkContainer to='/inventory/archive' activeHref='active'>
+            <NavItem className={`sub ${inventorySubItemsHidden}`}>Archive</NavItem>
+          </LinkContainer>
           <LinkContainer to='/products' activeHref='active'>
             <NavItem>Products</NavItem>
           </LinkContainer>
