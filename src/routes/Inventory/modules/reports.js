@@ -34,14 +34,26 @@ export const fetchReports = (venueId) => {
   }
 }
 
-export const fetchReport = ({ rid, venueId }) => {
+export const fetchReport = ({ reportId, venueId }) => {
   return {
     [CALL_API]: {
-      endpoint: `/reports/${rid}?venue_id=${venueId}`,
+      endpoint: `/reports/${reportId}?venue_id=${venueId}`,
       method: 'GET',
       types: [
         REPORT_FETCH_REQUEST,
-        REPORT_FETCH_SUCCESS,
+        {
+          type: REPORT_FETCH_SUCCESS,
+          payload: (action, state, res) => {
+            const contentType = res.headers.get('Content-Type')
+            if (contentType && ~contentType.indexOf('json')) {
+              // Just making sure res.json() does not raise an error
+              return res.json().then((json) => {
+                // return payload
+                return reportId === 'live' ? json : json.data
+              })
+            }
+          }
+        },
         REPORT_FETCH_FAILURE
       ]
     }
@@ -95,7 +107,7 @@ const ACTION_HANDLERS = {
   [REPORTS_FETCH_SUCCESS] : (state, action) => {
     return {
       ...state,
-      acrchive: {
+      archive: {
         isFetching: false,
         items: action.payload
       }

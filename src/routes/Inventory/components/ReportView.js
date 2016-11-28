@@ -23,8 +23,12 @@ class Report extends Component {
     } = this.props
 
     // Fetch reports if there is new venueId or no reports in store yet
-    if ((venueId && !reports.items.length) || (venueId && venueId !== reports.filters.venue_id)) {
-      fetchReport({ venueId, rid: params.id })
+    if (
+      (venueId && !reports.items.length) ||
+      (venueId && venueId !== reports.filters.venue_id) ||
+      (venueId && params.reportId !== reports.filters.report_id)
+    ) {
+      fetchReport({ venueId, reportId: params.reportId })
     }
 
     // Fetch suppliers if needed
@@ -44,22 +48,23 @@ class Report extends Component {
     // Load current filters from URI
     changeReportFilters({
       venue_id: venueId,
+      report_id: params.reportId,
       ...location.query
     })
   }
 
   componentWillUnmount () {
     // Flush filters when unmount
-    this.props.changeReportFilters({ venue_id: this.props.venueId })
+    this.props.changeReportFilters({ venue_id: this.props.venueId, report_id: this.props.params.reportId })
   }
 
   componentWillReceiveProps (nextProps) {
     const {
-      venueId, changeReportFilters, fetchReport, fetchSuppliers, location, reports
+      venueId, changeReportFilters, fetchReport, fetchSuppliers, location, reports, params
     } = this.props
     if (venueId !== nextProps.venueId) {
       // Only fetch new reports for new venue_id
-      fetchReport({ venueId: nextProps.venueId, rid: nextProps.params.id })
+      fetchReport({ venueId: nextProps.venueId, reportId: nextProps.params.reportId })
 
       // Fetch new suppliers
       fetchSuppliers(nextProps.venueId)
@@ -70,10 +75,16 @@ class Report extends Component {
       this._updateReportFilterAndURI({ venue_id: nextProps.venueId })
     }
 
+    // Fetch new report if reportId has cnaged
+    if (params.reportId !== nextProps.params.reportId) {
+      fetchReport({ venueId: nextProps.venueId, reportId: nextProps.params.reportId })
+    }
+
     // Update filters when URI has changed from outside of the component
     if (nextProps.location.action === 'PUSH' && location.search !== nextProps.location.search) {
       changeReportFilters({
         ...nextProps.location.query,
+        report_id: nextProps.reportId,
         venue_id: nextProps.venueId
       })
     }
@@ -119,9 +130,9 @@ class Report extends Component {
 
   render () {
     const {
-      reports, types, venueId, createReport, fetchReport
+      reports, types, venueId, createReport, fetchReport, location
     } = this.props
-    const rid = this.props.params.id
+    const reportId = this.props.params.reportId
 
     const ProductList = reports.filteredItems.map(item =>
       <ProductListItem
@@ -133,16 +144,24 @@ class Report extends Component {
       <div className='row'>
         <SubHeader
           className='bg-blue'
-          left={<h3>Inventory</h3>}
-          right={
+          left={
+            <h3>Inventory
+              {location.query.title && <span> / <span className='small'>{location.query.title}</span></span>}
+            </h3>}
+          right={reportId === 'live' ? (
             <div>
               <Button
-                onClick={() => fetchReport({ venueId, rid })}
+                onClick={() => fetchReport({ venueId, reportId })}
                 disabled={!venueId}>Refresh</Button>
               <Button
                 onClick={() => createReport({ venue_id: venueId })}
                 disabled={!venueId || reports.isSaving}>Save Report</Button>
             </div>
+          ) : (
+            <Button
+              onClick={() => alert('Excel download feature')}
+              disabled={!venueId || reports.isSaving}>Download</Button>
+          )
           } />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 report'>

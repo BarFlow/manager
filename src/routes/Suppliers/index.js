@@ -1,4 +1,4 @@
-import { injectReducer } from '../../store/reducers'
+// import { injectReducer } from '../../store/reducers'
 import protectRoute from '../../utils/protectRoute'
 
 // Sync route definition
