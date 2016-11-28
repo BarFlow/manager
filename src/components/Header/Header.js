@@ -19,7 +19,9 @@ export const Header = ({ user, handleLogOut }) => (
     {user &&
     <Navbar.Collapse>
       <Nav pullRight>
-        <NavDropdown eventKey={1} title={user.name} id='basic-nav-dropdown'>
+        <NavDropdown eventKey={1} title={
+          <span><span className='glyphicon glyphicon-user' /> {user.name}</span>
+        } id='basic-nav-dropdown'>
           <LinkContainer to='/profile'><MenuItem eventKey={1.1}>Profile</MenuItem></LinkContainer>
           <MenuItem divider />
           <MenuItem eventKey={1.2} onSelect={handleLogOut}>Log out</MenuItem>

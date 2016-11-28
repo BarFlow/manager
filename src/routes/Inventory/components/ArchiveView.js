@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Alert } from 'react-bootstrap'
-import { Link } from 'react-router'
+import { Alert, Button, Panel, Media } from 'react-bootstrap'
 import './ArchiveView.scss'
 import SubHeader from '../../../components/SubHeader'
 
@@ -20,6 +19,15 @@ class ArchiveView extends Component {
     }
   }
 
+  _Link (item) {
+    this.props.router.push({
+      pathname: `/inventory/reports/${item._id}`,
+      query: {
+        title: item.itemDate
+      }
+    })
+  }
+
   render () {
     const { items, isFetching } = this.props.reports.archive
 
@@ -37,11 +45,21 @@ class ArchiveView extends Component {
             items.length ? (
               items.map(item => {
                 const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
-                return <Link key={item._id} to={`/inventory/reports/${item._id}?title=${itemDate}`}>
-                  <div className='panel panel-default'>
-                    {itemDate}
-                  </div>
-                </Link>
+                return (
+                  <Panel key={item._id}>
+                    <Media>
+                      <Media.Body>
+                        <Media.Heading>{itemDate}</Media.Heading>
+                      </Media.Body>
+                      <Media.Right align='middle'>
+                        <div className='actions'>
+                          <Button onClick={() => this._Link({ ...item, itemDate })}>View</Button>
+                          <Button onClick={() => alert('Excel download feature')}>Export</Button>
+                        </div>
+                      </Media.Right>
+                    </Media>
+                  </Panel>
+                )
               })
             ) : (
               <Alert bsStyle='warning'>
@@ -57,6 +75,7 @@ class ArchiveView extends Component {
 
 ArchiveView.propTypes = {
   reports: React.PropTypes.object,
+  router: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
   fetchReports: React.PropTypes.func.isRequired
 }

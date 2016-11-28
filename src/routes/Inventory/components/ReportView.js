@@ -160,7 +160,7 @@ class Report extends Component {
           ) : (
             <Button
               onClick={() => alert('Excel download feature')}
-              disabled={!venueId || reports.isSaving}>Download</Button>
+              disabled={!venueId || reports.isSaving}>Export</Button>
           )
           } />
 
