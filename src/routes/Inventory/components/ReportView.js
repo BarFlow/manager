@@ -10,11 +10,10 @@ import './ReportView.scss'
 class Report extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      savingSuccess: false
-    }
     this._updateReportFilterAndURI = this._updateReportFilterAndURI.bind(this)
-    this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
+    this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
+    this._refreshReport = this._refreshReport.bind(this)
+    this._viewReport = this._viewReport.bind(this)
   }
 
   componentDidMount () {
@@ -51,11 +50,17 @@ class Report extends Component {
       report_id: params.reportId,
       ...location.query
     })
+
+    // keeping report data up-to-date
+    this._refreshReport()
   }
 
   componentWillUnmount () {
     // Flush filters when unmount
     this.props.changeReportFilters({ venue_id: this.props.venueId, report_id: this.props.params.reportId })
+
+    // Cancel polling
+    clearTimeout(this._refreshTimer)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -72,10 +77,10 @@ class Report extends Component {
 
     if (venueId && venueId !== nextProps.venueId) {
       // Update venue_id in URI if it has changed
-      this._updateReportFilterAndURI({ venue_id: nextProps.venueId })
+      changeReportFilters({ venue_id: nextProps.venueId, report_id: nextProps.params.reportId })
     }
 
-    // Fetch new report if reportId has cnaged
+    // Fetch new report if reportId has changed
     if (params.reportId !== nextProps.params.reportId) {
       fetchReport({ venueId: nextProps.venueId, reportId: nextProps.params.reportId })
     }
@@ -84,7 +89,7 @@ class Report extends Component {
     if (nextProps.location.action === 'PUSH' && location.search !== nextProps.location.search) {
       changeReportFilters({
         ...nextProps.location.query,
-        report_id: nextProps.reportId,
+        report_id: nextProps.params.reportId,
         venue_id: nextProps.venueId
       })
     }
@@ -94,14 +99,11 @@ class Report extends Component {
       window.scrollTo(0, 0)
     }
 
-    // Show alert if report saved successfully
+    // Redirect to saved report page
     if (reports.isSaving && !nextProps.reports.isSaving) {
-      this.setState({
-        savingSuccess: true
-      })
-    } else {
-      this.setState({
-        savingSuccess: false
+      this._viewReport({
+        ...nextProps.reports.archive.items[0],
+        saved: true
       })
     }
   }
@@ -118,7 +120,29 @@ class Report extends Component {
     this.props.changeReportFilters(filters)
   }
 
-  handlePaginationSelect (page) {
+  _refreshReport () {
+    clearTimeout(this._refreshTimer)
+    this._refreshTimer = setTimeout(() => {
+      const { fetchReport, venueId, reports } = this.props
+      const reportId = reports.filters.report_id
+      if (venueId && reportId === 'live') {
+        fetchReport({ venueId, reportId }, true)
+      }
+      this._refreshReport()
+    }, 3000)
+  }
+
+  _viewReport (item) {
+    this.props.router.push({
+      pathname: `/inventory/reports/${item._id}`,
+      query: {
+        title: new Date(item.created_at).toString().split(' ').splice(0, 5).join(' '),
+        saved: item.saved
+      }
+    })
+  }
+
+  _handlePaginationSelect (page) {
     const { reports } = this.props
     const filters = {
       ...reports.filters,
@@ -130,7 +154,7 @@ class Report extends Component {
 
   render () {
     const {
-      reports, types, venueId, createReport, fetchReport, location
+      reports, types, venueId, createReport, location
     } = this.props
     const reportId = this.props.params.reportId
 
@@ -149,14 +173,9 @@ class Report extends Component {
               {location.query.title && <span> / <span className='small'>{location.query.title}</span></span>}
             </h3>}
           right={reportId === 'live' ? (
-            <div>
-              <Button
-                onClick={() => fetchReport({ venueId, reportId })}
-                disabled={!venueId}>Refresh</Button>
-              <Button
-                onClick={() => createReport({ venue_id: venueId })}
-                disabled={!venueId || reports.isSaving}>Save Report</Button>
-            </div>
+            <Button
+              onClick={() => createReport({ venue_id: venueId })}
+              disabled={!venueId || reports.isSaving}>Save Report</Button>
           ) : (
             <Button
               onClick={() => alert('Excel download feature')}
@@ -165,9 +184,9 @@ class Report extends Component {
           } />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 report'>
-          {this.state.savingSuccess &&
+          {location.query.saved &&
             <Alert bsStyle='success'>
-              <strong>Success</strong> Your current inventory report has been successfuly saved.
+              <strong>Success!</strong> This inventory report has been successfuly saved.
             </Alert>
           }
           <SearchBar
@@ -176,12 +195,14 @@ class Report extends Component {
             types={types} />
 
           <div className='items'>
-            {!reports.isFetching && venueId ? (
+            {!venueId || (reports.isFetching && !reports.isUpdate) ? (
+              <Alert bsStyle='warning'>Loading...</Alert>
+            ) : (
               reports.filteredItems.length ? (
                 ProductList
-              ) : (<Alert bsStyle='warning'>No items found.</Alert>)
-            ) : (
-              <Alert bsStyle='warning'>Loading...</Alert>
+              ) : (
+                <Alert bsStyle='warning'>No items found.</Alert>
+              )
             )}
           </div>
 
@@ -191,7 +212,7 @@ class Report extends Component {
                 items={Math.ceil(reports.filteredItems.length / reports.filters.limit)}
                 maxButtons={9}
                 activePage={(reports.filters.skip / reports.filters.limit) + 1}
-                onSelect={this.handlePaginationSelect} />
+                onSelect={this._handlePaginationSelect} />
             </div>
           }
         </div>

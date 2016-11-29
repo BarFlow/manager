@@ -7,6 +7,8 @@ export const REPORTS_FETCH_REQUEST = 'reports/FETCH_REPORTS_REQUEST'
 export const REPORTS_FETCH_SUCCESS = 'reports/FETCH_REPORTS_SUCCESS'
 export const REPORTS_FETCH_FAILURE = 'reports/FETCH_REPORTS_FAILURE'
 
+export const REPORT_UPDATE_FETCH_REQUEST = 'reports/FETCH_UPDATE_REPORT_REQUEST'
+
 export const REPORT_FETCH_REQUEST = 'reports/FETCH_REPORT_REQUEST'
 export const REPORT_FETCH_SUCCESS = 'reports/FETCH_REPORT_SUCCESS'
 export const REPORT_FETCH_FAILURE = 'reports/FETCH_REPORT_FAILURE'
@@ -34,13 +36,13 @@ export const fetchReports = (venueId) => {
   }
 }
 
-export const fetchReport = ({ reportId, venueId }) => {
+export const fetchReport = ({ reportId, venueId }, update = false) => {
   return {
     [CALL_API]: {
       endpoint: `/reports/${reportId}?venue_id=${venueId}`,
       method: 'GET',
       types: [
-        REPORT_FETCH_REQUEST,
+        !update ? REPORT_FETCH_REQUEST : REPORT_UPDATE_FETCH_REQUEST,
         {
           type: REPORT_FETCH_SUCCESS,
           payload: (action, state, res) => {
@@ -113,10 +115,18 @@ const ACTION_HANDLERS = {
       }
     }
   },
+  [REPORT_UPDATE_FETCH_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      isFetching: true,
+      isUpdate: true
+    }
+  },
   [REPORT_FETCH_REQUEST] : (state, action) => {
     return {
       ...state,
       isFetching: true,
+      isUpdate: false,
       items:[]
     }
   },
@@ -124,6 +134,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: false,
+      isUpdate: false,
       items: action.payload
     }
   },
@@ -159,6 +170,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   isFetching: false,
   isSaving: false,
+  isUpdate: false,
   filters: {
     limit: 20,
     skip: 0

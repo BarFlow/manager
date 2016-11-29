@@ -63,12 +63,14 @@ class Suppliers extends Component {
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
 
           <div className='items'>
-            {!suppliers.isFetching && venueId ? (
+            {!venueId || suppliers.isFetching ? (
+              <Alert bsStyle='warning'>Loading...</Alert>
+            ) : (
               suppliers.items.length ? (
                 SupplierList
-              ) : (<Alert bsStyle='warning'>No items found.</Alert>)
-            ) : (
-              <Alert bsStyle='warning'>Loading...</Alert>
+              ) : (
+                <Alert bsStyle='warning'>No items found.</Alert>
+              )
             )}
           </div>
 

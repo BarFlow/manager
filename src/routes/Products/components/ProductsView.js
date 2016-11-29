@@ -146,12 +146,14 @@ class Products extends Component {
             types={types} />
 
           <div className='items'>
-            {!products.isFetching && venueId ? (
+            {!venueId || products.isFetching ? (
+              <Alert bsStyle='warning'>Loading...</Alert>
+            ) : (
               products.filteredItems.length ? (
                 ProductList
-              ) : (<Alert bsStyle='warning'>No items found.</Alert>)
-            ) : (
-              <Alert bsStyle='warning'>Loading...</Alert>
+              ) : (
+                <Alert bsStyle='warning'>No items found.</Alert>
+              )
             )}
           </div>
 

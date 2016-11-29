@@ -4,10 +4,18 @@ import './ArchiveView.scss'
 import SubHeader from '../../../components/SubHeader'
 
 class ArchiveView extends Component {
+  constructor (props) {
+    super(props)
+    this._viewReport = this._viewReport.bind(this)
+  }
+
   componentDidMount () {
     const { venueId, fetchReports } = this.props
     const { items, isFetching } = this.props.reports.archive
-    if (venueId && !items.length && !isFetching) {
+    if (
+      (venueId && !items.length && !isFetching) ||
+      (items[0] && items[0].venue_id !== venueId)
+    ) {
       fetchReports(venueId)
     }
   }
@@ -19,17 +27,19 @@ class ArchiveView extends Component {
     }
   }
 
-  _Link (item) {
+  _viewReport (item) {
+    const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
     this.props.router.push({
       pathname: `/inventory/reports/${item._id}`,
       query: {
-        title: item.itemDate
+        title: itemDate
       }
     })
   }
 
   render () {
     const { items, isFetching } = this.props.reports.archive
+    const { venueId } = this.props
 
     return (
       <div className='row'>
@@ -37,9 +47,9 @@ class ArchiveView extends Component {
           className='bg-blue'
           left={<h3>Inventory / <span className='small'>Archive</span></h3>} />
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 archive'>
-          {isFetching ? (
+          {!venueId || isFetching ? (
             <Alert bsStyle='warning'>
-              <strong>Loading</strong> Fetching saved reports.
+              Loading
             </Alert>
           ) : (
             items.length ? (
@@ -53,7 +63,7 @@ class ArchiveView extends Component {
                       </Media.Body>
                       <Media.Right align='middle'>
                         <div className='actions'>
-                          <Button onClick={() => this._Link({ ...item, itemDate })}>View</Button>
+                          <Button onClick={() => this._viewReport(item)}>View</Button>
                           <Button onClick={() => alert('Excel download feature')}>Export</Button>
                         </div>
                       </Media.Right>
