@@ -44,7 +44,7 @@ class SupplierListItem extends Component {
 
     const confirmDialog = <Modal show={this.state.isDialogOpen}
       onHide={this._toggleConfirmDialog}
-      className='delete-product-dialog'>
+      className='delete-confirm-dialog'>
 
       <Modal.Header closeButton>
         <Modal.Title>Delete - {name}</Modal.Title>

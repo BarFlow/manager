@@ -17,6 +17,10 @@ export const REPORT_CREATE_REQUEST = 'reports/CREATE_REQUEST'
 export const REPORT_CREATE_SUCCESS = 'reports/CREATE_SUCCESS'
 export const REPORT_CREATE_FAILURE = 'reports/CREATE_FAILURE'
 
+export const REPORT_DELETE_REQUEST = 'reports/DELETE_REQUEST'
+export const REPORT_DELETE_SUCCESS = 'reports/DELETE_SUCCESS'
+export const REPORT_DELETE_FAILURE = 'reports/DELETE_FAILURE'
+
 export const REPORTS_FILTER_CHANGE = 'reports/FILTER_CHANGE'
 
 // ------------------------------------
@@ -86,11 +90,26 @@ export const createReport = (payload) => {
   }
 }
 
+export const deleteReport = (reportId) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/reports/${reportId}`,
+      method: 'DELETE',
+      types: [
+        REPORT_DELETE_REQUEST,
+        REPORT_DELETE_SUCCESS,
+        REPORT_DELETE_FAILURE
+      ]
+    }
+  }
+}
+
 export const actions = {
   fetchReports,
   fetchReport,
   changeReportFilters,
-  createReport
+  createReport,
+  deleteReport
 }
 
 // ------------------------------------
@@ -159,6 +178,22 @@ const ACTION_HANDLERS = {
           action.payload,
           ...state.archive.items
         ]
+      }
+    }
+  },
+  [REPORT_DELETE_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      isSaving: true
+    }
+  },
+  [REPORT_DELETE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      isSaving: false,
+      archive: {
+        ...state.archive.items,
+        items: state.archive.items.filter(item => item._id !== action.payload._id)
       }
     }
   }

@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
-import { Alert, Button, Panel, Media } from 'react-bootstrap'
+import { Alert, Button, Panel, Media, Modal } from 'react-bootstrap'
 import './ArchiveView.scss'
 import SubHeader from '../../../components/SubHeader'
 
 class ArchiveView extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      item: {},
+      isDialogOpen: false
+    }
     this._viewReport = this._viewReport.bind(this)
+    this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
+    this._handleDelete = this._handleDelete.bind(this)
+    this._deleteReport = this._deleteReport.bind(this)
   }
 
   componentDidMount () {
@@ -37,9 +44,43 @@ class ArchiveView extends Component {
     })
   }
 
+  _toggleConfirmDialog () {
+    this.setState({
+      isDialogOpen: !this.state.isDialogOpen
+    })
+  }
+
+  _handleDelete (item) {
+    this.setState({
+      item
+    })
+    this._toggleConfirmDialog()
+  }
+
+  _deleteReport () {
+    this.props.deleteReport(this.state.item._id)
+    this._toggleConfirmDialog()
+  }
+
   render () {
     const { items, isFetching } = this.props.reports.archive
-    const { venueId } = this.props
+    const { venueId, reports } = this.props
+
+    const confirmDialog = <Modal show={this.state.isDialogOpen}
+      onHide={this._toggleConfirmDialog}
+      className='delete-confirm-dialog'>
+      <Modal.Header closeButton>
+        <Modal.Title>Delete - {this.state.item.name}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Are you sure you want to <strong>permanently remove {this.state.item.name}</strong> from your venue?
+        Please note that this action is irreversible.</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this._toggleConfirmDialog}>Cancel</Button>
+        <Button bsStyle='danger' onClick={this._deleteReport}>Delete</Button>
+      </Modal.Footer>
+    </Modal>
 
     return (
       <div className='row'>
@@ -47,6 +88,9 @@ class ArchiveView extends Component {
           className='bg-blue'
           left={<h3>Inventory / <span className='small'>Archive</span></h3>} />
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 archive'>
+
+          {confirmDialog}
+
           {!venueId || isFetching ? (
             <Alert bsStyle='warning'>
               Loading
@@ -65,6 +109,10 @@ class ArchiveView extends Component {
                         <div className='actions'>
                           <Button onClick={() => this._viewReport(item)}>View</Button>
                           <Button onClick={() => alert('Excel download feature')}>Export</Button>
+                          <Button
+                            bsStyle='danger'
+                            onClick={() => { this._handleDelete({ ...item, name: itemDate }) }}
+                            disabled={reports.isSaving}>Delete</Button>
                         </div>
                       </Media.Right>
                     </Media>
@@ -87,7 +135,8 @@ ArchiveView.propTypes = {
   reports: React.PropTypes.object,
   router: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
-  fetchReports: React.PropTypes.func.isRequired
+  fetchReports: React.PropTypes.func.isRequired,
+  deleteReport: React.PropTypes.func.isRequired
 }
 
 export default ArchiveView

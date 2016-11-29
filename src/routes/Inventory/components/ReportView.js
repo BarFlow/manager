@@ -186,7 +186,7 @@ class Report extends Component {
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 report'>
           {location.query.saved &&
             <Alert bsStyle='success'>
-              <strong>Success!</strong> This inventory report has been successfuly saved.
+              <strong>Success!</strong> Inventory report has been successfuly saved.
             </Alert>
           }
           <SearchBar

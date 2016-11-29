@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import {
-  fetchReports
+  fetchReports,
+  deleteReport
 } from '../modules/reports'
 import { withRouter } from 'react-router'
 
@@ -16,7 +17,8 @@ import ArchiveView from '../components/ArchiveView'
     implementing our wrapper around fetchProdcusts; the component doesn't care   */
 
 const mapDispatchToProps = {
-  fetchReports
+  fetchReports,
+  deleteReport
 }
 
 const mapStateToProps = (state) => ({
