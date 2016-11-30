@@ -177,9 +177,9 @@ class Report extends Component {
               onClick={() => createReport({ venue_id: venueId })}
               disabled={!venueId || reports.isSaving}>Save Report</Button>
           ) : (
-            <Button
-              onClick={() => alert('Excel download feature')}
-              disabled={!venueId || reports.isSaving}>Export</Button>
+            <a className='btn btn-default'
+              href={`http://api.stockmate.co.uk/reports/${reportId}/export?token=${this.props.token}`}
+              target='_blank'>Export</a>
           )
           } />
 
@@ -234,6 +234,7 @@ Report.propTypes = {
   changeReportFilters: React.PropTypes.func.isRequired,
   createReport: React.PropTypes.func.isRequired,
   reports: React.PropTypes.object.isRequired,
-  venueId: React.PropTypes.string
+  venueId: React.PropTypes.string,
+  token: React.PropTypes.string.isRequired
 }
 export default Report

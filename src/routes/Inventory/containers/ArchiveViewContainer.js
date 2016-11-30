@@ -23,7 +23,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => ({
   reports: state.reports,
-  venueId: state.venues.current
+  venueId: state.venues.current,
+  token: state.auth.token
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

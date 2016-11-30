@@ -53,7 +53,7 @@ class ProductListItem extends Component {
               </div>
               <div>
                 <label>Order</label>
-                <p>{round(parseFloat(item.par_level) - parseFloat(item.volume)) || 'n/a'}</p>
+                <p>{item.order}</p>
               </div>
             </div>
           </Media.Right>

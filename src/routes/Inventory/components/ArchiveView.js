@@ -108,7 +108,9 @@ class ArchiveView extends Component {
                       <Media.Right align='middle'>
                         <div className='actions'>
                           <Button onClick={() => this._viewReport(item)}>View</Button>
-                          <Button onClick={() => alert('Excel download feature')}>Export</Button>
+                          <a className='btn btn-default'
+                            href={`http://api.stockmate.co.uk/reports/${item._id}/export?token=${this.props.token}`}
+                            target='_blank'>Export</a>
                           <Button
                             bsStyle='danger'
                             onClick={() => { this._handleDelete({ ...item, name: itemDate }) }}
@@ -135,6 +137,7 @@ ArchiveView.propTypes = {
   reports: React.PropTypes.object,
   router: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
+  token: React.PropTypes.string.isRequired,
   fetchReports: React.PropTypes.func.isRequired,
   deleteReport: React.PropTypes.func.isRequired
 }
