@@ -41,7 +41,7 @@ class Sidebar extends Component {
 
     return (
       <div className={className + ' sidebar'}>
-        <div className='venue'>
+        <div className='venue-selector'>
           <FormControl
             componentClass='select'
             onChange={(event) => handleVenueChange(event.target.value)}
@@ -61,6 +61,9 @@ class Sidebar extends Component {
           </LinkContainer>
           <LinkContainer to='/products' activeHref='active'>
             <NavItem>Products</NavItem>
+          </LinkContainer>
+          <LinkContainer to='/venue' activeHref='active'>
+            <NavItem>Venue</NavItem>
           </LinkContainer>
           <LinkContainer to='/suppliers' activeHref='active'>
             <NavItem>Suppliers</NavItem>
