@@ -1,29 +1,54 @@
 import React, { Component } from 'react'
-import { Media, Panel, Button, Modal } from 'react-bootstrap'
+import { Media, Panel, Button, Modal, ControlLabel, FormControl } from 'react-bootstrap'
 
 class VenueListItem extends Component {
   constructor (props) {
     super(props)
     this.props = props
     this.state = {
-      isDialogOpen: false
+      isConfirmDialogOpen: false,
+      isRenameDialogOpen: false,
+      name: this.props.item.name || ''
     }
 
     this._handleDelete = this._handleDelete.bind(this)
+    this._handleRename = this._handleRename.bind(this)
     this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
+    this._toggleRenameDialog = this._toggleRenameDialog.bind(this)
   }
 
   _handleDelete () {
-    this.props.deleteVenueItem({ type: `${this.props.currentType}s`, payload: this.props.item })
+    this.props.deleteVenueItem({ type: this.props.currentType, payload: this.props.item })
     this.setState({
-      isDialogOpen:false
+      isConfirmDialogOpen: false
+    })
+  }
+
+  _handleRename (e) {
+    e.preventDefault()
+    this.props.updateVenueItem({
+      type: this.props.currentType,
+      payload: {
+        ...this.props.item,
+        name: this.state.name
+      }
+    })
+    this.setState({
+      isRenameDialogOpen: false
     })
   }
 
   _toggleConfirmDialog (e) {
     e.stopPropagation()
     this.setState({
-      isDialogOpen: !this.state.isDialogOpen
+      isConfirmDialogOpen: !this.state.isConfirmDialogOpen
+    })
+  }
+
+  _toggleRenameDialog (e) {
+    e.stopPropagation()
+    this.setState({
+      isRenameDialogOpen: !this.state.isRenameDialogOpen
     })
   }
 
@@ -34,7 +59,7 @@ class VenueListItem extends Component {
 
     const listItemTitle = product.name || name
 
-    const confirmDialog = <Modal show={this.state.isDialogOpen}
+    const confirmDialog = <Modal show={this.state.isConfirmDialogOpen}
       onHide={this._toggleConfirmDialog}
       className='delete-confirm-dialog'>
 
@@ -51,6 +76,31 @@ class VenueListItem extends Component {
       </Modal.Footer>
     </Modal>
 
+    const renameDialog = <Modal show={this.state.isRenameDialogOpen}
+      onHide={this._toggleRenameDialog}
+      className='delete-confirm-dialog'>
+
+      <Modal.Header closeButton>
+        <Modal.Title>Rename - {listItemTitle}</Modal.Title>
+      </Modal.Header>
+      <form onSubmit={this._handleRename}>
+        <Modal.Body>
+          <ControlLabel>Name</ControlLabel>
+          <FormControl
+            autoFocus
+            autoComplete='off'
+            type='text'
+            value={this.state.name}
+            placeholder='Name'
+            onChange={(e) => { this.setState({ name: e.currentTarget.value }) }} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this._toggleRenameDialog}>Cancel</Button>
+          <Button type='submit'>Rename</Button>
+        </Modal.Footer>
+      </form>
+    </Modal>
+
     return (
       <Panel onClick={() => { onSelect(item) }}>
         <Media>
@@ -59,9 +109,10 @@ class VenueListItem extends Component {
           </Media.Body>
           <Media.Right align='middle'>
             <div className='actions'>
-              <Button>Edit</Button>
+              <Button onClick={this._toggleRenameDialog}>Edit</Button>
               <Button bsStyle='danger' onClick={this._toggleConfirmDialog}>Delete</Button>
               {confirmDialog}
+              {renameDialog}
             </div>
           </Media.Right>
         </Media>

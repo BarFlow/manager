@@ -4,6 +4,11 @@
   .panel{
     cursor: pointer;
   }
+  .panel:hover {
+    .panel-body h4.media-heading{
+      text-decoration: underline;
+    }
+  }
 
   .stats{
     width: 270px;

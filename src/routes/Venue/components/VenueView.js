@@ -71,12 +71,12 @@ class venue extends Component {
   _getCurrentType () {
     const path = this.props.venue.path
     if (path.section._id) {
-      return 'placement'
+      return 'placements'
     }
     if (path.area._id) {
-      return 'section'
+      return 'sections'
     }
-    return 'area'
+    return 'areas'
   }
 
   _updatePath (item) {

@@ -1,19 +1,7 @@
-// .panel{
-//   .panel-body{
-//     h4.media-heading{
-//       font-weight: 400;
-//       margin-bottom: 10px;
-//     }
-//   }
-//   margin-bottom: 10px;
-//   span.label {
-//     font-weight: 400;
-//     font-size: 0.9rem;
-//   }
-// }
 .venue{
   padding-top: 2rem;
   .panel {
+    cursor: pointer;
     .actions {
       min-width: 210px;
       text-align: right;
@@ -27,6 +15,11 @@
     }
     .media-body{
       vertical-align: middle;
+    }
+  }
+  .panel:hover {
+    .panel-body h4.media-heading{
+      text-decoration: underline;
     }
   }
 }
