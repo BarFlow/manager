@@ -17,16 +17,10 @@ class SearchBar extends Component {
       ...filters,
       ...{
         skip: 0,
-        category: id === 'type' ? '' : filters.category,
-        sub_category: id === 'type' || id === 'category' ? '' : filters.sub_category
+        sub_category: id === 'category' ? '' : filters.sub_category
       },
       [`${id}`]: value
     })
-  }
-
-  findTypeIdByTitle (title) {
-    return this.props.types.items.find(item => item.title === title) &&
-      this.props.types.items.find(item => item.title === title)._id
   }
 
   buildTypeTree (types) {
@@ -46,22 +40,7 @@ class SearchBar extends Component {
 
   render () {
     const { types, filters } = this.props
-
-    const typeSelector =
-      <FormGroup controlId='type' className='col-xs-2'>
-        <ControlLabel>Type</ControlLabel>
-        {' '}
-        <FormControl
-          componentClass='select'
-          onChange={this._handleChange}
-          value={filters['type'] || ''}
-          disabled={!types.items.length}>
-          <option value=''>any</option>
-          {types.items.filter(type => !type.parent_id).map(type =>
-            <option key={type._id} value={type.title}>{type.title}</option>
-          )}
-        </FormControl>
-      </FormGroup>
+    const typeTree = this.buildTypeTree(types.items)
 
     const categorySelector =
       <FormGroup controlId='category' className='col-xs-2'>
@@ -70,12 +49,15 @@ class SearchBar extends Component {
         <FormControl
           componentClass='select'
           onChange={this._handleChange}
-          value={filters['category'] || ''}
-          disabled={!filters['type'] || filters['type'] === ''}>
+          value={filters['category'] || ''}>
           <option value=''>any</option>
-          {types.items.filter(item =>
-            item.parent_id === this.findTypeIdByTitle(filters['type'])).map(type =>
-              <option key={type._id} value={type.title}>{type.title}</option>
+          {typeTree.beverage &&
+            Object.keys(typeTree.beverage.children).map(category =>
+              <option
+                key={typeTree.beverage.children[category]._id}
+                value={typeTree.beverage.children[category].title}>
+                {typeTree.beverage.children[category].title}
+              </option>
           )}
         </FormControl>
       </FormGroup>
@@ -90,9 +72,13 @@ class SearchBar extends Component {
           value={filters['sub_category'] || ''}
           disabled={!filters['category'] || filters['category'] === ''}>
           <option value=''>any</option>
-          {types.items.filter(item =>
-            item.parent_id === this.findTypeIdByTitle(filters['category'])).map(type =>
-              <option key={type._id} value={type.title}>{type.title}</option>
+          {filters['category'] &&
+            Object.keys(typeTree.beverage.children[filters['category']].children).map(subCategory =>
+              <option
+                key={typeTree.beverage.children[filters['category']].children[subCategory]._id}
+                value={typeTree.beverage.children[filters['category']].children[subCategory].title}>
+                {typeTree.beverage.children[filters['category']].children[subCategory].title}
+              </option>
           )}
         </FormControl>
       </FormGroup>
@@ -109,7 +95,6 @@ class SearchBar extends Component {
             placeholder='Product Name'
             onChange={this._handleChange} />
         </FormGroup>
-        {typeSelector}
         {categorySelector}
         {subCategorySelector}
       </Form>
