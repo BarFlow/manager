@@ -57,7 +57,7 @@
       }
     },
     "deploy:docker": {
-      "command": "npm run deploy && docker build . -t barflow/manager",
+      "command": "npm run deploy && docker build . -t barflow/manager && docker push barflow/manager:latest",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"
