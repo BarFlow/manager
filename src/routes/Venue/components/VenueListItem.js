@@ -102,8 +102,13 @@ class VenueListItem extends Component {
     </Modal>
 
     return (
-      <Panel onClick={() => { onSelect(item) }}>
+      <Panel onClick={() => { !product.name && onSelect(item) }} className={product.name && 'product'} >
         <Media>
+          {product.name &&
+            <Media.Left align='middle'>
+              <img src={product.images.thumbnail} width='50' height='50' />
+            </Media.Left>
+          }
           <Media.Body>
             <Media.Heading>{listItemTitle}</Media.Heading>
           </Media.Body>
