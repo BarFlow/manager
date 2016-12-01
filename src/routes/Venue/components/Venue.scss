@@ -1,5 +1,11 @@
 .venue{
   padding-top: 2rem;
+  .panel.breadcrumbs{
+    h4{
+      margin:0;
+      font-size: 16px;
+    }
+  }
   .panel {
     cursor: pointer;
     .actions {
@@ -18,7 +24,7 @@
     }
   }
   .panel:hover {
-    .panel-body h4.media-heading{
+    .panel-body h4{
       text-decoration: underline;
     }
   }

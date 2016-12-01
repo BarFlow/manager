@@ -25,7 +25,7 @@ class VenueListItem extends Component {
   }
 
   _handleRename (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.updateVenueItem({
       type: this.props.currentType,
       payload: {
@@ -39,14 +39,14 @@ class VenueListItem extends Component {
   }
 
   _toggleConfirmDialog (e) {
-    e.stopPropagation()
+    e && e.stopPropagation()
     this.setState({
       isConfirmDialogOpen: !this.state.isConfirmDialogOpen
     })
   }
 
   _toggleRenameDialog (e) {
-    e.stopPropagation()
+    e && e.stopPropagation()
     this.setState({
       isRenameDialogOpen: !this.state.isRenameDialogOpen
     })
@@ -54,7 +54,7 @@ class VenueListItem extends Component {
 
   render () {
     const { name, inventory_item_id : inventoryItem = {} } = this.props.item
-    const { item, onSelect } = this.props
+    const { item, onSelect, currentType } = this.props
     const product = inventoryItem.product_id || {}
 
     const listItemTitle = product.name || name
@@ -78,7 +78,7 @@ class VenueListItem extends Component {
 
     const renameDialog = <Modal show={this.state.isRenameDialogOpen}
       onHide={this._toggleRenameDialog}
-      className='delete-confirm-dialog'>
+      className='rename-dialog'>
 
       <Modal.Header closeButton>
         <Modal.Title>Rename - {listItemTitle}</Modal.Title>
@@ -109,7 +109,9 @@ class VenueListItem extends Component {
           </Media.Body>
           <Media.Right align='middle'>
             <div className='actions'>
-              <Button onClick={this._toggleRenameDialog}>Edit</Button>
+              {currentType !== 'placements' &&
+                <Button onClick={this._toggleRenameDialog}>Rename</Button>
+              }
               <Button bsStyle='danger' onClick={this._toggleConfirmDialog}>Delete</Button>
               {confirmDialog}
               {renameDialog}

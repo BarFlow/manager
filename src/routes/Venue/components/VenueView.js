@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Alert } from 'react-bootstrap'
+import { Button, Alert, Panel } from 'react-bootstrap'
 
 import SubHeader from '../../../components/SubHeader'
 // import AddVenueDialog from './AddVenueDialog'
@@ -114,15 +114,7 @@ class venue extends Component {
         <SubHeader
           className='bg-green'
           left={
-            <h3>
-              <span onClick={() => { updatePath({ area: {}, section:{} }) }}>Venue</span>
-              {area.name &&
-                <span onClick={() => { updatePath({ area, section:{} }) }} className='small'> / {area.name}</span>
-              }
-              {section.name &&
-                <span className='small'> / {section.name}</span>
-              }
-            </h3>}
+            <h3>Venue / <span className='small'>{this._getCurrentType()}</span></h3>}
           right={
             <div>
               <Button disabled={!venueId}>Add new</Button>
@@ -130,7 +122,16 @@ class venue extends Component {
           } />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 venue'>
-
+          {(area._id || section._id) &&
+            <Panel className='breadcrumbs' onClick={() => {
+              updatePath({
+                area: section.name ? area : {},
+                section: {}
+              })
+            }}>
+              <h4>{'❮ '}{section.name ? section.name : area.name}</h4>
+            </Panel>
+          }
           <div className='items'>
             {!venueId || venue.isFetching ? (
               <Alert bsStyle='warning'>Loading...</Alert>
