@@ -5,7 +5,8 @@ import {
   updateVenueItem,
   batchUpdateVenueItems,
   deleteVenueItem,
-  toggleAddNewDialog
+  toggleAddNewDialog,
+  updatePath
 } from '../modules/venue'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -25,7 +26,8 @@ const mapDispatchToProps = {
   updateVenueItem,
   batchUpdateVenueItems,
   deleteVenueItem,
-  toggleAddNewDialog
+  toggleAddNewDialog,
+  updatePath
 }
 
 const mapStateToProps = (state) => (

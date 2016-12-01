@@ -3,7 +3,7 @@ import protectRoute from '../../utils/protectRoute'
 
 // Sync route definition
 export default (store) => ({
-  path: 'venue',
+  path: 'venue(/:area_id)(/:section_id)',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point

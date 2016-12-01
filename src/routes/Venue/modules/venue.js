@@ -4,8 +4,8 @@ import { CALL_API } from 'redux-api-middleware'
 // Constants
 // ------------------------------------
 export const VENUE_ITEMS_FETCH_REQUEST = 'venue/FETCH_ITEMS_REQUEST'
-export const VENUE_ITEM_FETCH_SUCCESS = 'venue/FETCH_ITEM_SUCCESS'
-export const VENUE_ITEM_FETCH_FAILURE = 'venue/FETCH_ITEM_FAILURE'
+export const VENUE_ITEMS_FETCH_SUCCESS = 'venue/FETCH_ITEMS_SUCCESS'
+export const VENUE_ITEMS_FETCH_FAILURE = 'venue/FETCH_ITEMS_FAILURE'
 
 export const VENUE_ITEM_ADD_REQUEST = 'venue/ADD_ITEM_REQUEST'
 export const VENUE_ITEM_ADD_SUCCESS = 'venue/ADD_ITEM_SUCCESS'
@@ -25,6 +25,8 @@ export const VENUE_ITEM_DELETE_FAILURE = 'venue/DELETE_FAILURE'
 
 export const VENUE_ITEM_TOGGLE_ADD_DIALOG = 'venue/TOGGLE_ADD_DIALOG'
 
+export const VENUE_UPDATE_PATH = 'venue/UPDATE_PATH'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -35,8 +37,8 @@ export const fetchVenueItems = ({ type, filterKey, filterValue }) => {
       method: 'GET',
       types: [
         VENUE_ITEMS_FETCH_REQUEST,
-        VENUE_ITEM_FETCH_SUCCESS,
-        VENUE_ITEM_FETCH_FAILURE
+        VENUE_ITEMS_FETCH_SUCCESS,
+        VENUE_ITEMS_FETCH_FAILURE
       ]
     }
   }
@@ -105,13 +107,19 @@ export const toggleAddNewDialog = () => ({
   type: VENUE_ITEM_TOGGLE_ADD_DIALOG
 })
 
+export const updatePath = (payload) => ({
+  type: VENUE_UPDATE_PATH,
+  payload
+})
+
 export const actions = {
   fetchVenueItems,
   addVenueItem,
   updateVenueItem,
   batchUpdateVenueItems,
   deleteVenueItem,
-  toggleAddNewDialog
+  toggleAddNewDialog,
+  updatePath
 }
 
 // ------------------------------------
@@ -125,7 +133,7 @@ const ACTION_HANDLERS = {
       items:[]
     }
   },
-  [VENUE_ITEM_FETCH_SUCCESS] : (state, action) => {
+  [VENUE_ITEMS_FETCH_SUCCESS] : (state, action) => {
     return {
       ...state,
       isFetching: false,
@@ -176,6 +184,15 @@ const ACTION_HANDLERS = {
         filters: {}
       }
     }
+  },
+  [VENUE_UPDATE_PATH] : (state, action) => {
+    return {
+      ...state,
+      path: {
+        ...state.path,
+        ...action.payload
+      }
+    }
   }
 }
 
@@ -185,6 +202,10 @@ const ACTION_HANDLERS = {
 const initialState = {
   isFetching: false,
   items: [],
+  path: {
+    area: {},
+    section: {}
+  },
   addNew: {
     dialogOpen: false,
     isFetching: false,

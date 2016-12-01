@@ -14,30 +14,35 @@ class VenueListItem extends Component {
   }
 
   _handleDelete () {
-    this.props.deleteVenueItem(this.props.item)
+    this.props.deleteVenueItem({ type: `${this.props.currentType}s`, payload: this.props.item })
     this.setState({
       isDialogOpen:false
     })
   }
 
-  _toggleConfirmDialog () {
+  _toggleConfirmDialog (e) {
+    e.stopPropagation()
     this.setState({
       isDialogOpen: !this.state.isDialogOpen
     })
   }
 
   render () {
-    const { name } = this.props.item
+    const { name, inventory_item_id : inventoryItem = {} } = this.props.item
+    const { item, onSelect } = this.props
+    const product = inventoryItem.product_id || {}
+
+    const listItemTitle = product.name || name
 
     const confirmDialog = <Modal show={this.state.isDialogOpen}
       onHide={this._toggleConfirmDialog}
       className='delete-confirm-dialog'>
 
       <Modal.Header closeButton>
-        <Modal.Title>Delete - {name}</Modal.Title>
+        <Modal.Title>Delete - {listItemTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to <strong>permanently remove {name}</strong> from your venue?
+        <p>Are you sure you want to <strong>permanently remove {listItemTitle}</strong> from your venue?
         Please note that this action is irreversible.</p>
       </Modal.Body>
       <Modal.Footer>
@@ -47,15 +52,17 @@ class VenueListItem extends Component {
     </Modal>
 
     return (
-      <Panel>
+      <Panel onClick={() => { onSelect(item) }}>
         <Media>
           <Media.Body>
-            <Media.Heading>{name}</Media.Heading>
+            <Media.Heading>{listItemTitle}</Media.Heading>
           </Media.Body>
-          <Media.Right>
-            <Button>Edit</Button>
-            <Button onClick={this._toggleConfirmDialog}>Delete</Button>
-            {confirmDialog}
+          <Media.Right align='middle'>
+            <div className='actions'>
+              <Button>Edit</Button>
+              <Button bsStyle='danger' onClick={this._toggleConfirmDialog}>Delete</Button>
+              {confirmDialog}
+            </div>
           </Media.Right>
         </Media>
       </Panel>
@@ -66,6 +73,8 @@ class VenueListItem extends Component {
 VenueListItem.propTypes = {
   item: React.PropTypes.object,
   updateVenueItem: React.PropTypes.func.isRequired,
-  deleteVenueItem: React.PropTypes.func.isRequired
+  deleteVenueItem: React.PropTypes.func.isRequired,
+  currentType: React.PropTypes.string.isRequired,
+  onSelect: React.PropTypes.func.isRequired
 }
 export default VenueListItem
