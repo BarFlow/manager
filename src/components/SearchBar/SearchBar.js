@@ -39,8 +39,28 @@ class SearchBar extends Component {
   }
 
   render () {
-    const { types, filters } = this.props
+    const { types, filters, suppliers } = this.props
     const typeTree = this.buildTypeTree(types.items)
+
+    const supplierSelector =
+      <FormGroup controlId='supplier' className='col-xs-2'>
+        <ControlLabel>Supplier</ControlLabel>
+        {' '}
+        <FormControl
+          componentClass='select'
+          onChange={this._handleChange}
+          value={filters['supplier'] || ''}>
+          <option value=''>any</option>
+          {suppliers &&
+            suppliers.items.map(supplier =>
+              <option
+                key={supplier._id}
+                value={supplier._id}>
+                {supplier.name}
+              </option>
+          )}
+        </FormControl>
+      </FormGroup>
 
     const categorySelector =
       <FormGroup controlId='category' className='col-xs-2'>
@@ -95,6 +115,7 @@ class SearchBar extends Component {
             placeholder='Product Name'
             onChange={this._handleChange} />
         </FormGroup>
+        {supplierSelector}
         {categorySelector}
         {subCategorySelector}
       </Form>
@@ -105,6 +126,7 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   onChange : React.PropTypes.func.isRequired,
   filters : React.PropTypes.object,
-  types: React.PropTypes.object
+  types: React.PropTypes.object,
+  suppliers: React.PropTypes.object
 }
 export default SearchBar

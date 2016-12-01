@@ -143,7 +143,8 @@ class Products extends Component {
           <SearchBar
             filters={products.filters}
             onChange={this._updateProductsFilterAndURI}
-            types={types} />
+            types={types}
+            suppliers={suppliers} />
 
           <div className='items'>
             {!venueId || products.isFetching ? (

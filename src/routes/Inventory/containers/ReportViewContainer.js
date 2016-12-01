@@ -35,7 +35,8 @@ const mapStateToProps = (state) => {
       item.product_id.name.match(name) &&
       (!filters.type || filters.type === '' || item.product_id.type === filters.type) &&
       (!filters.category || filters.category === '' || item.product_id.category === filters.category) &&
-      (!filters.sub_category || filters.sub_category === '' || item.product_id.sub_category === filters.sub_category)
+      (!filters.sub_category || filters.sub_category === '' || item.product_id.sub_category === filters.sub_category) &&
+      (!filters.supplier || filters.supplier === '' || (item.supplier_id && item.supplier_id._id === filters.supplier))
     ) {
       return true
     }

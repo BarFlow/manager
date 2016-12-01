@@ -154,7 +154,7 @@ class Report extends Component {
 
   render () {
     const {
-      reports, types, venueId, createReport, location
+      reports, types, venueId, createReport, location, suppliers
     } = this.props
     const reportId = this.props.params.reportId
 
@@ -192,7 +192,8 @@ class Report extends Component {
           <SearchBar
             filters={reports.filters}
             onChange={this._updateReportFilterAndURI}
-            types={types} />
+            types={types}
+            suppliers={suppliers} />
 
           <div className='items'>
             {!venueId || (reports.isFetching && !reports.isUpdate) ? (
