@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Media, Panel, Button, Modal, ControlLabel, FormControl } from 'react-bootstrap'
 
+import sortIcon from '../assets/sortable.png'
+import editIcon from '../assets/edit.png'
+import removeIcon from '../assets/remove.png'
+
 class VenueListItem extends Component {
   constructor (props) {
     super(props)
@@ -54,10 +58,13 @@ class VenueListItem extends Component {
 
   render () {
     const { name, inventory_item_id : inventoryItem = {} } = this.props.item
-    const { item, onSelect, currentType } = this.props
+    const { item, onSelect, sortableHandle } = this.props
     const product = inventoryItem.product_id || {}
 
     const listItemTitle = product.name || name
+
+    const DragHandle = sortableHandle(() =>
+      <span className='button sort'><img draggable='false' src={sortIcon} /></span>)
 
     const confirmDialog = <Modal show={this.state.isConfirmDialogOpen}
       onHide={this._toggleConfirmDialog}
@@ -96,13 +103,15 @@ class VenueListItem extends Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this._toggleRenameDialog}>Cancel</Button>
-          <Button type='submit'>Rename</Button>
+          <Button bsStyle='primary' type='submit'>Rename</Button>
         </Modal.Footer>
       </form>
     </Modal>
 
     return (
-      <Panel onClick={() => { !product.name && onSelect(item) }} className={product.name && 'product'} >
+      <Panel
+        onClick={() => { !product.name && onSelect(item) }}
+        className={'venue-list-item ' + (product.name ? 'product' : '')} >
         <Media>
           {product.name &&
             <Media.Left align='middle'>
@@ -114,10 +123,11 @@ class VenueListItem extends Component {
           </Media.Body>
           <Media.Right align='middle'>
             <div className='actions'>
-              {currentType !== 'placements' &&
-                <Button onClick={this._toggleRenameDialog}>Rename</Button>
+              <DragHandle />
+              {!product.name &&
+                <span onClick={this._toggleRenameDialog} className='button edit'><img src={editIcon} /></span>
               }
-              <Button bsStyle='danger' onClick={this._toggleConfirmDialog}>Delete</Button>
+              <span onClick={this._toggleConfirmDialog} className='button remove'><img src={removeIcon} /></span>
               {confirmDialog}
               {renameDialog}
             </div>
@@ -132,6 +142,7 @@ VenueListItem.propTypes = {
   item: React.PropTypes.object,
   updateVenueItem: React.PropTypes.func.isRequired,
   deleteVenueItem: React.PropTypes.func.isRequired,
+  sortableHandle: React.PropTypes.func.isRequired,
   currentType: React.PropTypes.string.isRequired,
   onSelect: React.PropTypes.func.isRequired
 }

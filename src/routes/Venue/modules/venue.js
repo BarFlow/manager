@@ -74,14 +74,22 @@ export const updateVenueItem = ({ type, payload }) => {
   }
 }
 
-export const batchUpdateVenueItems = ({ type, payload }) => {
+export const batchUpdateVenueItems = ({ type, payload, sortedItems }) => {
   return {
     [CALL_API]: {
       endpoint: `/${type}`,
       method: 'PUT',
       body: JSON.stringify(payload),
       types: [
-        VENUE_ITEMS_BATCH_UPDATE_REQUEST,
+        {
+          type: VENUE_ITEMS_BATCH_UPDATE_REQUEST,
+          payload: (action, state) => {
+            return payload
+          },
+          meta: (action, state) => {
+            return sortedItems
+          }
+        },
         VENUE_ITEMS_BATCH_UPDATE_SUCCESS,
         VENUE_ITEMS_BATCH_UPDATE_FAILURE
       ]
@@ -183,6 +191,12 @@ const ACTION_HANDLERS = {
         isFetching: false,
         filters: {}
       }
+    }
+  },
+  [VENUE_ITEMS_BATCH_UPDATE_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      items: action.meta
     }
   },
   [VENUE_UPDATE_PATH] : (state, action) => {

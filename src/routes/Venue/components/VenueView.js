@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Alert, Panel } from 'react-bootstrap'
+import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
 import SubHeader from '../../../components/SubHeader'
 // import AddVenueDialog from './AddVenueDialog'
@@ -13,6 +14,7 @@ class venue extends Component {
 
     this._updatePath = this._updatePath.bind(this)
     this._getCurrentType = this._getCurrentType.bind(this)
+    this._onSortEnd = this._onSortEnd.bind(this)
   }
 
   componentDidMount () {
@@ -93,21 +95,50 @@ class venue extends Component {
     this.props.updatePath(payload)
   }
 
+  _onSortEnd ({ oldIndex, newIndex }) {
+    const { items } = this.props.venue
+    const sortedItems = arrayMove(items, oldIndex, newIndex)
+    const payload = sortedItems.map((item, index) => {
+      return {
+        _id: item._id,
+        venue_id: item.venue_id,
+        order: index,
+        updated_at: new Date()
+      }
+    })
+    this.props.batchUpdateVenueItems({
+      type: this._getCurrentType(),
+      payload,
+      sortedItems
+    })
+  }
+
   render () {
     const {
       venue, venueId, updateVenueItem, deleteVenueItem, updatePath
     } = this.props
     const { area, section } = venue.path
 
-    const VenueList = venue.items.map(item =>
+    const SortableItem = SortableElement(({ item }) =>
       <VenueListItem
         key={item._id}
         item={item}
         onSelect={this._updatePath}
         currentType={this._getCurrentType()}
         updateVenueItem={updateVenueItem}
-        deleteVenueItem={deleteVenueItem} />
+        deleteVenueItem={deleteVenueItem}
+        sortableHandle={SortableHandle} />
     )
+
+    const VenueList = SortableContainer(() => {
+      return (
+        <div>
+          {venue.items.map((item, index) =>
+            <SortableItem key={`item-${index}`} index={index} item={item} />
+          )}
+        </div>
+      )
+    })
 
     return (
       <div className='row'>
@@ -137,7 +168,7 @@ class venue extends Component {
               <Alert bsStyle='warning'>Loading...</Alert>
             ) : (
               venue.items.length ? (
-                VenueList
+                <VenueList onSortEnd={this._onSortEnd} useDragHandle />
               ) : (
                 <Alert bsStyle='warning'>No items found.</Alert>
               )
