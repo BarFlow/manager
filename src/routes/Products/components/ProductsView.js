@@ -134,7 +134,7 @@ class Products extends Component {
           right={
             <div>
               {addProductDialog}
-              <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add new</Button>
+              <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add New</Button>
             </div>
           } />
 

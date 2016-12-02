@@ -32,15 +32,17 @@ const mapDispatchToProps = {
   fetchTypes
 }
 
-const mapStateToProps = (state) => (
-  {
+const mapStateToProps = (state) => {
+  const currentVenue = state.venues.items.find(item => item._id === state.venues.current)
+  return {
     venue : state.venue,
     venueId: state.venues.current,
     location: state.location,
     products: state.products,
-    types: state.types
+    types: state.types,
+    venueName: currentVenue && currentVenue.profile && currentVenue.profile.name
   }
-)
+}
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
 

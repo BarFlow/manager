@@ -138,7 +138,8 @@ class venue extends Component {
       fetchProducts,
       products,
       fetchTypes,
-      types
+      types,
+      venueName
     } = this.props
     const { area, section } = venue.path
 
@@ -163,15 +164,16 @@ class venue extends Component {
       )
     })
 
+    const currentTitle = section.name ? section.name : area.name
     return (
       <div className='row'>
         <SubHeader
           className='bg-green'
           left={
-            <h3>Venue / <span className='small'>{this._getCurrentType()}</span></h3>}
+            <h3>Venue {currentTitle && '/ '}<span className='small'>{currentTitle}</span></h3>}
           right={
             <div>
-              <Button disabled={!venueId} onClick={this._toggleAddNewDialog}>Add new</Button>
+              <Button disabled={!venueId} onClick={this._toggleAddNewDialog}>Add New</Button>
               {venueId &&
                 <AddVenueItemDialog
                   isOpen={this.state.isAddNewDialogOpen}
@@ -196,7 +198,7 @@ class venue extends Component {
                 section: {}
               })
             }}>
-              <h4>{'❮ '}{section.name ? section.name : area.name}</h4>
+              <h4>{'❮ '}{(section._id ? area.name : section.name) || venueName}</h4>
             </Panel>
           }
           <div className='items'>
@@ -232,6 +234,7 @@ venue.propTypes = {
   params: React.PropTypes.object.isRequired,
   router: React.PropTypes.object.isRequired,
   venue: React.PropTypes.object.isRequired,
-  venueId: React.PropTypes.string
+  venueId: React.PropTypes.string,
+  venueName: React.PropTypes.string
 }
 export default venue
