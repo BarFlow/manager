@@ -23,8 +23,6 @@ export const VENUE_ITEM_DELETE_REQUEST = 'venue/DELETE_REQUEST'
 export const VENUE_ITEM_DELETE_SUCCESS = 'venue/DELETE_SUCCESS'
 export const VENUE_ITEM_DELETE_FAILURE = 'venue/DELETE_FAILURE'
 
-export const VENUE_ITEM_TOGGLE_ADD_DIALOG = 'venue/TOGGLE_ADD_DIALOG'
-
 export const VENUE_UPDATE_PATH = 'venue/UPDATE_PATH'
 
 // ------------------------------------
@@ -111,10 +109,6 @@ export const deleteVenueItem = ({ type, payload }) => {
   }
 }
 
-export const toggleAddNewDialog = () => ({
-  type: VENUE_ITEM_TOGGLE_ADD_DIALOG
-})
-
 export const updatePath = (payload) => ({
   type: VENUE_UPDATE_PATH,
   payload
@@ -126,7 +120,6 @@ export const actions = {
   updateVenueItem,
   batchUpdateVenueItems,
   deleteVenueItem,
-  toggleAddNewDialog,
   updatePath
 }
 
@@ -151,18 +144,15 @@ const ACTION_HANDLERS = {
   [VENUE_ITEM_ADD_REQUEST] : (state, action) => {
     return {
       ...state,
-      addNew: {
-        ...state.addNew,
-        isSubmitting: true
-      }
+      isSubmitting: true
     }
   },
   [VENUE_ITEM_ADD_SUCCESS] : (state, action) => {
     return {
       ...state,
       items: [
-        action.payload,
-        ...state.items
+        ...state.items,
+        action.payload
       ]
     }
   },
@@ -181,16 +171,6 @@ const ACTION_HANDLERS = {
         }
         return item
       })
-    }
-  },
-  [VENUE_ITEM_TOGGLE_ADD_DIALOG] : (state, action) => {
-    return {
-      ...state,
-      addNew: {
-        dialogOpen: !state.addNew.dialogOpen,
-        isFetching: false,
-        filters: {}
-      }
     }
   },
   [VENUE_ITEMS_BATCH_UPDATE_REQUEST] : (state, action) => {
@@ -215,15 +195,11 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
+  isSubmitting: false,
   items: [],
   path: {
     area: {},
     section: {}
-  },
-  addNew: {
-    dialogOpen: false,
-    isFetching: false,
-    isSubmitting: false
   }
 }
 export default function productsReducer (state = initialState, action) {

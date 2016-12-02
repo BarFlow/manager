@@ -6,7 +6,8 @@ import {
   deleteProduct,
   toggleAddNewDialog,
   fetchCatalog,
-  changeProductsFilter
+  changeProductsFilter,
+  filterProductItems
 } from '../modules/products'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
 import { withRouter } from 'react-router'
@@ -38,18 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => {
   const { filters } = state.products
-  const filteredItems = state.products.items.filter(item => {
-    const name = new RegExp(filters.name, 'i')
-    if (
-      item.product_id.name.match(name) &&
-      (!filters.type || filters.type === '' || item.product_id.type === filters.type) &&
-      (!filters.category || filters.category === '' || item.product_id.category === filters.category) &&
-      (!filters.sub_category || filters.sub_category === '' || item.product_id.sub_category === filters.sub_category) &&
-      (!filters.supplier || filters.supplier === '' || item.supplier_id === filters.supplier)
-    ) {
-      return true
-    }
-  })
+  const filteredItems = filterProductItems(state.products.items, filters)
   return {
     products : {
       ...state.products,

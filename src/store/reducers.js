@@ -5,6 +5,7 @@ import authReducer from './auth'
 import venuesReducer from './venues'
 import typesReducer from './types'
 import suppliersReducer from '../routes/Suppliers/modules/suppliers'
+import productsReducer from '../routes/Products/modules/products'
 
 export const makeRootReducer = (asyncReducers) => {
   const appReducer = combineReducers({
@@ -14,6 +15,7 @@ export const makeRootReducer = (asyncReducers) => {
     venues: venuesReducer,
     types: typesReducer,
     suppliers: suppliersReducer,
+    products: productsReducer,
     ...asyncReducers
   })
 

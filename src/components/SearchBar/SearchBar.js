@@ -7,13 +7,12 @@ class SearchBar extends Component {
     super(props)
 
     this._handleChange = this._handleChange.bind(this)
-    this.onChange = this.props.onChange.bind(this)
   }
 
   _handleChange (event) {
     const { id, value } = event.target
-    const { filters } = this.props
-    this.onChange({
+    const { filters = {}, onChange } = this.props
+    onChange({
       ...filters,
       ...{
         skip: 0,
@@ -39,11 +38,12 @@ class SearchBar extends Component {
   }
 
   render () {
-    const { types, filters, suppliers } = this.props
+    const { types, filters = {}, suppliers, exclude = [] } = this.props
     const typeTree = this.buildTypeTree(types.items)
+    const dropdownSize = 6 / (3 - exclude.length)
 
     const supplierSelector =
-      <FormGroup controlId='supplier' className='col-xs-2'>
+      <FormGroup controlId='supplier' className={`col-xs-${dropdownSize}`}>
         <ControlLabel>Supplier</ControlLabel>
         {' '}
         <FormControl
@@ -63,7 +63,7 @@ class SearchBar extends Component {
       </FormGroup>
 
     const categorySelector =
-      <FormGroup controlId='category' className='col-xs-2'>
+      <FormGroup controlId='category' className={`col-xs-${dropdownSize}`}>
         <ControlLabel>Category</ControlLabel>
         {' '}
         <FormControl
@@ -83,7 +83,7 @@ class SearchBar extends Component {
       </FormGroup>
 
     const subCategorySelector =
-      <FormGroup controlId='sub_category' className='col-xs-2'>
+      <FormGroup controlId='sub_category' className={`col-xs-${dropdownSize}`}>
         <ControlLabel>Subcategory</ControlLabel>
         {' '}
         <FormControl
@@ -115,9 +115,9 @@ class SearchBar extends Component {
             placeholder='Product Name'
             onChange={this._handleChange} />
         </FormGroup>
-        {supplierSelector}
-        {categorySelector}
-        {subCategorySelector}
+        {exclude.indexOf('suppliers') === -1 && supplierSelector}
+        {exclude.indexOf('category') === -1 && categorySelector}
+        {exclude.indexOf('subCategory') === -1 && subCategorySelector}
       </Form>
     )
   }
@@ -127,6 +127,7 @@ SearchBar.propTypes = {
   onChange : React.PropTypes.func.isRequired,
   filters : React.PropTypes.object,
   types: React.PropTypes.object,
-  suppliers: React.PropTypes.object
+  suppliers: React.PropTypes.object,
+  exclude: React.PropTypes.array
 }
 export default SearchBar

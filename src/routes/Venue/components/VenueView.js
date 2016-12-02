@@ -3,7 +3,7 @@ import { Button, Alert, Panel } from 'react-bootstrap'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
 import SubHeader from '../../../components/SubHeader'
-// import AddVenueDialog from './AddVenueDialog'
+import AddVenueItemDialog from './AddVenueItemDialog'
 import VenueListItem from './VenueListItem'
 
 import './venue.scss'
@@ -11,10 +11,14 @@ import './venue.scss'
 class venue extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      isAddNewDialogOpen: false
+    }
 
     this._updatePath = this._updatePath.bind(this)
     this._getCurrentType = this._getCurrentType.bind(this)
     this._onSortEnd = this._onSortEnd.bind(this)
+    this._toggleAddNewDialog = this._toggleAddNewDialog.bind(this)
   }
 
   componentDidMount () {
@@ -28,6 +32,10 @@ class venue extends Component {
   componentWillReceiveProps (nextProps) {
     // Fetch new items for new venue_id
     if (this.props.venueId !== nextProps.venueId) {
+      this.props.updatePath({
+        area: {},
+        section: {}
+      })
       this.props.fetchVenueItems(this._getFilters(nextProps))
     }
 
@@ -113,9 +121,24 @@ class venue extends Component {
     })
   }
 
+  _toggleAddNewDialog () {
+    this.setState({
+      isAddNewDialogOpen: !this.state.isAddNewDialogOpen
+    })
+  }
+
   render () {
     const {
-      venue, venueId, updateVenueItem, deleteVenueItem, updatePath
+      venue,
+      venueId,
+      updateVenueItem,
+      deleteVenueItem,
+      updatePath,
+      addVenueItem,
+      fetchProducts,
+      products,
+      fetchTypes,
+      types
     } = this.props
     const { area, section } = venue.path
 
@@ -148,7 +171,20 @@ class venue extends Component {
             <h3>Venue / <span className='small'>{this._getCurrentType()}</span></h3>}
           right={
             <div>
-              <Button disabled={!venueId}>Add new</Button>
+              <Button disabled={!venueId} onClick={this._toggleAddNewDialog}>Add new</Button>
+              {venueId &&
+                <AddVenueItemDialog
+                  isOpen={this.state.isAddNewDialogOpen}
+                  addVenueItem={addVenueItem}
+                  products={products}
+                  fetchProducts={fetchProducts}
+                  types={types}
+                  fetchTypes={fetchTypes}
+                  venue={venue}
+                  venueId={venueId}
+                  currentType={this._getCurrentType()}
+                  close={this._toggleAddNewDialog} />
+              }
             </div>
           } />
 
@@ -188,8 +224,11 @@ venue.propTypes = {
   updateVenueItem: React.PropTypes.func.isRequired,
   batchUpdateVenueItems: React.PropTypes.func.isRequired,
   deleteVenueItem: React.PropTypes.func.isRequired,
-  toggleAddNewDialog: React.PropTypes.func.isRequired,
   updatePath: React.PropTypes.func.isRequired,
+  fetchProducts: React.PropTypes.func.isRequired,
+  products: React.PropTypes.object,
+  fetchTypes: React.PropTypes.func.isRequired,
+  types: React.PropTypes.object,
   params: React.PropTypes.object.isRequired,
   router: React.PropTypes.object.isRequired,
   venue: React.PropTypes.object.isRequired,

@@ -1,4 +1,4 @@
-import { injectReducer } from '../../store/reducers'
+// import { injectReducer } from '../../store/reducers'
 import protectRoute from '../../utils/protectRoute'
 
 // Sync route definition
@@ -12,10 +12,10 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Products = require('./containers/ProductsContainer').default
-      const reducer = require('./modules/products').default
+      // const reducer = require('./modules/products').default
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'products', reducer })
+      // injectReducer(store, { key: 'products', reducer })
 
       /*  Return getComponent   */
       cb(null, Products)
