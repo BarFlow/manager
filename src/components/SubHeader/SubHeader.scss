@@ -11,6 +11,7 @@
     .btn-default{
       color: white;
       border-color: white;
+      text-transform: capitalize;
     }
     .btn-default:hover, .btn-default:focus, .btn-default:active{
         background-color: rgba(255, 255, 255, 0.3);

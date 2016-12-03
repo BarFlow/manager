@@ -109,7 +109,7 @@ class AddVenueItemDialog extends Component {
     </div>
 
     return (
-      <Modal show={isOpen} onHide={this._close} className='add-venue-item-dialog'>
+      <Modal show={isOpen} onHide={this._close} className={'add-venue-item-dialog ' + currentType}>
         <Modal.Header closeButton>
           <Modal.Title>Add Item</Modal.Title>
         </Modal.Header>

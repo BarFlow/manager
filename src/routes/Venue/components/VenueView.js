@@ -173,7 +173,9 @@ class venue extends Component {
             <h3>Venue {currentTitle && '/ '}<span className='small'>{currentTitle}</span></h3>}
           right={
             <div>
-              <Button disabled={!venueId} onClick={this._toggleAddNewDialog}>Add New</Button>
+              <Button
+                disabled={!venueId}
+                onClick={this._toggleAddNewDialog}>Add {this._getCurrentType().slice(0, -1)}</Button>
               {venueId &&
                 <AddVenueItemDialog
                   isOpen={this.state.isAddNewDialogOpen}
@@ -208,7 +210,7 @@ class venue extends Component {
               venue.items.length ? (
                 <VenueList onSortEnd={this._onSortEnd} useDragHandle />
               ) : (
-                <Alert bsStyle='warning'>No items found.</Alert>
+                <Alert bsStyle='warning'>No {this._getCurrentType()} found.</Alert>
               )
             )}
           </div>
