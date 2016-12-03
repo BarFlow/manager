@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Modal, Alert, ControlLabel, FormControl, Button } from 'react-bootstrap'
+import { Modal, Alert, ControlLabel, FormControl, Button, Pagination } from 'react-bootstrap'
+import { Link } from 'react-router'
 
 import ListItem from './ListItem'
 import './AddVenueItemDialog.scss'
@@ -11,13 +12,15 @@ class AddVenueItemDialog extends Component {
     super(props)
     this.initialState = {
       name: '',
-      filters: {}
+      filters: {},
+      skip: 0
     }
     this.state = this.initialState
 
     this._addVenueItem = this._addVenueItem.bind(this)
     this._close = this._close.bind(this)
     this._handleSearchBarChange = this._handleSearchBarChange.bind(this)
+    this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
   }
 
   componentDidMount () {
@@ -55,8 +58,16 @@ class AddVenueItemDialog extends Component {
 
   _handleSearchBarChange (filters) {
     this.setState({
-      filters
+      filters,
+      skip: 0
     })
+  }
+
+  _handlePaginationSelect (page) {
+    this.setState({
+      skip: (20 * (page - 1))
+    })
+    window.scrollTo(0, 0)
   }
 
   _close () {
@@ -66,7 +77,7 @@ class AddVenueItemDialog extends Component {
 
   render () {
     const { products = { items: [] }, isOpen, currentType, types } = this.props
-    const items = [...filterProductItems(products.items, this.state.filters)].splice(0, 20)
+    const filteredItems = [...filterProductItems(products.items, this.state.filters)]
 
     const addAreaOrSectionForm = <form onSubmit={this._addVenueItem}>
       <Modal.Body>
@@ -94,24 +105,38 @@ class AddVenueItemDialog extends Component {
           onChange={this._handleSearchBarChange} />
       </Modal.Body>
       <Modal.Footer>
-        {items.length ? (
-          items.map(item =>
-            <ListItem key={item._id} item={item} onSelect={() => this._addVenueItem(null, item)} />
-        )
-      ) : (
-        products.isFetching ? (
-          <Alert bsStyle='warning'>Loading...</Alert>
+        {filteredItems.length ? (
+          <div className='items'>
+            {filteredItems.map(item =>
+              <ListItem key={item._id} item={item} onSelect={() => this._addVenueItem(null, item)} />
+            ).splice(this.state.skip, 20)}
+
+            {filteredItems.length > 20 &&
+            <div className='pagination-container text-center'>
+              <Pagination ellipsis boundaryLinks
+                items={Math.ceil(filteredItems.length / 20)}
+                maxButtons={5}
+                activePage={(this.state.skip / 20) + 1}
+                onSelect={this._handlePaginationSelect} />
+            </div>
+            }
+          </div>
         ) : (
-          <Alert bsStyle='warning'>No items found.</Alert>
-        )
-      )}
+          products.isFetching ? (
+            <Alert bsStyle='warning'>Loading...</Alert>
+          ) : (
+            <Alert bsStyle='warning'>
+              No items found. You can easily add missing products to you venue <Link to='/products'>here</Link>.
+            </Alert>
+          )
+        )}
       </Modal.Footer>
     </div>
 
     return (
       <Modal show={isOpen} onHide={this._close} className={'add-venue-item-dialog ' + currentType}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Item</Modal.Title>
+          <Modal.Title>Add {currentType.slice(0, -1)}</Modal.Title>
         </Modal.Header>
         {currentType === 'placements' ? (
           addPlacement

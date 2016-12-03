@@ -22,5 +22,10 @@
 .add-venue-item-dialog.placements{
   .modal-footer{
     text-align: left;
-  }  
+  }
+  .pagination-container{
+    .pagination{
+        margin-bottom: 0;
+    }
+  }
 }
