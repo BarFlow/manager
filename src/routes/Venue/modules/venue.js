@@ -23,8 +23,6 @@ export const VENUE_ITEM_DELETE_REQUEST = 'venue/DELETE_REQUEST'
 export const VENUE_ITEM_DELETE_SUCCESS = 'venue/DELETE_SUCCESS'
 export const VENUE_ITEM_DELETE_FAILURE = 'venue/DELETE_FAILURE'
 
-export const VENUE_UPDATE_PATH = 'venue/UPDATE_PATH'
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -109,18 +107,12 @@ export const deleteVenueItem = ({ type, payload }) => {
   }
 }
 
-export const updatePath = (payload) => ({
-  type: VENUE_UPDATE_PATH,
-  payload
-})
-
 export const actions = {
   fetchVenueItems,
   addVenueItem,
   updateVenueItem,
   batchUpdateVenueItems,
-  deleteVenueItem,
-  updatePath
+  deleteVenueItem
 }
 
 // ------------------------------------
@@ -178,15 +170,6 @@ const ACTION_HANDLERS = {
       ...state,
       items: action.meta
     }
-  },
-  [VENUE_UPDATE_PATH] : (state, action) => {
-    return {
-      ...state,
-      path: {
-        ...state.path,
-        ...action.payload
-      }
-    }
   }
 }
 
@@ -196,11 +179,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   isFetching: false,
   isSubmitting: false,
-  items: [],
-  path: {
-    area: {},
-    section: {}
-  }
+  items: []
 }
 export default function productsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

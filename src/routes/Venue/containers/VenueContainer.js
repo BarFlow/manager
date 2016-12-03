@@ -4,8 +4,7 @@ import {
   addVenueItem,
   updateVenueItem,
   batchUpdateVenueItems,
-  deleteVenueItem,
-  updatePath
+  deleteVenueItem
 } from '../modules/venue'
 import { fetchProducts } from '../../Products/modules/products'
 import { fetchTypes } from '../../../store/types'
@@ -27,7 +26,6 @@ const mapDispatchToProps = {
   updateVenueItem,
   batchUpdateVenueItems,
   deleteVenueItem,
-  updatePath,
   fetchProducts,
   fetchTypes
 }
@@ -37,7 +35,6 @@ const mapStateToProps = (state) => {
   return {
     venue : state.venue,
     venueId: state.venues.current,
-    location: state.location,
     products: state.products,
     types: state.types,
     venueName: currentVenue && currentVenue.profile && currentVenue.profile.name

@@ -15,7 +15,8 @@ class venue extends Component {
       isAddNewDialogOpen: false
     }
 
-    this._updatePath = this._updatePath.bind(this)
+    this._openItem = this._openItem.bind(this)
+    this._navigateBack = this._navigateBack.bind(this)
     this._getCurrentType = this._getCurrentType.bind(this)
     this._onSortEnd = this._onSortEnd.bind(this)
     this._toggleAddNewDialog = this._toggleAddNewDialog.bind(this)
@@ -30,45 +31,38 @@ class venue extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // Fetch new items for new venue_id
-    if (this.props.venueId !== nextProps.venueId) {
-      this.props.updatePath({
-        area: {},
-        section: {}
+    // Fetch new items if the venue has been changed
+    if (this.props.venueId && this.props.venueId !== nextProps.venueId) {
+      this.props.router.push({
+        pathname: '/venue'
       })
+    }
+
+    // Fetch new items if new params received
+    if (this.props.params !== nextProps.params) {
       this.props.fetchVenueItems(this._getFilters(nextProps))
     }
 
-    if (this.props.venue.path.area !== nextProps.venue.path.area) {
+    // Fetch items when venueId is first received
+    if (!this.props.venueId && this.props.venueId !== nextProps.venueId) {
       this.props.fetchVenueItems(this._getFilters(nextProps))
     }
-
-    if (this.props.venue.path.section !== nextProps.venue.path.section) {
-      this.props.fetchVenueItems(this._getFilters(nextProps))
-    }
-  }
-
-  componentWillUnmount () {
-    this.props.updatePath({
-      area: {},
-      section: {}
-    })
   }
 
   _getFilters (props) {
-    const path = props.venue.path
-    if (path.section._id) {
+    const { params } = props
+    if (params.section_id) {
       return {
         type: 'placements',
         filterKey: 'section_id',
-        filterValue: `${path.section._id}&populate=true`
+        filterValue: `${params.section_id}&populate=true`
       }
     }
-    if (path.area._id) {
+    if (params.area_id) {
       return {
         type: 'sections',
         filterKey: 'area_id',
-        filterValue: path.area._id
+        filterValue: params.area_id
       }
     }
     return {
@@ -79,28 +73,51 @@ class venue extends Component {
   }
 
   _getCurrentType () {
-    const path = this.props.venue.path
-    if (path.section._id) {
+    const { params } = this.props
+    if (params.section_id) {
       return 'placements'
     }
-    if (path.area._id) {
+    if (params.area_id) {
       return 'sections'
     }
     return 'areas'
   }
 
-  _updatePath (item) {
-    let payload = {}
-    if (this.props.venue.path.area._id) {
-      payload = {
-        section: item
+  _openItem (item) {
+    const { router, params } = this.props
+    let pathname = '/venue'
+    let query = {}
+    if (params.area_id) {
+      pathname += '/' + params.area_id
+      query = {
+        section: item.name
       }
     } else {
-      payload = {
-        area: item
+      query = {
+        area: item.name
       }
     }
-    this.props.updatePath(payload)
+    router.push({
+      pathname: pathname + '/' + item._id,
+      query: {
+        ...router.location.query,
+        ...query
+      }
+    })
+  }
+
+  _navigateBack () {
+    const { router, params } = this.props
+    let pathname = '/venue'
+    let query = {}
+    if (params.section_id) {
+      pathname += '/' + params.area_id
+      query.area = router.location.query.area
+    }
+    router.push({
+      pathname,
+      query
+    })
   }
 
   _onSortEnd ({ oldIndex, newIndex }) {
@@ -133,21 +150,22 @@ class venue extends Component {
       venueId,
       updateVenueItem,
       deleteVenueItem,
-      updatePath,
       addVenueItem,
       fetchProducts,
       products,
       fetchTypes,
       types,
+      router,
+      params,
       venueName
     } = this.props
-    const { area, section } = venue.path
+    const { area, section } = router.location.query
 
     const SortableItem = SortableElement(({ item }) =>
       <VenueListItem
         key={item._id}
         item={item}
-        onSelect={this._updatePath}
+        onSelect={this._openItem}
         currentType={this._getCurrentType()}
         updateVenueItem={updateVenueItem}
         deleteVenueItem={deleteVenueItem}
@@ -164,7 +182,7 @@ class venue extends Component {
       )
     })
 
-    const currentTitle = section.name ? section.name : area.name
+    const currentTitle = section || area
     return (
       <div className='row'>
         <SubHeader
@@ -184,6 +202,7 @@ class venue extends Component {
                   fetchProducts={fetchProducts}
                   types={types}
                   fetchTypes={fetchTypes}
+                  params={params}
                   venue={venue}
                   venueId={venueId}
                   currentType={this._getCurrentType()}
@@ -193,14 +212,9 @@ class venue extends Component {
           } />
 
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 venue'>
-          {(area._id || section._id) &&
-            <Panel className='breadcrumbs' onClick={() => {
-              updatePath({
-                area: section.name ? area : {},
-                section: {}
-              })
-            }}>
-              <h4>{'❮ '}{(section._id ? area.name : section.name) || venueName}</h4>
+          {(area || section) &&
+            <Panel className='breadcrumbs' onClick={this._navigateBack}>
+              <h4>{'❮ '}{(section ? area : section) || venueName}</h4>
             </Panel>
           }
           <div className='items'>
@@ -228,7 +242,6 @@ venue.propTypes = {
   updateVenueItem: React.PropTypes.func.isRequired,
   batchUpdateVenueItems: React.PropTypes.func.isRequired,
   deleteVenueItem: React.PropTypes.func.isRequired,
-  updatePath: React.PropTypes.func.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
   products: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,

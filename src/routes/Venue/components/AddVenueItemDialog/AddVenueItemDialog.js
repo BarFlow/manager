@@ -41,13 +41,13 @@ class AddVenueItemDialog extends Component {
 
   _addVenueItem (e, item) {
     e && e.preventDefault()
-    const { currentType, venueId, venue } = this.props
+    const { currentType, venueId, venue, params } = this.props
     this.props.addVenueItem({
       type: currentType === 'placements' ? 'placements?populate=true' : currentType,
       payload: {
         venue_id: venueId,
-        area_id: venue.path.area._id,
-        section_id: venue.path.section._id,
+        area_id: params.area_id,
+        section_id: params.section_id,
         order: venue.items.length,
         inventory_item_id: item && item._id,
         ...this.state
@@ -157,6 +157,7 @@ AddVenueItemDialog.propTypes = {
   products: React.PropTypes.object,
   currentType: React.PropTypes.string.isRequired,
   venueId: React.PropTypes.string.isRequired,
+  params: React.PropTypes.object.isRequired,
   fetchTypes: React.PropTypes.func.isRequired,
   types:React.PropTypes.object
 }
