@@ -58,9 +58,8 @@ class VenueListItem extends Component {
 
   render () {
     const { name, inventory_item_id : inventoryItem = {} } = this.props.item
-    const { item, onSelect, sortableHandle } = this.props
+    const { item, onSelect, sortableHandle, currentType } = this.props
     const product = inventoryItem.product_id || {}
-
     const listItemTitle = product.name || name
 
     const DragHandle = sortableHandle(() =>
@@ -111,11 +110,11 @@ class VenueListItem extends Component {
     return (
       <Panel
         onClick={() => { !product.name && onSelect(item) }}
-        className={'venue-list-item ' + (product.name ? 'product' : '')} >
+        className={'venue-list-item ' + currentType} >
         <Media>
           {product.name &&
             <Media.Left align='middle'>
-              <img src={product.images.thumbnail} width='50' height='50' />
+              <img src={product.images && product.images.thumbnail} width='50' height='50' />
             </Media.Left>
           }
           <Media.Body>
