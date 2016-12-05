@@ -28,19 +28,20 @@
   .actions {
     min-width: 210px;
     text-align: right;
-    .button+.button {
-      margin-bottom: 0;
-      margin-left: 5px;
+    button+button {
+      margin: 0;
     }
-    span.button{
+    button{
       display: inline-block;
-      cursor: pointer;
+      border: none;
+      background: none;
+      outline: none;
       img{
         width: 24px;
         user-select: none;
       }
     }
-    span.button.sort{
+    button.sort{
       margin-right: 5px;
       cursor: ns-resize;
     }

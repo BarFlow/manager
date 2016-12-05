@@ -63,7 +63,7 @@ class VenueListItem extends Component {
     const listItemTitle = product.name || name
 
     const DragHandle = sortableHandle(() =>
-      <span className='button sort'><img draggable='false' src={sortIcon} /></span>)
+      <button className='sort'><img draggable='false' src={sortIcon} /></button>)
 
     const confirmDialog = <Modal show={this.state.isConfirmDialogOpen}
       onHide={this._toggleConfirmDialog}
@@ -124,9 +124,9 @@ class VenueListItem extends Component {
             <div className='actions'>
               <DragHandle />
               {!product.name &&
-                <span onClick={this._toggleRenameDialog} className='button edit'><img src={editIcon} /></span>
+                <button onClick={this._toggleRenameDialog} className='button edit'><img src={editIcon} /></button>
               }
-              <span onClick={this._toggleConfirmDialog} className='button remove'><img src={removeIcon} /></span>
+              <button onClick={this._toggleConfirmDialog} className='button remove'><img src={removeIcon} /></button>
               {confirmDialog}
               {renameDialog}
             </div>

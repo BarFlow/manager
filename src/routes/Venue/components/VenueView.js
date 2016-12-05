@@ -31,14 +31,14 @@ class venue extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // Fetch new items if the venue has been changed
+    // Fetch new items if the venue has been changed, like in sidebar selectors
     if (this.props.venueId && this.props.venueId !== nextProps.venueId) {
       this.props.router.push({
         pathname: '/venue'
       })
     }
 
-    // Fetch new items if new params received
+    // Fetch new items if new params received so basically when the URL has changed
     if (this.props.params !== nextProps.params) {
       this.props.fetchVenueItems(this._getFilters(nextProps))
     }

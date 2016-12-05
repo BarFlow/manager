@@ -77,7 +77,7 @@ class Report extends Component {
 
     if (venueId && venueId !== nextProps.venueId) {
       // Update venue_id in URI if it has changed
-      changeReportFilters({ venue_id: nextProps.venueId, report_id: nextProps.params.reportId })
+      changeReportFilters({ venue_id: nextProps.venueId, report_id: 'live' })
     }
 
     // Fetch new report if reportId has changed

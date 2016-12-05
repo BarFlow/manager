@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Alert, Button, Panel, Media, Modal } from 'react-bootstrap'
-import './ArchiveView.scss'
 import SubHeader from '../../../components/SubHeader'
+import './ArchiveView.scss'
+
+import removeIcon from '../assets/remove.png'
 
 class ArchiveView extends Component {
   constructor (props) {
@@ -100,21 +102,19 @@ class ArchiveView extends Component {
               items.map(item => {
                 const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
                 return (
-                  <Panel key={item._id}>
+                  <Panel key={item._id} onClick={() => this._viewReport(item)}>
                     <Media>
                       <Media.Body>
                         <Media.Heading>{itemDate}</Media.Heading>
                       </Media.Body>
                       <Media.Right align='middle'>
                         <div className='actions'>
-                          <Button onClick={() => this._viewReport(item)}>View</Button>
-                          <a className='btn btn-default'
-                            href={`http://api.stockmate.co.uk/reports/${item._id}/export?token=${this.props.token}`}
-                            target='_blank'>Export</a>
-                          <Button
-                            bsStyle='danger'
-                            onClick={() => { this._handleDelete({ ...item, name: itemDate }) }}
-                            disabled={reports.isSaving}>Delete</Button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              this._handleDelete({ ...item, name: itemDate })
+                            }}
+                            disabled={reports.isSaving}><img src={removeIcon} /></button>
                         </div>
                       </Media.Right>
                     </Media>
