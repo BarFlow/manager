@@ -84,7 +84,7 @@ class venue extends Component {
   }
 
   _openItem (item) {
-    const { router, params } = this.props
+    const { router, params, venueId } = this.props
     let pathname = '/venue'
     let query = {}
     if (params.area_id) {
@@ -100,6 +100,7 @@ class venue extends Component {
     router.push({
       pathname: pathname + '/' + item._id,
       query: {
+        venue_id: venueId,
         ...router.location.query,
         ...query
       }
