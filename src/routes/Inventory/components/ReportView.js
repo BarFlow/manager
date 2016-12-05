@@ -76,8 +76,9 @@ class Report extends Component {
     }
 
     if (venueId && venueId !== nextProps.venueId) {
-      // Update venue_id in URI if it has changed
-      changeReportFilters({ venue_id: nextProps.venueId, report_id: 'live' })
+      this.props.router.push({
+        pathname: '/inventory/reports/live'
+      })
     }
 
     // Fetch new report if reportId has changed
