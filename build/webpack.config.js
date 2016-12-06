@@ -50,7 +50,8 @@ webpackConfig.output = {
 // Externals
 // ------------------------------------
 webpackConfig.externals = {
-  './cptable': 'var cptable'
+  './cptable': 'var cptable',
+  './jszip': 'jszip'
 }
 webpackConfig.externals['react/lib/ExecutionEnvironment'] = true
 webpackConfig.externals['react/lib/ReactContext'] = true

@@ -123,8 +123,7 @@ class Products extends Component {
       close={toggleAddNewDialog}
       handleSubmit={fetchCatalog}
       addProduct={addProduct}
-      state={products.addNew}
-      products={products.items}
+      products={products}
       venueId={venueId} />
 
     return (

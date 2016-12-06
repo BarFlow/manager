@@ -159,15 +159,6 @@ const ACTION_HANDLERS = {
       items: action.payload
     }
   },
-  [PRODUCTS_ADD_REQUEST] : (state, action) => {
-    return {
-      ...state,
-      addNew: {
-        ...state.addNew,
-        isSubmitting: true
-      }
-    }
-  },
   [PRODUCTS_ADD_SUCCESS] : (state, action) => {
     return {
       ...state,
@@ -214,19 +205,19 @@ const ACTION_HANDLERS = {
   [CATALOG_FETCH_REQUEST] : (state, action) => {
     return {
       ...state,
-      addNew: {
-        ...state.addNew,
+      catalog: {
         isFetching: true,
-        items: [],
-        filters: action.meta
+        totalCount: 0,
+        filters: action.meta,
+        items: []
       }
     }
   },
   [CATALOG_FETCH_SUCCESS] : (state, action) => {
     return {
       ...state,
-      addNew: {
-        ...state.addNew,
+      catalog: {
+        ...state.catalog,
         isFetching: false,
         totalCount: action.meta,
         items: action.payload
@@ -246,9 +237,10 @@ const initialState = {
   },
   items: [],
   addNew: {
-    dialogOpen: false,
+    dialogOpen: false
+  },
+  catalog: {
     isFetching: false,
-    isSubmitting: false,
     totalCount: 0,
     filters: {},
     items: []

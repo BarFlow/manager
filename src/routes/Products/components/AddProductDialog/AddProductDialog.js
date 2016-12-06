@@ -12,7 +12,7 @@ class AddProductDialog extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.state.dialogOpen && !this.props.state.dialogOpen) {
+    if (nextProps.products.addNew.dialogOpen && !this.props.products.addNew.dialogOpen) {
       this.props.handleSubmit()
     }
   }
@@ -26,31 +26,31 @@ class AddProductDialog extends Component {
   }
 
   render () {
-    const { state, close, handleSubmit, products } = this.props
+    const { close, handleSubmit, products } = this.props
     return (
-      <Modal show={state.dialogOpen} onHide={close} className='add-product-dialog'>
+      <Modal show={products.addNew.dialogOpen} onHide={close} className='add-product-dialog'>
         <Modal.Header closeButton>
           <Modal.Title>Add Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <SearchBar onSubmit={handleSubmit} submitting={state.isFetching} />
-          {state.items.length ? (
-            state.items.map(item => {
-              const added = !!products.find(product => product.product_id._id === item._id)
+          <SearchBar onSubmit={handleSubmit} submitting={products.catalog.isFetching} />
+          {products.catalog.items.length ? (
+            products.catalog.items.map(item => {
+              const added = !!products.items.find(product => product.product_id._id === item._id)
               return <ListItem key={item._id} item={item} added={added} onSelect={this._addProduct} />
             }
             )
           ) : (
-            state.isFetching ? (
+            products.catalog.isFetching ? (
               <Alert bsStyle='warning'>Loading...</Alert>
             ) : (
-              (state.filters.name) &&
+              (products.catalog.filters.name) &&
                 <Alert bsStyle='warning'>No items found.</Alert>
             )
           )}
         </Modal.Body>
         <Modal.Footer>
-          Showing {state.items.length} of {state.totalCount} items.
+          Showing {products.catalog.items.length} of {products.catalog.totalCount} items.
         </Modal.Footer>
       </Modal>
     )
@@ -59,8 +59,7 @@ class AddProductDialog extends Component {
 
 AddProductDialog.propTypes = {
   handleSubmit : React.PropTypes.func.isRequired,
-  state : React.PropTypes.object,
-  products : React.PropTypes.array,
+  products : React.PropTypes.object,
   close: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string.isRequired
