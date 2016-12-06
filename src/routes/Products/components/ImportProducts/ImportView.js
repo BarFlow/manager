@@ -63,7 +63,9 @@ class ImportView extends Component {
               onSubmit={this._handleProductAdd}
               product={this.state.items[this.state.currentIndex]}
               suppliers={this.props.suppliers}
-              percent={(this.state.currentIndex / this.state.items.length * 100)} />
+              percent={(this.state.currentIndex / this.state.items.length * 100)}
+              catalog={this.props.products.catalog}
+              fetchCatalog={this.props.fetchCatalog} />
           }
         </div>
       </div>

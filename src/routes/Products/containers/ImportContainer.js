@@ -32,7 +32,7 @@ const mapStateToProps = (state) => ({
   products : state.products,
   venueId: state.venues.current,
   types: state.types,
-  location: state.location,
+  catalog: state.catalog,
   suppliers: state.suppliers
 })
 
