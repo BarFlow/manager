@@ -55,21 +55,15 @@ class ImportView extends Component {
       <div className='row'>
         <SubHeader
           className='bg-yellow'
-          left={<h3>Products <span className='small'>/ Import</span></h3>}
-          right={
-            <div>
-              {!!this.state.items.length &&
-                <div>{this.state.currentIndex + 1} / {this.state.items.length} items</div>
-              }
-            </div>
-          } />
-        <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
+          left={<h3>Products <span className='small'>/ Import</span></h3>} />
+        <div className='col-xs-12 col-sm-10 col-sm-offset-1 product-import'>
           {!this.state.items.length
             ? <ProductParser onParse={this._handleParse} />
             : <ProductAdder
               onSubmit={this._handleProductAdd}
               product={this.state.items[this.state.currentIndex]}
-              suppliers={this.props.suppliers} />
+              suppliers={this.props.suppliers}
+              percent={(this.state.currentIndex / this.state.items.length * 100)} />
           }
         </div>
       </div>

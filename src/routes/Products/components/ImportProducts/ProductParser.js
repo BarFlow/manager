@@ -63,12 +63,10 @@ class ProductParser extends Component {
             {this.state.error &&
               <Alert bsStyle='danger'>{this.state.error}</Alert>
             }
-            <p>
-              <input
-                type='file'
-                onChange={this._handleFileSelect}
-                accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' />
-            </p>
+            <input
+              type='file'
+              onChange={this._handleFileSelect}
+              accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' />
           </div>
         </div>
         <div className='panel panel-default'>

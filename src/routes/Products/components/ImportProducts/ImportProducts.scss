@@ -1,22 +1,31 @@
-.product-parser{
+.product-import{
+  padding-top: 2rem;
   .panel{
-    h4{
-
-    }
-  }
-}
-
-.product-adder{
-  .panel{
-    .page-header{
-      padding-bottom: 10px;
-      margin: 0 0 20px;
-      border-bottom: 1px solid #eee;
-    }
-    h4{
-      display: inline-block;
+    .panel-body h4.media-heading{
       margin: 0;
       font-weight: 400;
+    }
+  }
+
+  .product-parser{
+    input{
+      margin: 10px 0 0;
+    }
+  }
+
+  .product-adder{
+    .panel{
+      .page-header{
+        padding-bottom: 10px;
+        margin: 0 0 20px;
+        border-bottom: 1px solid #eee;
+        h4{
+          display: inline-block;
+        }
+      }
+    }
+    .progress{
+      margin-bottom: 0;
     }
   }
 }
