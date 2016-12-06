@@ -20,7 +20,10 @@ const webpackConfig = {
     root       : paths.client(),
     extensions : ['', '.js', '.jsx', '.json']
   },
-  module : {}
+  module : {},
+  node: {
+    fs: 'empty'
+  }
 }
 // ------------------------------------
 // Entry Points
@@ -46,7 +49,9 @@ webpackConfig.output = {
 // ------------------------------------
 // Externals
 // ------------------------------------
-webpackConfig.externals = {}
+webpackConfig.externals = {
+  './cptable': 'var cptable'
+}
 webpackConfig.externals['react/lib/ExecutionEnvironment'] = true
 webpackConfig.externals['react/lib/ReactContext'] = true
 webpackConfig.externals['react/addons'] = true
