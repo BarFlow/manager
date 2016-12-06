@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Alert, Pagination } from 'react-bootstrap'
+import { Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
@@ -135,6 +136,7 @@ class Products extends Component {
             <div>
               {addProductDialog}
               <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add New</Button>
+              <Link className='btn btn-default' to='/products/import'>Import</Link>
             </div>
           } />
 
