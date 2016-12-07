@@ -1,52 +1,38 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Media, Button, Label } from 'react-bootstrap'
 
-class CatalogListItem extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      submitting: false
-    }
-    this._handleSelect = this._handleSelect.bind(this)
-  }
+const CatalogListItem = ({ item, added, selected, onSelect }) => {
+  const { images, name, type, category, capacity, sub_category: subCategory } = item
 
-  _handleSelect (item) {
-    this.setState({
-      submitting: true
-    })
-    this.props.onSelect(item)
-  }
-
-  render () {
-    const { item, added } = this.props
-    const { images, name, type, category, capacity, sub_category: subCategory } = item
-
-    return (
-      <Media className='catalog-item'>
-        <Media.Left align='middle'>
-          <img width={50} height={50} src={images && images.thumbnail} alt={name} />
-        </Media.Left>
-        <Media.Body>
-          <Media.Heading>{name}</Media.Heading>
-          <p>
-            <Label>{type}</Label>{' '}
-            <Label>{category}</Label>{' '}
-            {subCategory &&
-              <span>
-                <Label>{subCategory}</Label>{' '}
-              </span>
-            }
-            <Label>{capacity} ml</Label>
-          </p>
-        </Media.Body>
-        <Media.Right align='middle'>
-          {!added &&
-            <Button onClick={() => this._handleSelect(item)} disabled={this.state.submitting}>Select</Button>
+  return (
+    <Media className='catalog-item'>
+      <Media.Left align='middle'>
+        <img width={50} height={50} src={images && images.thumbnail} alt={name} />
+      </Media.Left>
+      <Media.Body>
+        <Media.Heading>{name}</Media.Heading>
+        <p>
+          <Label>{type}</Label>{' '}
+          <Label>{category}</Label>{' '}
+          {subCategory &&
+            <span>
+              <Label>{subCategory}</Label>{' '}
+            </span>
           }
-        </Media.Right>
-      </Media>
-    )
-  }
+          <Label>{capacity} ml</Label>
+        </p>
+      </Media.Body>
+      <Media.Right align='middle'>
+        {!added &&
+          <Button
+            onClick={() => onSelect(item)}
+            bsStyle={selected ? 'success' : 'default'}>
+            {selected ? 'Selected' : 'Select'}
+          </Button>
+        }
+      </Media.Right>
+    </Media>
+  )
 }
 
 CatalogListItem.propTypes = {
@@ -59,6 +45,7 @@ CatalogListItem.propTypes = {
     images: React.PropTypes.object.isRequired
   }),
   added: React.PropTypes.bool.isRequired,
+  selected: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired
 }
 

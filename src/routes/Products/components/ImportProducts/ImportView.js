@@ -43,7 +43,13 @@ class ImportView extends Component {
 
   _handleProductAdd (values) {
     if (values) {
-      // this.props.addProduct(values)
+      return this.props.addProduct({
+        venue_id: this.props.venueId,
+        ...values
+      }).then(() =>
+        this.setState({
+          currentIndex: this.state.currentIndex + 1
+        }))
     }
     this.setState({
       currentIndex: this.state.currentIndex + 1
@@ -63,9 +69,10 @@ class ImportView extends Component {
               onSubmit={this._handleProductAdd}
               product={this.state.items[this.state.currentIndex]}
               suppliers={this.props.suppliers}
-              percent={(this.state.currentIndex / this.state.items.length * 100)}
+              percent={Math.round((this.state.currentIndex / this.state.items.length * 100))}
               catalog={this.props.products.catalog}
-              fetchCatalog={this.props.fetchCatalog} />
+              fetchCatalog={this.props.fetchCatalog}
+              veuneId={this.props.venueId} />
           }
         </div>
       </div>

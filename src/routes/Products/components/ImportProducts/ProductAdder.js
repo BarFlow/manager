@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Panel, ProgressBar, Alert } from 'react-bootstrap'
+import { SubmissionError } from 'redux-form'
 
 import ProductItemForm from './ProductItemForm'
 import CatalogListItem from './CatalogListItem'
@@ -7,8 +8,11 @@ import CatalogListItem from './CatalogListItem'
 class ProductAdder extends Component {
   constructor (props) {
     super(props)
-
+    this.state = {
+      product_id: ''
+    }
     this._onSubmit = this._onSubmit.bind(this)
+    this._skip = this._skip.bind(this)
   }
 
   componentDidMount () {
@@ -26,12 +30,24 @@ class ProductAdder extends Component {
   }
 
   _onSubmit (values) {
-    console.log(values)
+    if (!this.state.product_id) {
+      return Promise.reject(new SubmissionError({ _error: 'Please select a product to continue.' }))
+    }
+    this.props.onSubmit({
+      product_id: this.state.product_id,
+      ...values
+    })
+    this.setState({
+      product_id: ''
+    })
+  }
+
+  _skip () {
     this.props.onSubmit()
   }
 
   render () {
-    const { product, onSubmit, percent = 0, catalog } = this.props
+    const { product, percent = 0, catalog } = this.props
     const supplier = this.props.suppliers.items.find(item =>
       product && product.supplier && item.name.toLowerCase() === product.supplier.toLowerCase()) || {}
     return (
@@ -45,7 +61,14 @@ class ProductAdder extends Component {
               <Panel>
                 <div className='page-header clearfix'>
                   <h4>{product.name}</h4>
-                  <Button className='pull-right' onClick={() => this.refs.submitForm.submit()}>Add</Button>
+                  <Button
+                    className='pull-right'
+                    bsStyle='primary'
+                    onClick={() => this.refs.submitForm.submit()}>Add</Button>
+                  <Button
+                    className='pull-right'
+                    bsStyle='danger'
+                    onClick={this._skip}>Skip</Button>
                 </div>
                 <ProductItemForm
                   ref='submitForm'
@@ -54,16 +77,21 @@ class ProductAdder extends Component {
                     ...product,
                     supplier_id: supplier._id
                   }}
-                  onSubmit={onSubmit}
+                  onSubmit={this._onSubmit}
                   form='importer'
                   enableReinitialize
                   suppliers={this.props.suppliers} />
+                <label>Choose product</label>
+                {catalog.isFetching &&
+                  <Alert bsStyle='warning'>Loading products from catalog.</Alert>
+                }
                 {catalog.items.map(item =>
                   <CatalogListItem
                     key={item._id}
                     item={item}
-                    onSelect={(item) => console.log(item)}
-                    added={false} />
+                    onSelect={(item) => this.setState({ product_id: item._id })}
+                    added={false}
+                    selected={this.state.product_id === item._id} />
                 )}
               </Panel>
             ) : (
