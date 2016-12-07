@@ -17,7 +17,7 @@ const ProductListItemForm = ({
       type='select'
       description='The supplier for the product.'
       options={suppliers.items}
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <Field
       name='supplier_product_code'
@@ -25,7 +25,7 @@ const ProductListItemForm = ({
       label='SKU'
       type='text'
       description='The product code associated with the supplier.'
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <Field
       name='par_level'
@@ -33,7 +33,7 @@ const ProductListItemForm = ({
       label='Par Level'
       type='number'
       description='The minimum quantity that your business must keep on hand.'
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <Field
       name='cost_price'
@@ -42,7 +42,7 @@ const ProductListItemForm = ({
       type='number'
       addon='£'
       description='The price at which the product have been bought.'
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <Field
       name='sale_unit_size'
@@ -51,7 +51,7 @@ const ProductListItemForm = ({
       type='number'
       addon='ml'
       description='The base serving measure for the product.'
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <Field
       name='sale_price'
@@ -60,7 +60,7 @@ const ProductListItemForm = ({
       type='number'
       addon='£'
       description='The price at which the product will be sold.'
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <Field
       name='package_size'
@@ -68,7 +68,7 @@ const ProductListItemForm = ({
       label='Case Size'
       type='number'
       description='The number of bottles in a full package.'
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <Field
       name='count_as_full'
@@ -76,7 +76,7 @@ const ProductListItemForm = ({
       label='Count as Full'
       type='number'
       description='The minimum level of liquid in the bottle to be counted as full during order sheet generation.'
-      className={'col-xs-12 col-md-6'} />
+      className={'col-xs-12 col-md-3'} />
 
     <div className={'col-xs-12'}>
       {error &&
