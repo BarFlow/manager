@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormGroup, ControlLabel, HelpBlock, FormControl } from 'react-bootstrap'
 
-const Field = ({ meta, label, input, description, options, className }) => {
+const Field = ({ meta, label, input, description, options, className, valueKey = '_id', displayKey = 'name' }) => {
   const Formcontrol = <FormControl componentClass='select' {...input}>
     <option value={null} />
-    {options.map(item => <option key={item._id} value={item._id}>{item.name}</option>)}
+    {options.map(item => <option key={item._id} value={item[valueKey]}>{item[displayKey]}</option>)}
   </FormControl>
 
   return (
@@ -31,7 +31,9 @@ Field.propTypes = {
   options : React.PropTypes.array,
   description : React.PropTypes.string,
   type : React.PropTypes.string,
-  className : React.PropTypes.string
+  className : React.PropTypes.string,
+  displayKey : React.PropTypes.string,
+  valueKey : React.PropTypes.string
 }
 
 export default Field

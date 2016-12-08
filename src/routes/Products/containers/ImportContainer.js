@@ -14,7 +14,7 @@ import { fetchTypes } from '../../../store/types'
     wiring in the actions and state necessary to render a presentational
     component - in this case, the products:   */
 
-import ImportView from '../components/ImportProducts/ImportView'
+import ImportView from '../components/ImportProducts'
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are

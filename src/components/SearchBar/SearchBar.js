@@ -22,24 +22,9 @@ class SearchBar extends Component {
     })
   }
 
-  buildTypeTree (types) {
-    return types.reduce((mem, type) => {
-      type.children = types.reduce((mem, item) => {
-        if (item.parent_id === type._id) {
-          mem[item.title] = item
-        }
-        return mem
-      }, {})
-      if (!type.parent_id) {
-        mem[type.title] = type
-      }
-      return mem
-    }, {})
-  }
-
   render () {
     const { types, filters = {}, suppliers, exclude = [] } = this.props
-    const typeTree = this.buildTypeTree(types.items)
+    const typeTree = types.tree
     const dropdownSize = 6 / (3 - exclude.length)
 
     const supplierSelector =

@@ -1,5 +1,20 @@
 import { CALL_API } from 'redux-api-middleware'
 
+const buildTypeTree = (types) => {
+  return types.reduce((mem, type) => {
+    type.children = types.reduce((mem, item) => {
+      if (item.parent_id === type._id) {
+        mem[item.title] = item
+      }
+      return mem
+    }, {})
+    if (!type.parent_id) {
+      mem[type.title] = type
+    }
+    return mem
+  }, {})
+}
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -42,7 +57,8 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: false,
-      items: action.payload
+      items: action.payload,
+      tree: buildTypeTree(action.payload)
     }
   }
 }
@@ -52,7 +68,8 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
-  items: []
+  items: [],
+  tree: {}
 }
 export default function venueReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

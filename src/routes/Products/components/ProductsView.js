@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
 import AddProductDialog from './AddProductDialog'
+import CreateProductDialog from './CreateProduct/Dialog'
 import ProductListItem from './ProductListItem'
 
 import './Products.scss'
@@ -107,7 +108,16 @@ class Products extends Component {
 
   render () {
     const {
-      products, types, venueId, toggleAddNewDialog, fetchCatalog, addProduct, updateProduct, deleteProduct, suppliers
+      products,
+      types,
+      fetchTypes,
+      venueId,
+      toggleAddNewDialog,
+      fetchCatalog,
+      addProduct,
+      updateProduct,
+      deleteProduct,
+      suppliers
     } = this.props
 
     const ProductList = products.filteredItems.map(item =>
@@ -128,6 +138,15 @@ class Products extends Component {
 
     return (
       <div className='row'>
+        {venueId &&
+        <CreateProductDialog
+          venueId={venueId}
+          isOpen
+          close={() => console.log('close')}
+          types={types}
+          fetchTypes={fetchTypes}
+          createProduct={(payload) => console.log(payload)} />
+        }
         <SubHeader
           className='bg-yellow'
           left={<h3>Products</h3>}

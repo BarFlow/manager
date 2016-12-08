@@ -27,6 +27,10 @@ export const CATALOG_FETCH_REQUEST = 'products/CATALOG_FETCH_REQUEST'
 export const CATALOG_FETCH_SUCCESS = 'products/CATALOG_FETCH_SUCCESS'
 export const CATALOG_FETCH_FAILURE = 'products/CATALOG_FETCH_FAILURE'
 
+export const CATALOG_ADD_REQUEST = 'products/CATALOG_ADD_REQUEST'
+export const CATALOG_ADD_SUCCESS = 'products/CATALOG_ADD_SUCCESS'
+export const CATALOG_ADD_FAILURE = 'products/CATALOG_ADD_FAILURE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -132,13 +136,29 @@ export const fetchCatalog = (filters) => {
   }
 }
 
+export const addCatalogItem = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/products`,
+      method: 'POST',
+      body: JSON.stringify(payload),
+      types: [
+        CATALOG_ADD_REQUEST,
+        CATALOG_ADD_SUCCESS,
+        CATALOG_ADD_FAILURE
+      ]
+    }
+  }
+}
+
 export const actions = {
   fetchProducts,
   updateProduct,
   deleteProduct,
   addProduct,
   toggleAddNewDialog,
-  fetchCatalog
+  fetchCatalog,
+  addCatalogItem
 }
 
 // ------------------------------------
@@ -195,10 +215,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       addNew: {
-        dialogOpen: !state.addNew.dialogOpen,
-        isFetching: false,
-        items: [],
-        filters: {}
+        dialogOpen: !state.addNew.dialogOpen
       }
     }
   },
@@ -221,6 +238,19 @@ const ACTION_HANDLERS = {
         isFetching: false,
         totalCount: action.meta,
         items: action.payload
+      }
+    }
+  },
+  [CATALOG_ADD_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      catalog: {
+        ...state.catalog,
+        totalCount: state.catalog.totalCount + 1,
+        items: [
+          ...action.payload,
+          state.catalog.items
+        ]
       }
     }
   }
