@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 
 import CreateProductForm from './CreateProductForm'
+import ImageSelect from './ImageSelect'
+
+import './CreateProduct.scss'
 
 class CreateProduct extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      currentStep: 0,
+      currentStep: 1,
       product: {
         type: 'beverage'
       }
@@ -28,7 +31,7 @@ class CreateProduct extends Component {
     this.setState({
       product: {
         ...this.state.product,
-        data
+        ...data
       },
       currentStep: this.state.currentStep + 1
     })
@@ -42,7 +45,7 @@ class CreateProduct extends Component {
 
   render () {
     const { currentStep, product } = this.state
-    const { types } = this.props
+    const { types, token } = this.props
     return (
       <div>
         {currentStep === 0 &&
@@ -52,7 +55,13 @@ class CreateProduct extends Component {
             types={types} />
         }
         {currentStep === 1 &&
-          <div>Image select step</div>
+          <ImageSelect
+            next={this._addProductData}
+            back={this._handleBack}
+            token={token} />
+        }
+        {currentStep === 2 &&
+          <div>Review</div>
         }
       </div>
     )
@@ -63,7 +72,8 @@ CreateProduct.propTypes = {
   venueId: React.PropTypes.string.isRequired,
   types: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
-  createProduct: React.PropTypes.func.isRequired
+  createProduct: React.PropTypes.func.isRequired,
+  token: React.PropTypes.string.isRequired
 }
 
 export default CreateProduct

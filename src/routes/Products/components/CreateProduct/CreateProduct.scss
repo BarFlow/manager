@@ -1,0 +1,15 @@
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+.image-select{
+  img.preview{
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+}

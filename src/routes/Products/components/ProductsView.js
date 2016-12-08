@@ -117,7 +117,8 @@ class Products extends Component {
       addProduct,
       updateProduct,
       deleteProduct,
-      suppliers
+      suppliers,
+      token
     } = this.props
 
     const ProductList = products.filteredItems.map(item =>
@@ -145,7 +146,8 @@ class Products extends Component {
           close={() => console.log('close')}
           types={types}
           fetchTypes={fetchTypes}
-          createProduct={(payload) => console.log(payload)} />
+          createProduct={(payload) => console.log(payload)}
+          token={token} />
         }
         <SubHeader
           className='bg-yellow'
@@ -209,6 +211,7 @@ Products.propTypes = {
   toggleAddNewDialog: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,
-  venueId: React.PropTypes.string
+  venueId: React.PropTypes.string,
+  token: React.PropTypes.string
 }
 export default Products

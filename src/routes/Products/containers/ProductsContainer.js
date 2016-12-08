@@ -50,7 +50,8 @@ const mapStateToProps = (state) => {
     venueId: state.venues.current,
     types: state.types,
     location: state.location,
-    suppliers: state.suppliers
+    suppliers: state.suppliers,
+    token: state.auth.token
   }
 }
 

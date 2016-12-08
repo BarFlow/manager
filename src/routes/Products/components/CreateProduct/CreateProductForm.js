@@ -51,7 +51,7 @@ let CreateProductForm = ({
       label='Capacity'
       type='number'
       addon='ml'
-      description='The volume of the product (in ml.).'
+      description='The volume of the product (ml).'
       className={'col-xs-12'} />
 
     <Field
@@ -66,7 +66,7 @@ let CreateProductForm = ({
       }
       <div className='product-form-footer'>
         <Button type='submit' disabled={submitting || !dirty}>
-          Save
+          Next
         </Button>
       </div>
     </div>
