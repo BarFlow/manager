@@ -1,15 +1,39 @@
 import React from 'react'
 import { reduxForm, Field } from 'redux-form'
 import buildSchema from 'redux-form-schema'
-import { Alert } from 'react-bootstrap'
+import { Alert, Button } from 'react-bootstrap'
 import FormInput from '../../../../components/FormInput'
 import FormSelect from '../../../../components/FormSelect'
 
 const ProductItemForm = ({
-  error, submitSucceeded, handleSubmit, submitting, dirty, suppliers
+  error, submitSucceeded, handleSubmit, onSkip, submitting, dirty, suppliers, product
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
-
+    <div className={'col-xs-12'}>
+      <div className='page-header clearfix'>
+        <h4>{product.name}</h4>
+        <Button
+          className='pull-right'
+          bsStyle='primary'
+          disabled={submitting}
+          type='submit'>Add</Button>
+        <Button
+          className='pull-right'
+          bsStyle='danger'
+          disabled={submitting}
+          onClick={onSkip}>Skip</Button>
+      </div>
+      {error &&
+        <Alert bsStyle='danger'>
+          <strong>Woops!</strong> {error}
+        </Alert>
+      }
+      {submitSucceeded && !submitting && !dirty &&
+        <Alert bsStyle='success'>
+          <strong>Success!</strong> Your changes have been saved successfully.
+        </Alert>
+      }
+    </div>
     <Field
       name='supplier_id'
       component={FormSelect}
@@ -77,19 +101,6 @@ const ProductItemForm = ({
       type='number'
       description='The minimum level of liquid in the bottle to be counted as full during order sheet generation.'
       className={'col-xs-12 col-md-3'} />
-
-    <div className={'col-xs-12'}>
-      {error &&
-        <Alert bsStyle='danger'>
-          <strong>Woops!</strong> {error}
-        </Alert>
-      }
-      {submitSucceeded && !submitting && !dirty &&
-        <Alert bsStyle='success'>
-          <strong>Success!</strong> Your changes have been saved successfully.
-        </Alert>
-      }
-    </div>
   </form>
 )
 
@@ -111,11 +122,13 @@ const { validate } = buildSchema({
 
 ProductItemForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
+  onSkip: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool.isRequired,
-  error: React.PropTypes.object,
+  error: React.PropTypes.string,
   submitSucceeded: React.PropTypes.bool,
   dirty: React.PropTypes.bool,
-  suppliers: React.PropTypes.object
+  suppliers: React.PropTypes.object,
+  product: React.PropTypes.object
 }
 
 export default reduxForm({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Panel, ProgressBar, Alert } from 'react-bootstrap'
+import { Panel, ProgressBar, Alert } from 'react-bootstrap'
 import { SubmissionError } from 'redux-form'
 
 import ProductItemForm from './ProductItemForm'
@@ -12,7 +12,7 @@ class ProductAdder extends Component {
       product_id: ''
     }
     this._onSubmit = this._onSubmit.bind(this)
-    this._skip = this._skip.bind(this)
+    this._onSkip = this._onSkip.bind(this)
   }
 
   componentDidMount () {
@@ -33,16 +33,17 @@ class ProductAdder extends Component {
     if (!this.state.product_id) {
       return Promise.reject(new SubmissionError({ _error: 'Please select a product to continue.' }))
     }
-    this.props.onSubmit({
+    return this.props.onSubmit({
       product_id: this.state.product_id,
       ...values
-    })
-    this.setState({
-      product_id: ''
+    }).then(() => {
+      this.setState({
+        product_id: ''
+      })
     })
   }
 
-  _skip () {
+  _onSkip () {
     this.props.onSubmit()
   }
 
@@ -59,28 +60,20 @@ class ProductAdder extends Component {
           {product
             ? (
               <Panel>
-                <div className='page-header clearfix'>
-                  <h4>{product.name}</h4>
-                  <Button
-                    className='pull-right'
-                    bsStyle='primary'
-                    onClick={() => this.refs.submitForm.submit()}>Add</Button>
-                  <Button
-                    className='pull-right'
-                    bsStyle='danger'
-                    onClick={this._skip}>Skip</Button>
-                </div>
+
                 <ProductItemForm
-                  ref='submitForm'
                   initialValues={{
                     count_as_full: 0.5,
                     ...product,
                     supplier_id: supplier._id
                   }}
                   onSubmit={this._onSubmit}
+                  onSkip={this._onSkip}
                   form='importer'
                   enableReinitialize
-                  suppliers={this.props.suppliers} />
+                  suppliers={this.props.suppliers}
+                  product={product} />
+
                 <label>Choose product</label>
                 {catalog.isFetching &&
                   <Alert bsStyle='warning'>Loading products from catalog.</Alert>
@@ -93,6 +86,7 @@ class ProductAdder extends Component {
                     added={false}
                     selected={this.state.product_id === item._id} />
                 )}
+
               </Panel>
             ) : (
               <Alert bsStyle='success'><strong>Success!</strong> You have successfully imported your products.</Alert>

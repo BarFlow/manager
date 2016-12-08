@@ -121,7 +121,7 @@ ProductListItemForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
   handleDelete: React.PropTypes.func.isRequired,
   submitting: React.PropTypes.bool.isRequired,
-  error: React.PropTypes.object,
+  error: React.PropTypes.string,
   submitSucceeded: React.PropTypes.bool,
   dirty: React.PropTypes.bool,
   suppliers: React.PropTypes.object

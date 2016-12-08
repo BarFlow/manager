@@ -42,6 +42,7 @@ class ImportView extends Component {
   }
 
   _handleProductAdd (values) {
+    // Import product if values are sent
     if (values) {
       return this.props.addProduct({
         venue_id: this.props.venueId,
@@ -49,8 +50,10 @@ class ImportView extends Component {
       }).then(() =>
         this.setState({
           currentIndex: this.state.currentIndex + 1
-        }))
+        })
+      )
     }
+    // Skip product
     this.setState({
       currentIndex: this.state.currentIndex + 1
     })

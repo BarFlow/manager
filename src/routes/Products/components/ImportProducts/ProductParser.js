@@ -19,7 +19,9 @@ class ProductParser extends Component {
     reader.onload = (e) => {
       const data = e.target.result
       const workbook = XLSX.read(data, { type: 'binary' })
-      const productsToImport = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]])
+      const productsToImport = XLSX.utils
+        .sheet_to_json(workbook.Sheets[workbook.SheetNames[0]])
+        .filter(item => item['Name'])
 
       if (!productsToImport.length) {
         return this.setState({
@@ -29,7 +31,7 @@ class ProductParser extends Component {
 
       this.props.onParse(productsToImport.map(item => ({
         category: item['Category'],
-        name: item['Name'],
+        name: item['Name'].replace(/[$-/:-?{-~!"^_`[\]]/g, ''),
         supplier_product_code: item['SKU'],
         supplier: item['Supplier'],
         par_level: item['Par Level'],
@@ -59,7 +61,7 @@ class ProductParser extends Component {
         </div>
         <div className='panel panel-default'>
           <div className='panel-body'>
-            <h4 className='media-heading'>Step 3. Upload your product list.</h4>
+            <h4 className='media-heading'>Step 3. Upload your list to start the import.</h4>
             {this.state.error &&
               <Alert bsStyle='danger'>{this.state.error}</Alert>
             }
@@ -67,11 +69,6 @@ class ProductParser extends Component {
               type='file'
               onChange={this._handleFileSelect}
               accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' />
-          </div>
-        </div>
-        <div className='panel panel-default'>
-          <div className='panel-body'>
-            <h4 className='media-heading'>Step 4. Review and process your products in no time.</h4>
           </div>
         </div>
       </div>
