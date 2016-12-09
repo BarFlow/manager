@@ -3,18 +3,22 @@ import { Media, Label, Panel, Button, Collapse, Modal } from 'react-bootstrap'
 import castNullToStr from '../../../utils/castNullToStr'
 import ProductListItemForm from './ProductListItemForm'
 
+import CreateProductDialog from './CreateProduct/Dialog'
+
 class ProductListItem extends Component {
   constructor (props) {
     super(props)
     this.state = {
       isFormOpen: false,
       isClosing: false,
-      isDialogOpen: false
+      isConfirmDialogOpen: false,
+      isCreateDialogOpen: false
     }
 
     this._toggleCollapse = this._toggleCollapse.bind(this)
     this._handleDelete = this._handleDelete.bind(this)
     this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
+    this._toggleCreateProductDialog = this._toggleCreateProductDialog.bind(this)
   }
 
   _toggleCollapse () {
@@ -28,20 +32,26 @@ class ProductListItem extends Component {
   _handleDelete () {
     this.props.deleteProduct(this.props.item)
     this.setState({
-      isDialogOpen:false
+      isConfirmDialogOpen:false
     })
   }
 
   _toggleConfirmDialog () {
     this.setState({
-      isDialogOpen: !this.state.isDialogOpen
+      isConfirmDialogOpen: !this.state.isConfirmDialogOpen
+    })
+  }
+
+  _toggleCreateProductDialog () {
+    this.setState({
+      isCreateDialogOpen: !this.state.isCreateDialogOpen
     })
   }
 
   render () {
     const { name, type, category, sub_category: subCategory, capacity, images } = this.props.item.product_id
 
-    const confirmDialog = <Modal show={this.state.isDialogOpen}
+    const confirmDialog = <Modal show={this.state.isConfirmDialogOpen}
       onHide={this._toggleConfirmDialog}
       className='delete-product-dialog'>
 
@@ -78,10 +88,13 @@ class ProductListItem extends Component {
                 </span>
               }
               <Label>{capacity} ml</Label>{' '}
-              <Label onClick={() => {
-                this.props.setCatalogCreateInitialValues(this.props.item.product_id)
-                this.props.toggleCatalogAddDialog()
-              }}>Edit</Label>
+              <Label onClick={this._toggleCreateProductDialog}>Edit</Label>
+              {this.state.isCreateDialogOpen &&
+                <CreateProductDialog
+                  isOpen
+                  initialValues={this.props.item.product_id}
+                  close={this._toggleCreateProductDialog} />
+              }
             </p>
           </Media.Body>
           <Media.Right>
@@ -133,8 +146,6 @@ ProductListItem.propTypes = {
   }),
   suppliers: React.PropTypes.object.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
-  deleteProduct: React.PropTypes.func.isRequired,
-  setCatalogCreateInitialValues: React.PropTypes.func.isRequired,
-  toggleCatalogAddDialog: React.PropTypes.func.isRequired
+  deleteProduct: React.PropTypes.func.isRequired
 }
 export default ProductListItem

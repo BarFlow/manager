@@ -5,7 +5,6 @@ import { Link } from 'react-router'
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
 import AddProductDialog from './AddProductDialog'
-import CreateProductDialog from './CreateProduct/Dialog'
 import ProductListItem from './ProductListItem'
 
 import './Products.scss'
@@ -111,19 +110,13 @@ class Products extends Component {
     const {
       products,
       types,
-      fetchTypes,
       venueId,
       toggleAddNewDialog,
-      fetchCatalog,
       addProduct,
-      addCatalogItem,
-      updateCatalogItem,
-      toggleCatalogAddDialog,
-      setCatalogCreateInitialValues,
       updateProduct,
       deleteProduct,
-      suppliers,
-      token
+      fetchCatalog,
+      suppliers
     } = this.props
 
     const ProductList = products.filteredItems.map(item =>
@@ -132,9 +125,7 @@ class Products extends Component {
         item={item}
         suppliers={suppliers}
         updateProduct={updateProduct}
-        deleteProduct={deleteProduct}
-        setCatalogCreateInitialValues={setCatalogCreateInitialValues}
-        toggleCatalogAddDialog={toggleCatalogAddDialog} />
+        deleteProduct={deleteProduct} />
     ).splice(products.filters.skip, products.filters.limit)
 
     const addProductDialog = venueId && <AddProductDialog
@@ -142,25 +133,11 @@ class Products extends Component {
       handleSubmit={fetchCatalog}
       addProduct={addProduct}
       products={products}
-      venueId={venueId}
-      toggleCatalogAddDialog={toggleCatalogAddDialog} />
-
-    const createProductDialog = venueId && products.catalog.isCreateDialogOpen &&
-    <CreateProductDialog
-      venueId={venueId}
-      isOpen
-      close={toggleCatalogAddDialog}
-      types={types}
-      fetchTypes={fetchTypes}
-      createProduct={addCatalogItem}
-      updateCatalogItem={updateCatalogItem}
-      token={token}
-      initialValues={products.catalog.createInitialValues} />
+      venueId={venueId} />
 
     return (
       <div className='row'>
         {addProductDialog}
-        {createProductDialog}
         <SubHeader
           className='bg-yellow'
           left={<h3>Products</h3>}
@@ -211,6 +188,7 @@ Products.propTypes = {
   location: React.PropTypes.object,
   router: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
+  fetchCatalog: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,
   suppliers: React.PropTypes.object.isRequired,
   fetchSuppliers: React.PropTypes.func.isRequired,
@@ -220,13 +198,7 @@ Products.propTypes = {
   updateProduct: React.PropTypes.func.isRequired,
   deleteProduct: React.PropTypes.func.isRequired,
   toggleAddNewDialog: React.PropTypes.func.isRequired,
-  fetchCatalog: React.PropTypes.func.isRequired,
-  addCatalogItem: React.PropTypes.func.isRequired,
-  updateCatalogItem: React.PropTypes.func.isRequired,
-  toggleCatalogAddDialog: React.PropTypes.func.isRequired,
-  setCatalogCreateInitialValues: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,
-  venueId: React.PropTypes.string,
-  token: React.PropTypes.string
+  venueId: React.PropTypes.string
 }
 export default Products

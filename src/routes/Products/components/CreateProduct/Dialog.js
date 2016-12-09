@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap'
 
-import CreateProduct from './CreateProduct'
+import CreateProduct from './CreateProductContainer'
 
 const CreateDialog = (props) => {
   return (

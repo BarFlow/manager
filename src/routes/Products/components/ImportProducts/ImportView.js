@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-// import { Button, Alert, Panel } from 'react-bootstrap'
 
 import SubHeader from '../../../../components/SubHeader'
 import ProductParser from './ProductParser'
 import ProductAdder from './ProductAdder'
-import CreateProductDialog from '../CreateProduct/Dialog'
 
 import './ImportProducts.scss'
 
@@ -63,18 +61,6 @@ class ImportView extends Component {
   render () {
     return (
       <div className='row'>
-        {this.props.venueId &&
-          <CreateProductDialog
-            venueId={this.props.venueId}
-            types={this.props.types}
-            fetchTypes={this.props.fetchTypes}
-            createProduct={this.props.addCatalogItem}
-            updateCatalogItem={this.props.updateCatalogItem}
-            close={this.props.toggleCatalogAddDialog}
-            isOpen={this.props.products.catalog.isCreateDialogOpen}
-            token={this.props.token}
-            />
-        }
         <SubHeader
           className='bg-yellow'
           left={<h3>Products <span className='small'>/ Import</span></h3>} />
@@ -88,8 +74,7 @@ class ImportView extends Component {
               percent={Math.round((this.state.currentIndex / this.state.items.length * 100))}
               catalog={this.props.products.catalog}
               fetchCatalog={this.props.fetchCatalog}
-              veuneId={this.props.venueId}
-              toggleCatalogAddDialog={this.props.toggleCatalogAddDialog} />
+              veuneId={this.props.venueId} />
           }
         </div>
       </div>
@@ -103,13 +88,9 @@ ImportView.propTypes = {
   fetchCatalog: React.PropTypes.func.isRequired,
   fetchSuppliers: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
-  addCatalogItem: React.PropTypes.func.isRequired,
-  updateCatalogItem: React.PropTypes.func.isRequired,
-  toggleCatalogAddDialog: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string,
   products : React.PropTypes.object,
   types: React.PropTypes.object,
-  suppliers: React.PropTypes.object,
-  token: React.PropTypes.string.isRequired
+  suppliers: React.PropTypes.object
 }
 export default ImportView

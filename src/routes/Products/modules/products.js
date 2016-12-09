@@ -35,9 +35,6 @@ export const CATALOG_UPDATE_REQUEST = 'products/CATALOG_UPDATE_REQUEST'
 export const CATALOG_UPDATE_SUCCESS = 'products/CATALOG_UPDATE_SUCCESS'
 export const CATALOG_UPDATE_FAILURE = 'products/CATALOG_UPDATE_FAILURE'
 
-export const CATALOG_TOGGLE_CREATE_DIALOG = 'products/CATALOG_TOGGLE_CREATE_DIALOG'
-export const CATALOG_CREATE_SET_ITINIAL_VALUES = 'products/CATALOG_CREATE_SET_ITINIAL_VALUES'
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -146,7 +143,7 @@ export const fetchCatalog = (filters) => {
 export const addCatalogItem = (payload) => {
   return {
     [CALL_API]: {
-      endpoint: `/products`,
+      endpoint: '/products',
       method: 'POST',
       body: JSON.stringify(payload),
       types: [
@@ -173,15 +170,6 @@ export const updateCatalogItem = (payload) => {
   }
 }
 
-export const toggleCatalogAddDialog = () => ({
-  type: CATALOG_TOGGLE_CREATE_DIALOG
-})
-
-export const setCatalogCreateInitialValues = (payload) => ({
-  type: CATALOG_CREATE_SET_ITINIAL_VALUES,
-  payload
-})
-
 export const actions = {
   fetchProducts,
   updateProduct,
@@ -190,9 +178,7 @@ export const actions = {
   toggleAddNewDialog,
   fetchCatalog,
   addCatalogItem,
-  updateCatalogItem,
-  toggleCatalogAddDialog,
-  setCatalogCreateInitialValues
+  updateCatalogItem
 }
 
 // ------------------------------------
@@ -304,24 +290,6 @@ const ACTION_HANDLERS = {
         ]
       }
     }
-  },
-  [CATALOG_TOGGLE_CREATE_DIALOG] : (state, action) => {
-    return {
-      ...state,
-      catalog: {
-        ...state.catalog,
-        isCreateDialogOpen: !state.catalog.isCreateDialogOpen
-      }
-    }
-  },
-  [CATALOG_CREATE_SET_ITINIAL_VALUES] : (state, action) => {
-    return {
-      ...state,
-      catalog: {
-        ...state.catalog,
-        createInitialValues: action.payload
-      }
-    }
   }
 }
 
@@ -342,8 +310,6 @@ const initialState = {
     isFetching: false,
     totalCount: 0,
     filters: {},
-    isCreateDialogOpen: false,
-    createInitialValues: {},
     items: []
   }
 }

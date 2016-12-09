@@ -5,14 +5,18 @@ import { SubmissionError } from 'redux-form'
 import ProductItemForm from './ProductItemForm'
 import CatalogListItem from './CatalogListItem'
 
+import CreateProductDialog from '../CreateProduct/Dialog'
+
 class ProductAdder extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      product_id: ''
+      product_id: '',
+      isCreateDialogOpen: false
     }
     this._onSubmit = this._onSubmit.bind(this)
     this._onSkip = this._onSkip.bind(this)
+    this._toggleCreateProductDialog = this._toggleCreateProductDialog.bind(this)
   }
 
   componentDidMount () {
@@ -47,8 +51,14 @@ class ProductAdder extends Component {
     this.props.onSubmit()
   }
 
+  _toggleCreateProductDialog () {
+    this.setState({
+      isCreateDialogOpen: !this.state.isCreateDialogOpen
+    })
+  }
+
   render () {
-    const { product, percent = 0, catalog, toggleCatalogAddDialog } = this.props
+    const { product, percent = 0, catalog } = this.props
     const supplier = this.props.suppliers.items.find(item =>
       product && product.supplier && item.name.toLowerCase() === product.supplier.toLowerCase()) || {}
     return (
@@ -90,8 +100,11 @@ class ProductAdder extends Component {
                   <strong>Heads up!</strong>
                   {' If you don\'t see your product in the list above, you can always just create it manually.'}
                 </Alert>
+                <CreateProductDialog
+                  isOpen={this.state.isCreateDialogOpen}
+                  close={this._toggleCreateProductDialog} />
                 <div className='text-center'>
-                  <Button onClick={toggleCatalogAddDialog}>Create Product</Button>
+                  <Button onClick={this._toggleCreateProductDialog}>Create Product</Button>
                 </div>
               </Panel>
             ) : (
@@ -109,7 +122,6 @@ ProductAdder.propTypes = {
   product: React.PropTypes.object.isRequired,
   suppliers: React.PropTypes.object.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
-  toggleCatalogAddDialog: React.PropTypes.func.isRequired,
   catalog: React.PropTypes.object.isRequired,
   percent: React.PropTypes.number
 }

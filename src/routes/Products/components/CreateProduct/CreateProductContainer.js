@@ -1,20 +1,20 @@
 import { connect } from 'react-redux'
 import {
   fetchProducts,
-  addProduct,
-  fetchCatalog
-} from '../modules/products'
-import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
+  fetchCatalog,
+  addCatalogItem,
+  updateCatalogItem
+} from '../../modules/products'
 import { withRouter } from 'react-router'
-import formApiAdapter from '../../../utils/formApiAdapter'
-import { fetchTypes } from '../../../store/types'
+import formApiAdapter from '../../../../utils/formApiAdapter'
+import { fetchTypes } from '../../../../store/types'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
     wiring in the actions and state necessary to render a presentational
     component - in this case, the products:   */
 
-import ImportView from '../components/ImportProducts'
+import CreateProduct from './CreateProduct'
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are
@@ -24,15 +24,15 @@ const mapDispatchToProps = (dispatch) => ({
   fetchProducts: (...args) => dispatch(fetchProducts(...args)),
   fetchTypes: (...args) => dispatch(fetchTypes(...args)),
   fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
-  fetchSuppliers: (...args) => dispatch(fetchSuppliers(...args)),
-  addProduct: formApiAdapter(dispatch, addProduct)
+  addCatalogItem: formApiAdapter(dispatch, addCatalogItem),
+  updateCatalogItem: formApiAdapter(dispatch, updateCatalogItem)
 })
 
 const mapStateToProps = (state) => ({
   products : state.products,
   venueId: state.venues.current,
   types: state.types,
-  suppliers: state.suppliers
+  token: state.auth.token
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
@@ -49,4 +49,4 @@ const mapStateToProps = (state) => ({
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ImportView))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateProduct))

@@ -18,9 +18,11 @@ class ImageSelect extends Component {
   }
 
   componentDidMount () {
-    this.setState({
-      images: this.props.product.images
-    })
+    if (this.props.product.images) {
+      this.setState({
+        images: this.props.product.images
+      })
+    }
   }
 
   _handleUpload (e) {

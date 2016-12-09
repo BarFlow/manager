@@ -2,16 +2,12 @@ import { connect } from 'react-redux'
 import {
   fetchProducts,
   addProduct,
-  addCatalogItem,
-  updateCatalogItem,
   updateProduct,
   deleteProduct,
   toggleAddNewDialog,
   fetchCatalog,
   changeProductsFilter,
-  filterProductItems,
-  toggleCatalogAddDialog,
-  setCatalogCreateInitialValues
+  filterProductItems
 } from '../modules/products'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
 import { withRouter } from 'react-router'
@@ -38,11 +34,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSuppliers: (...args) => dispatch(fetchSuppliers(...args)),
   updateProduct: formApiAdapter(dispatch, updateProduct),
   deleteProduct: formApiAdapter(dispatch, deleteProduct),
-  addProduct: formApiAdapter(dispatch, addProduct),
-  addCatalogItem: formApiAdapter(dispatch, addCatalogItem),
-  updateCatalogItem: formApiAdapter(dispatch, updateCatalogItem),
-  toggleCatalogAddDialog: (...args) => dispatch(toggleCatalogAddDialog(...args)),
-  setCatalogCreateInitialValues: (...args) => dispatch(setCatalogCreateInitialValues(...args))
+  addProduct: formApiAdapter(dispatch, addProduct)
 })
 
 const mapStateToProps = (state) => {
@@ -56,8 +48,7 @@ const mapStateToProps = (state) => {
     venueId: state.venues.current,
     types: state.types,
     location: state.location,
-    suppliers: state.suppliers,
-    token: state.auth.token
+    suppliers: state.suppliers
   }
 }
 

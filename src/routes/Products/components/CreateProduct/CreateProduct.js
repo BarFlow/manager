@@ -54,7 +54,7 @@ class CreateProduct extends Component {
         ...this.state.product
       })
     }
-    return this.props.createProduct({
+    return this.props.addCatalogItem({
       venue_id: this.props.venueId,
       ...this.state.product
     })
@@ -98,7 +98,7 @@ CreateProduct.propTypes = {
   types: React.PropTypes.object,
   initialValues: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
-  createProduct: React.PropTypes.func.isRequired,
+  addCatalogItem: React.PropTypes.func.isRequired,
   updateCatalogItem: React.PropTypes.func.isRequired,
   token: React.PropTypes.string.isRequired
 }
