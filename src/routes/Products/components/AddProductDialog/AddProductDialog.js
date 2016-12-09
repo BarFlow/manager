@@ -48,6 +48,7 @@ class AddProductDialog extends Component {
                 <div>
                   <Alert bsStyle='warning'>Product not found.</Alert>
                   <div className='text-center'>
+                    <p>{'If you don\'t see your product in the list above, you can always just create it manually.'}</p>
                     <Button onClick={toggleCatalogAddDialog}>Create Product</Button>
                   </div>
                 </div>

@@ -86,6 +86,10 @@ class ProductAdder extends Component {
                     added={false}
                     selected={this.state.product_id === item._id} />
                 )}
+                <Alert bsStyle='info'>
+                  <strong>Heads up!</strong>
+                  {' If you don\'t see your product in the list above, you can always just create it manually.'}
+                </Alert>
                 <div className='text-center'>
                   <Button onClick={toggleCatalogAddDialog}>Create Product</Button>
                 </div>
