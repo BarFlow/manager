@@ -8,8 +8,66 @@
 }
 
 .image-select{
-  img.preview{
-    max-width: 100%;
-    margin-bottom: 10px;
+  .preview{
+    text-align: center;
+    img{
+      max-width: 100%;
+      max-height: 400px;
+      margin-bottom: 10px;
+    }
+  }
+  form{
+    margin-bottom: 15px;
+    input[type="file"]{
+      display: inline-block;
+    }
+  }
+}
+
+.create-product-dialog{
+  .product-create-footer{
+    margin: 0 -15px -15px;
+  }
+}
+
+.measure{
+  .canvas{
+    width: 100%;
+    height: 400px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    user-select: none;
+    overflow: hidden;
+    .line{
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: blue;
+      cursor: ns-resize;
+      span{
+        display: block;
+        min-height: 12px;
+        min-width: 20px;
+        margin-top: -5px;
+        background: blue;
+        color: white;
+        float: left;
+      }
+    }
+    .line:active{
+      cursor: ns-resize;
+    }
+  }
+}
+
+.product-create-footer{
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+  .btn+.btn {
+    margin-bottom: 0;
+    margin-left: 5px;
   }
 }

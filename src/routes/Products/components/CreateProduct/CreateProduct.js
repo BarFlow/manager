@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import CreateProductForm from './CreateProductForm'
 import ImageSelect from './ImageSelect'
+import Measure from './Measure'
 
 import './CreateProduct.scss'
 
@@ -10,9 +11,13 @@ class CreateProduct extends Component {
     super(props)
 
     this.state = {
-      currentStep: 1,
+      currentStep: 3,
       product: {
-        type: 'beverage'
+        type: 'beverage',
+        measurable: true,
+        images: {
+          normal: 'http://placehold.it/455x855/6D6D72/fff?text=Crème'
+        }
       }
     }
 
@@ -58,10 +63,13 @@ class CreateProduct extends Component {
           <ImageSelect
             next={this._addProductData}
             back={this._handleBack}
-            token={token} />
+            token={token}
+            product={product}
+            types={types} />
         }
-        {currentStep === 2 &&
-          <div>Review</div>
+        {currentStep > 1 && product.measurable
+          ? (<Measure next={this._addProductData} back={this._handleBack} product={product} />)
+          : (<div>Review</div>)
         }
       </div>
     )

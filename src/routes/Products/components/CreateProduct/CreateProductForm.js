@@ -64,8 +64,8 @@ let CreateProductForm = ({
           <strong>Woops!</strong> {error}
         </Alert>
       }
-      <div className='product-form-footer'>
-        <Button type='submit' disabled={submitting || !dirty}>
+      <div className='product-create-footer'>
+        <Button bsStyle='primary' type='submit'>
           Next
         </Button>
       </div>
