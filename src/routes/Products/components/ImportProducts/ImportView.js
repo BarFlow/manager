@@ -69,6 +69,7 @@ class ImportView extends Component {
             types={this.props.types}
             fetchTypes={this.props.fetchTypes}
             createProduct={this.props.addCatalogItem}
+            updateCatalogItem={this.props.updateCatalogItem}
             close={this.props.toggleCatalogAddDialog}
             isOpen={this.props.products.catalog.isCreateDialogOpen}
             token={this.props.token}
@@ -103,6 +104,7 @@ ImportView.propTypes = {
   fetchSuppliers: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   addCatalogItem: React.PropTypes.func.isRequired,
+  updateCatalogItem: React.PropTypes.func.isRequired,
   toggleCatalogAddDialog: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string,
   products : React.PropTypes.object,

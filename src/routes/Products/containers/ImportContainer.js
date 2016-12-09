@@ -4,7 +4,8 @@ import {
   addProduct,
   fetchCatalog,
   toggleCatalogAddDialog,
-  addCatalogItem
+  addCatalogItem,
+  updateCatalogItem
 } from '../modules/products'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
 import { withRouter } from 'react-router'
@@ -29,7 +30,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSuppliers: (...args) => dispatch(fetchSuppliers(...args)),
   addProduct: formApiAdapter(dispatch, addProduct),
   toggleCatalogAddDialog: (...args) => dispatch(toggleCatalogAddDialog(...args)),
-  addCatalogItem: formApiAdapter(dispatch, addCatalogItem)
+  addCatalogItem: formApiAdapter(dispatch, addCatalogItem),
+  updateCatalogItem: formApiAdapter(dispatch, updateCatalogItem)
 })
 
 const mapStateToProps = (state) => ({

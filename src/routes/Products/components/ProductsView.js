@@ -13,6 +13,7 @@ import './Products.scss'
 class Products extends Component {
   constructor (props) {
     super(props)
+
     this._updateProductsFilterAndURI = this._updateProductsFilterAndURI.bind(this)
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
   }
@@ -116,7 +117,9 @@ class Products extends Component {
       fetchCatalog,
       addProduct,
       addCatalogItem,
+      updateCatalogItem,
       toggleCatalogAddDialog,
+      setCatalogCreateInitialValues,
       updateProduct,
       deleteProduct,
       suppliers,
@@ -129,7 +132,9 @@ class Products extends Component {
         item={item}
         suppliers={suppliers}
         updateProduct={updateProduct}
-        deleteProduct={deleteProduct} />
+        deleteProduct={deleteProduct}
+        setCatalogCreateInitialValues={setCatalogCreateInitialValues}
+        toggleCatalogAddDialog={toggleCatalogAddDialog} />
     ).splice(products.filters.skip, products.filters.limit)
 
     const addProductDialog = venueId && <AddProductDialog
@@ -140,24 +145,27 @@ class Products extends Component {
       venueId={venueId}
       toggleCatalogAddDialog={toggleCatalogAddDialog} />
 
+    const createProductDialog = venueId && products.catalog.isCreateDialogOpen &&
+    <CreateProductDialog
+      venueId={venueId}
+      isOpen
+      close={toggleCatalogAddDialog}
+      types={types}
+      fetchTypes={fetchTypes}
+      createProduct={addCatalogItem}
+      updateCatalogItem={updateCatalogItem}
+      token={token}
+      initialValues={products.catalog.createInitialValues} />
+
     return (
       <div className='row'>
-        {venueId &&
-        <CreateProductDialog
-          venueId={venueId}
-          isOpen={products.catalog.isCreateDialogOpen}
-          close={toggleCatalogAddDialog}
-          types={types}
-          fetchTypes={fetchTypes}
-          createProduct={addCatalogItem}
-          token={token} />
-        }
+        {addProductDialog}
+        {createProductDialog}
         <SubHeader
           className='bg-yellow'
           left={<h3>Products</h3>}
           right={
             <div>
-              {addProductDialog}
               <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add New</Button>
               <Link className='btn btn-default' to='/products/import'>Import</Link>
             </div>
@@ -214,7 +222,9 @@ Products.propTypes = {
   toggleAddNewDialog: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
   addCatalogItem: React.PropTypes.func.isRequired,
+  updateCatalogItem: React.PropTypes.func.isRequired,
   toggleCatalogAddDialog: React.PropTypes.func.isRequired,
+  setCatalogCreateInitialValues: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
   token: React.PropTypes.string

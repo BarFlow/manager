@@ -31,7 +31,12 @@ export const CATALOG_ADD_REQUEST = 'products/CATALOG_ADD_REQUEST'
 export const CATALOG_ADD_SUCCESS = 'products/CATALOG_ADD_SUCCESS'
 export const CATALOG_ADD_FAILURE = 'products/CATALOG_ADD_FAILURE'
 
+export const CATALOG_UPDATE_REQUEST = 'products/CATALOG_UPDATE_REQUEST'
+export const CATALOG_UPDATE_SUCCESS = 'products/CATALOG_UPDATE_SUCCESS'
+export const CATALOG_UPDATE_FAILURE = 'products/CATALOG_UPDATE_FAILURE'
+
 export const CATALOG_TOGGLE_CREATE_DIALOG = 'products/CATALOG_TOGGLE_CREATE_DIALOG'
+export const CATALOG_CREATE_SET_ITINIAL_VALUES = 'products/CATALOG_CREATE_SET_ITINIAL_VALUES'
 
 // ------------------------------------
 // Actions
@@ -153,8 +158,28 @@ export const addCatalogItem = (payload) => {
   }
 }
 
+export const updateCatalogItem = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/products/${payload._id}`,
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      types: [
+        CATALOG_UPDATE_REQUEST,
+        CATALOG_UPDATE_SUCCESS,
+        CATALOG_UPDATE_FAILURE
+      ]
+    }
+  }
+}
+
 export const toggleCatalogAddDialog = () => ({
   type: CATALOG_TOGGLE_CREATE_DIALOG
+})
+
+export const setCatalogCreateInitialValues = (payload) => ({
+  type: CATALOG_CREATE_SET_ITINIAL_VALUES,
+  payload
 })
 
 export const actions = {
@@ -165,7 +190,9 @@ export const actions = {
   toggleAddNewDialog,
   fetchCatalog,
   addCatalogItem,
-  toggleCatalogAddDialog
+  updateCatalogItem,
+  toggleCatalogAddDialog,
+  setCatalogCreateInitialValues
 }
 
 // ------------------------------------
@@ -262,12 +289,37 @@ const ACTION_HANDLERS = {
       }
     }
   },
+  [CATALOG_UPDATE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      catalog: {
+        ...state.catalog,
+        items: [
+          ...state.catalog.items.map(item => {
+            if (item._id === action.payload._id) {
+              item = action.payload
+            }
+            return item
+          })
+        ]
+      }
+    }
+  },
   [CATALOG_TOGGLE_CREATE_DIALOG] : (state, action) => {
     return {
       ...state,
       catalog: {
         ...state.catalog,
         isCreateDialogOpen: !state.catalog.isCreateDialogOpen
+      }
+    }
+  },
+  [CATALOG_CREATE_SET_ITINIAL_VALUES] : (state, action) => {
+    return {
+      ...state,
+      catalog: {
+        ...state.catalog,
+        createInitialValues: action.payload
       }
     }
   }
@@ -291,6 +343,7 @@ const initialState = {
     totalCount: 0,
     filters: {},
     isCreateDialogOpen: false,
+    createInitialValues: {},
     items: []
   }
 }

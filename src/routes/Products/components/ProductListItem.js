@@ -77,7 +77,11 @@ class ProductListItem extends Component {
                   <Label>{subCategory}</Label>{' '}
                 </span>
               }
-              <Label>{capacity} ml</Label>
+              <Label>{capacity} ml</Label>{' '}
+              <Label onClick={() => {
+                this.props.setCatalogCreateInitialValues(this.props.item.product_id)
+                this.props.toggleCatalogAddDialog()
+              }}>Edit</Label>
             </p>
           </Media.Body>
           <Media.Right>
@@ -129,6 +133,8 @@ ProductListItem.propTypes = {
   }),
   suppliers: React.PropTypes.object.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
-  deleteProduct: React.PropTypes.func.isRequired
+  deleteProduct: React.PropTypes.func.isRequired,
+  setCatalogCreateInitialValues: React.PropTypes.func.isRequired,
+  toggleCatalogAddDialog: React.PropTypes.func.isRequired
 }
 export default ProductListItem

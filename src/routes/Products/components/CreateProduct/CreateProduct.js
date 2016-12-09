@@ -48,6 +48,12 @@ class CreateProduct extends Component {
   }
 
   _handleSubmit () {
+    if (this.state.product._id) {
+      return this.props.updateCatalogItem({
+        venue_id: this.props.venueId,
+        ...this.state.product
+      })
+    }
     return this.props.createProduct({
       venue_id: this.props.venueId,
       ...this.state.product
@@ -56,13 +62,13 @@ class CreateProduct extends Component {
 
   render () {
     const { currentStep, product } = this.state
-    const { types, token } = this.props
+    const { types, token, initialValues } = this.props
     return (
       <div>
         {currentStep === 0 &&
           <CreateProductForm
             onSubmit={this._addProductData}
-            initialValues={product}
+            initialValues={{ ...product, ...initialValues }}
             types={types} />
         }
         {currentStep === 1 &&
@@ -90,8 +96,10 @@ class CreateProduct extends Component {
 CreateProduct.propTypes = {
   venueId: React.PropTypes.string.isRequired,
   types: React.PropTypes.object,
+  initialValues: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
   createProduct: React.PropTypes.func.isRequired,
+  updateCatalogItem: React.PropTypes.func.isRequired,
   token: React.PropTypes.string.isRequired
 }
 

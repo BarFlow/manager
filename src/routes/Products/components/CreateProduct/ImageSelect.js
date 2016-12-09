@@ -17,6 +17,12 @@ class ImageSelect extends Component {
     this._handleNext = this._handleNext.bind(this)
   }
 
+  componentDidMount () {
+    this.setState({
+      images: this.props.product.images
+    })
+  }
+
   _handleUpload (e) {
     e.preventDefault()
     this.setState({

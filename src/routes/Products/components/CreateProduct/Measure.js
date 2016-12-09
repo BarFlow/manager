@@ -18,6 +18,10 @@ class Measure extends Component {
   }
 
   componentDidMount () {
+    this.setState({
+      measurable_from: this.props.product.measurable_from,
+      measurable_till: this.props.product.measurable_till
+    })
     var canvas = this.refs.canvas
     canvas.addEventListener('mousemove', this.onMousemove, false)
     document.addEventListener('mouseup', this.onMouseup, false)

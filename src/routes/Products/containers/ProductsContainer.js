@@ -3,13 +3,15 @@ import {
   fetchProducts,
   addProduct,
   addCatalogItem,
+  updateCatalogItem,
   updateProduct,
   deleteProduct,
   toggleAddNewDialog,
   fetchCatalog,
   changeProductsFilter,
   filterProductItems,
-  toggleCatalogAddDialog
+  toggleCatalogAddDialog,
+  setCatalogCreateInitialValues
 } from '../modules/products'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
 import { withRouter } from 'react-router'
@@ -38,7 +40,9 @@ const mapDispatchToProps = (dispatch) => ({
   deleteProduct: formApiAdapter(dispatch, deleteProduct),
   addProduct: formApiAdapter(dispatch, addProduct),
   addCatalogItem: formApiAdapter(dispatch, addCatalogItem),
-  toggleCatalogAddDialog: (...args) => dispatch(toggleCatalogAddDialog(...args))
+  updateCatalogItem: formApiAdapter(dispatch, updateCatalogItem),
+  toggleCatalogAddDialog: (...args) => dispatch(toggleCatalogAddDialog(...args)),
+  setCatalogCreateInitialValues: (...args) => dispatch(setCatalogCreateInitialValues(...args))
 })
 
 const mapStateToProps = (state) => {
