@@ -83,11 +83,12 @@ class ImageSelect extends Component {
       <div className='image-select'>
         <div className='uploader'>
           <label>Product Image</label>
+          <p>The picture below will be used for your product. Custom image can also be uploaded.</p>
           <p className='preview'><img src={images.normal || defaults.images.normal} /></p>
           {error.message &&
             <Alert bsStyle='danger'>{error.message}</Alert>
           }
-          <label>Use default or upload your own</label>
+          <label>Use default image or upload your own</label>
           <form onSubmit={this._handleUpload}>
             <input type='file' ref='file' disabled={submitting} accept='image/*' onChange={this._setFile} />
             {file &&

@@ -113,7 +113,7 @@ const MeasuraleCheckbox = ({ meta, input }) =>
   <FormGroup className={'col-xs-12'}
     validationState={(meta.touched && meta.error) ? ('error') : undefined}>
     <ControlLabel>Measurable product</ControlLabel>
-    <Checkbox {...input}>
+    <Checkbox checked={input.value} {...input}>
       Measurable
     </Checkbox>
     <HelpBlock>

@@ -11,13 +11,10 @@ class CreateProduct extends Component {
     super(props)
 
     this.state = {
-      currentStep: 3,
+      currentStep: 0,
       product: {
         type: 'beverage',
-        measurable: true,
-        images: {
-          normal: 'http://placehold.it/455x855/6D6D72/fff?text=Crème'
-        }
+        measurable: false
       }
     }
 
@@ -67,9 +64,11 @@ class CreateProduct extends Component {
             product={product}
             types={types} />
         }
-        {currentStep > 1 && product.measurable
-          ? (<Measure next={this._addProductData} back={this._handleBack} product={product} />)
-          : (<div>Review</div>)
+        {currentStep === 2 && product.measurable &&
+          <Measure next={this._addProductData} back={this._handleBack} product={product} />
+        }
+        {((currentStep === 2 && !product.measurable) || currentStep === 3) &&
+          <div>Review</div>
         }
       </div>
     )
