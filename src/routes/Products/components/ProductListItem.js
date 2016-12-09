@@ -88,7 +88,7 @@ class ProductListItem extends Component {
                 </span>
               }
               <Label>{capacity} ml</Label>{' '}
-              <Label onClick={this._toggleCreateProductDialog}>Edit</Label>
+              <Label className='update' onClick={this._toggleCreateProductDialog}>Update</Label>
               {this.state.isCreateDialogOpen &&
                 <CreateProductDialog
                   isOpen

@@ -59,9 +59,8 @@ class ImageSelect extends Component {
   getCategoryDefaults (product) {
     const { category, sub_category: subCategory } = product
     const { types } = this.props
-    if (subCategory) {
-      return types.items.find(item =>
-        item._id === types.tree.beverage.children[category].children[subCategory]._id)
+    if (subCategory && types.tree.beverage.children[category].children[subCategory]) {
+      return types.items.find(item => item._id === types.tree.beverage.children[category].children[subCategory]._id)
     }
 
     return types.items.find(item => item._id === types.tree.beverage.children[category]._id)
@@ -76,8 +75,8 @@ class ImageSelect extends Component {
         ...defaults.images,
         ...images
       },
-      measurable_from: defaults.measurable_from,
-      measurable_till: defaults.measurable_till
+      measurable_from: product.measurable_from || defaults.measurable_from,
+      measurable_till: product.measurable_till || defaults.measurable_till
     }
     next(payload)
   }

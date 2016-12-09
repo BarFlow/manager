@@ -7,7 +7,8 @@ class Review extends Component {
 
     this.state = {
       submitting: false,
-      submitted: false
+      submitted: false,
+      error: ''
     }
 
     this._handleSubmit = this._handleSubmit.bind(this)
@@ -24,6 +25,7 @@ class Review extends Component {
         submitted: true
       })
     })
+    .catch(err => this.setState({ error: err.errors._error }))
   }
 
   render () {
@@ -50,6 +52,9 @@ class Review extends Component {
           </div>
         </div>
         <div className='product-create-footer'>
+          {this.state.error &&
+            <Alert bsStyle='danger'><strong>Ooops!</strong> {this.state.error}</Alert>
+          }
           {!this.state.submitted &&
             <div>
               <Button onClick={back} disabled={this.state.submitting}>

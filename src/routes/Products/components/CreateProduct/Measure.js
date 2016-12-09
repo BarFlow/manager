@@ -34,9 +34,9 @@ class Measure extends Component {
     // get mouse position on document crossbrowser
     if (!e) { e = window.event }
     if (e.pageX || e.pageY) {
-      mPosy = e.pageY
+      mPosy = e.pageY - document.body.scrollTop
     } else if (e.clientX || e.clientY) {
-      mPosy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop
+      mPosy = e.clientY + document.documentElement.scrollTop
     }
     // get parent element position in document
     if (obj.offsetParent) {
