@@ -116,6 +116,7 @@ class Products extends Component {
       fetchCatalog,
       addProduct,
       addCatalogItem,
+      toggleCatalogAddDialog,
       updateProduct,
       deleteProduct,
       suppliers,
@@ -136,15 +137,16 @@ class Products extends Component {
       handleSubmit={fetchCatalog}
       addProduct={addProduct}
       products={products}
-      venueId={venueId} />
+      venueId={venueId}
+      toggleCatalogAddDialog={toggleCatalogAddDialog} />
 
     return (
       <div className='row'>
         {venueId &&
         <CreateProductDialog
           venueId={venueId}
-          isOpen
-          close={() => console.log('close')}
+          isOpen={products.catalog.isCreateDialogOpen}
+          close={toggleCatalogAddDialog}
           types={types}
           fetchTypes={fetchTypes}
           createProduct={addCatalogItem}
@@ -207,11 +209,12 @@ Products.propTypes = {
   fetchProducts: React.PropTypes.func.isRequired,
   changeProductsFilter: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
-  addCatalogItem: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   deleteProduct: React.PropTypes.func.isRequired,
   toggleAddNewDialog: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
+  addCatalogItem: React.PropTypes.func.isRequired,
+  toggleCatalogAddDialog: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
   token: React.PropTypes.string

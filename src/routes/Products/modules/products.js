@@ -31,6 +31,8 @@ export const CATALOG_ADD_REQUEST = 'products/CATALOG_ADD_REQUEST'
 export const CATALOG_ADD_SUCCESS = 'products/CATALOG_ADD_SUCCESS'
 export const CATALOG_ADD_FAILURE = 'products/CATALOG_ADD_FAILURE'
 
+export const CATALOG_TOGGLE_CREATE_DIALOG = 'products/CATALOG_TOGGLE_CREATE_DIALOG'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -151,6 +153,10 @@ export const addCatalogItem = (payload) => {
   }
 }
 
+export const toggleCatalogAddDialog = () => ({
+  type: CATALOG_TOGGLE_CREATE_DIALOG
+})
+
 export const actions = {
   fetchProducts,
   updateProduct,
@@ -158,7 +164,8 @@ export const actions = {
   addProduct,
   toggleAddNewDialog,
   fetchCatalog,
-  addCatalogItem
+  addCatalogItem,
+  toggleCatalogAddDialog
 }
 
 // ------------------------------------
@@ -223,6 +230,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       catalog: {
+        ...state.catalog,
         isFetching: true,
         totalCount: 0,
         filters: action.meta,
@@ -253,6 +261,15 @@ const ACTION_HANDLERS = {
         ]
       }
     }
+  },
+  [CATALOG_TOGGLE_CREATE_DIALOG] : (state, action) => {
+    return {
+      ...state,
+      catalog: {
+        ...state.catalog,
+        isCreateDialogOpen: !state.catalog.isCreateDialogOpen
+      }
+    }
   }
 }
 
@@ -273,6 +290,7 @@ const initialState = {
     isFetching: false,
     totalCount: 0,
     filters: {},
+    isCreateDialogOpen: false,
     items: []
   }
 }

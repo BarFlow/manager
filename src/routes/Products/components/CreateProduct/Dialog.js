@@ -17,10 +17,6 @@ const CreateDialog = (props) => {
 }
 
 CreateDialog.propTypes = {
-  venueId: React.PropTypes.string.isRequired,
-  types: React.PropTypes.object,
-  fetchTypes: React.PropTypes.func.isRequired,
-  createProduct: React.PropTypes.func.isRequired,
   close: React.PropTypes.func.isRequired,
   isOpen: React.PropTypes.bool.isRequired
 }

@@ -2,7 +2,9 @@ import { connect } from 'react-redux'
 import {
   fetchProducts,
   addProduct,
-  fetchCatalog
+  fetchCatalog,
+  toggleCatalogAddDialog,
+  addCatalogItem
 } from '../modules/products'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
 import { withRouter } from 'react-router'
@@ -25,14 +27,16 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTypes: (...args) => dispatch(fetchTypes(...args)),
   fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
   fetchSuppliers: (...args) => dispatch(fetchSuppliers(...args)),
-  addProduct: formApiAdapter(dispatch, addProduct)
+  addProduct: formApiAdapter(dispatch, addProduct),
+  toggleCatalogAddDialog: (...args) => dispatch(toggleCatalogAddDialog(...args)),
+  addCatalogItem: formApiAdapter(dispatch, addCatalogItem)
 })
 
 const mapStateToProps = (state) => ({
   products : state.products,
   venueId: state.venues.current,
   types: state.types,
-  catalog: state.catalog,
+  token: state.auth.token,
   suppliers: state.suppliers
 })
 

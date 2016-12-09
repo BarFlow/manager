@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel, ProgressBar, Alert } from 'react-bootstrap'
+import { Panel, ProgressBar, Alert, Button } from 'react-bootstrap'
 import { SubmissionError } from 'redux-form'
 
 import ProductItemForm from './ProductItemForm'
@@ -48,7 +48,7 @@ class ProductAdder extends Component {
   }
 
   render () {
-    const { product, percent = 0, catalog } = this.props
+    const { product, percent = 0, catalog, toggleCatalogAddDialog } = this.props
     const supplier = this.props.suppliers.items.find(item =>
       product && product.supplier && item.name.toLowerCase() === product.supplier.toLowerCase()) || {}
     return (
@@ -86,7 +86,9 @@ class ProductAdder extends Component {
                     added={false}
                     selected={this.state.product_id === item._id} />
                 )}
-
+                <div className='text-center'>
+                  <Button onClick={toggleCatalogAddDialog}>Create Product</Button>
+                </div>
               </Panel>
             ) : (
               <Alert bsStyle='success'><strong>Success!</strong> You have successfully imported your products.</Alert>
@@ -103,6 +105,7 @@ ProductAdder.propTypes = {
   product: React.PropTypes.object.isRequired,
   suppliers: React.PropTypes.object.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
+  toggleCatalogAddDialog: React.PropTypes.func.isRequired,
   catalog: React.PropTypes.object.isRequired,
   percent: React.PropTypes.number
 }
