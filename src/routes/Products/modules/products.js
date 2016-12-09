@@ -248,8 +248,8 @@ const ACTION_HANDLERS = {
         ...state.catalog,
         totalCount: state.catalog.totalCount + 1,
         items: [
-          ...action.payload,
-          state.catalog.items
+          action.payload,
+          ...state.catalog.items
         ]
       }
     }

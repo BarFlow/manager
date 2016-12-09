@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import CreateProductForm from './CreateProductForm'
 import ImageSelect from './ImageSelect'
 import Measure from './Measure'
+import Review from './Review'
 
 import './CreateProduct.scss'
 
@@ -20,6 +21,7 @@ class CreateProduct extends Component {
 
     this._addProductData = this._addProductData.bind(this)
     this._handleBack = this._handleBack.bind(this)
+    this._handleSubmit = this._handleSubmit.bind(this)
   }
 
   componentDidMount () {
@@ -42,6 +44,13 @@ class CreateProduct extends Component {
   _handleBack () {
     this.setState({
       currentStep: this.state.currentStep - 1
+    })
+  }
+
+  _handleSubmit () {
+    return this.props.createProduct({
+      venue_id: this.props.venueId,
+      ...this.state.product
     })
   }
 
@@ -68,7 +77,10 @@ class CreateProduct extends Component {
           <Measure next={this._addProductData} back={this._handleBack} product={product} />
         }
         {((currentStep === 2 && !product.measurable) || currentStep === 3) &&
-          <div>Review</div>
+          <Review
+            product={product}
+            back={this._handleBack}
+            submit={this._handleSubmit} />
         }
       </div>
     )

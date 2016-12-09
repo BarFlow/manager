@@ -115,6 +115,7 @@ class Products extends Component {
       toggleAddNewDialog,
       fetchCatalog,
       addProduct,
+      addCatalogItem,
       updateProduct,
       deleteProduct,
       suppliers,
@@ -146,7 +147,7 @@ class Products extends Component {
           close={() => console.log('close')}
           types={types}
           fetchTypes={fetchTypes}
-          createProduct={(payload) => console.log(payload)}
+          createProduct={addCatalogItem}
           token={token} />
         }
         <SubHeader
@@ -206,6 +207,7 @@ Products.propTypes = {
   fetchProducts: React.PropTypes.func.isRequired,
   changeProductsFilter: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
+  addCatalogItem: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   deleteProduct: React.PropTypes.func.isRequired,
   toggleAddNewDialog: React.PropTypes.func.isRequired,
