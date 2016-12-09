@@ -114,7 +114,9 @@ class VenueListItem extends Component {
         <Media>
           {product.name &&
             <Media.Left align='middle'>
-              <img src={product.images && product.images.thumbnail} width='50' height='50' />
+              <div>
+                <img src={product.images && product.images.thumbnail} alt={name} />
+              </div>
             </Media.Left>
           }
           <Media.Body>

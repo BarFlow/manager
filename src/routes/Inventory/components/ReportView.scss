@@ -1,6 +1,17 @@
 .report{
   padding-top: 2rem;
 
+  .media-left{
+    div{
+      width: 70px;
+      text-align: center;
+      img{
+        max-width: 70px;
+        max-height: 70px;
+      }
+    }
+  }
+
   .panel{
     cursor: pointer;
   }

@@ -63,7 +63,9 @@ class ProductListItem extends Component {
       <Panel>
         <Media>
           <Media.Left>
-            <img width={70} height={70} src={images && images.thumbnail} alt={name} />
+            <div>
+              <img src={images && images.thumbnail} alt={name} />
+            </div>
           </Media.Left>
           <Media.Body>
             <Media.Heading>{name}</Media.Heading>

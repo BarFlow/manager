@@ -1,5 +1,6 @@
 .venue{
   padding-top: 2rem;
+
   .panel.breadcrumbs{
     cursor: pointer;
     background: #7b7b7b;
@@ -56,5 +57,15 @@
 .venue-list-item.panel:hover {
   .panel-body h4.media-heading{
     text-decoration: underline;
+  }
+}
+.venue-list-item.panel.placements .media-left{
+  div{
+    width: 50px;
+    text-align: center;
+    img{
+      max-width: 50px;
+      max-height: 50px;
+    }
   }
 }
