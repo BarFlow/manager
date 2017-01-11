@@ -54,11 +54,15 @@ const ACTION_HANDLERS = {
     }
   },
   [TYPES_FETCH_SUCCESS] : (state, action) => {
+    const lowercasedTypes = action.payload.map(type => {
+      type.title = type.title.toLowerCase()
+      return type
+    })
     return {
       ...state,
       isFetching: false,
-      items: action.payload,
-      tree: buildTypeTree(action.payload)
+      items: lowercasedTypes,
+      tree: buildTypeTree(lowercasedTypes)
     }
   }
 }

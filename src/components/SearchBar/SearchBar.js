@@ -77,7 +77,7 @@ class SearchBar extends Component {
           value={filters['sub_category'] || ''}
           disabled={!filters['category'] || filters['category'] === ''}>
           <option value=''>any</option>
-          {filters['category'] &&
+          {(typeTree.beverage && typeTree.beverage.children[filters['category']]) &&
             Object.keys(typeTree.beverage.children[filters['category']].children).map(subCategory =>
               <option
                 key={typeTree.beverage.children[filters['category']].children[subCategory]._id}
