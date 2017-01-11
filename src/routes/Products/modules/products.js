@@ -21,8 +21,6 @@ export const PRODUCTS_DELETE_FAILURE = 'products/DELETE_FAILURE'
 
 export const PRODUCTS_FILTER_CHANGE = 'products/FILTER_CHANGE'
 
-export const PRODUCTS_TOGGLE_ADD_DIALOG = 'products/TOGGLE_ADD_DIALOG'
-
 export const CATALOG_FETCH_REQUEST = 'products/CATALOG_FETCH_REQUEST'
 export const CATALOG_FETCH_SUCCESS = 'products/CATALOG_FETCH_SUCCESS'
 export const CATALOG_FETCH_FAILURE = 'products/CATALOG_FETCH_FAILURE'
@@ -105,10 +103,6 @@ export const deleteProduct = (payload) => {
   }
 }
 
-export const toggleAddNewDialog = () => ({
-  type: PRODUCTS_TOGGLE_ADD_DIALOG
-})
-
 export const fetchCatalog = (filters) => {
   filters = {
     ...{ limit: 20, skip:0 },
@@ -175,7 +169,6 @@ export const actions = {
   updateProduct,
   deleteProduct,
   addProduct,
-  toggleAddNewDialog,
   fetchCatalog,
   addCatalogItem,
   updateCatalogItem
@@ -229,14 +222,6 @@ const ACTION_HANDLERS = {
         }
         return item
       })
-    }
-  },
-  [PRODUCTS_TOGGLE_ADD_DIALOG] : (state, action) => {
-    return {
-      ...state,
-      addNew: {
-        dialogOpen: !state.addNew.dialogOpen
-      }
     }
   },
   [CATALOG_FETCH_REQUEST] : (state, action) => {

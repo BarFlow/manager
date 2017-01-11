@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../components/SearchBar'
-import AddProductDialog from './AddProductDialog'
+import AddProductDialog from './AddProduct/Dialog'
 import ProductListItem from './ProductListItem'
 
 import './Products.scss'
@@ -13,8 +13,13 @@ class Products extends Component {
   constructor (props) {
     super(props)
 
+    this.state = {
+      isAddProductDialogOpen: false
+    }
+
     this._updateProductsFilterAndURI = this._updateProductsFilterAndURI.bind(this)
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this)
+    this.toggleAddNewDialog = this.toggleAddNewDialog.bind(this)
   }
 
   componentDidMount () {
@@ -106,12 +111,17 @@ class Products extends Component {
     window.scrollTo(0, 0)
   }
 
+  toggleAddNewDialog () {
+    this.setState({
+      isAddProductDialogOpen: !this.state.isAddProductDialogOpen
+    })
+  }
+
   render () {
     const {
       products,
       types,
       venueId,
-      toggleAddNewDialog,
       addProduct,
       updateProduct,
       deleteProduct,
@@ -129,8 +139,9 @@ class Products extends Component {
     ).splice(products.filters.skip, products.filters.limit)
 
     const addProductDialog = venueId && <AddProductDialog
-      close={toggleAddNewDialog}
-      handleSubmit={fetchCatalog}
+      close={this.toggleAddNewDialog}
+      isOpen={this.state.isAddProductDialogOpen}
+      handleSearch={fetchCatalog}
       addProduct={addProduct}
       products={products}
       venueId={venueId} />
@@ -143,7 +154,7 @@ class Products extends Component {
           left={<h3>Products</h3>}
           right={
             <div>
-              <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add New</Button>
+              <Button onClick={this.toggleAddNewDialog} disabled={!venueId}>Add New</Button>
               <Link className='btn btn-default' to='/products/import'>Import</Link>
             </div>
           } />
@@ -197,7 +208,6 @@ Products.propTypes = {
   addProduct: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   deleteProduct: React.PropTypes.func.isRequired,
-  toggleAddNewDialog: React.PropTypes.func.isRequired,
   products: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string
 }
