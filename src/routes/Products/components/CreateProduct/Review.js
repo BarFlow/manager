@@ -19,13 +19,21 @@ class Review extends Component {
       submitting: true
     })
 
-    this.props.submit().then(() => {
-      this.setState({
-        submitting: false,
-        submitted: true
-      })
-    })
-    .catch(err => this.setState({ error: err.errors._error }))
+    this.props.submit()
+      .then(() =>
+        this.setState({
+          submitting: false,
+          submitted: true
+        })
+      )
+      // If we are inside a dialog, let's close it
+      .then(() => this.props.close && this.props.close())
+      .catch(err =>
+        this.setState({
+          submitting: false,
+          error: err.errors._error
+        })
+      )
   }
 
   render () {
@@ -77,7 +85,8 @@ class Review extends Component {
 Review.propTypes = {
   back: React.PropTypes.func.isRequired,
   submit: React.PropTypes.func.isRequired,
-  product: React.PropTypes.object
+  product: React.PropTypes.object,
+  close: React.PropTypes.func
 }
 
 export default Review

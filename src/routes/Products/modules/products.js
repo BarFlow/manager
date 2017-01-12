@@ -263,16 +263,20 @@ const ACTION_HANDLERS = {
   [CATALOG_UPDATE_SUCCESS] : (state, action) => {
     return {
       ...state,
+      items: state.items.map(item => {
+        if (item.product_id._id === action.payload._id) {
+          item.product_id = action.payload
+        }
+        return item
+      }),
       catalog: {
         ...state.catalog,
-        items: [
-          ...state.catalog.items.map(item => {
-            if (item._id === action.payload._id) {
-              item = action.payload
-            }
-            return item
-          })
-        ]
+        items: state.catalog.items.map(item => {
+          if (item._id === action.payload._id) {
+            item = action.payload
+          }
+          return item
+        })
       }
     }
   }

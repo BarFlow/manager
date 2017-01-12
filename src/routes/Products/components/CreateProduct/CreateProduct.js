@@ -62,7 +62,7 @@ class CreateProduct extends Component {
 
   render () {
     const { currentStep, product } = this.state
-    const { types, token, initialValues } = this.props
+    const { types, token, initialValues, close } = this.props
     return (
       <div>
         {currentStep === 0 &&
@@ -86,7 +86,8 @@ class CreateProduct extends Component {
           <Review
             product={product}
             back={this._handleBack}
-            submit={this._handleSubmit} />
+            submit={this._handleSubmit}
+            close={close} />
         }
       </div>
     )
@@ -100,7 +101,8 @@ CreateProduct.propTypes = {
   fetchTypes: React.PropTypes.func.isRequired,
   addCatalogItem: React.PropTypes.func.isRequired,
   updateCatalogItem: React.PropTypes.func.isRequired,
-  token: React.PropTypes.string.isRequired
+  token: React.PropTypes.string.isRequired,
+  close: React.PropTypes.func
 }
 
 export default CreateProduct
