@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel, ProgressBar, Alert, Button } from 'react-bootstrap'
+import { Panel, ProgressBar, Alert } from 'react-bootstrap'
 
 import ProductItemForm from './ProductItemForm'
 import CatalogListItem from './CatalogListItem'
@@ -52,6 +52,8 @@ class ProductAdder extends Component {
   }
 
   _toggleCreateProductDialog () {
+    window.scrollTo(0, 0)
+    this.refs.createBtn.blur()
     this.setState({
       isCreateDialogOpen: !this.state.isCreateDialogOpen
     })
@@ -109,7 +111,9 @@ class ProductAdder extends Component {
                   close={this._toggleCreateProductDialog}
                   initialValues={{ name: product.name }} />
                 <div className='text-center'>
-                  <Button onClick={this._toggleCreateProductDialog}>Create Product</Button>
+                  <button className='btn btn-default' ref='createBtn' onClick={this._toggleCreateProductDialog}>
+                    Create Product
+                  </button>
                 </div>
               </Panel>
             ) : (
