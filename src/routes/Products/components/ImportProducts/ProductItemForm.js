@@ -31,7 +31,7 @@ const ProductItemForm = ({
       {!error && usedSKU &&
         <Alert bsStyle='warning'>
           <strong>Duplicate!</strong>
-          {` A product with the SKU:${usedSKU} has already been added, skip if you don't want to add it again.`}
+          {` A product with the SKU: ${usedSKU} has already been added, skip if you don't want to add it again.`}
         </Alert>
       }
       {/* submitSucceeded && !submitting && !dirty &&

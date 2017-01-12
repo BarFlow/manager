@@ -117,6 +117,7 @@ class ProductListItem extends Component {
                       ...castNullToStr(this.props.item),
                       product_id: undefined
                     }}
+                    enableReinitialize
                     suppliers={this.props.suppliers}
                     onSubmit={this.props.updateProduct}
                     handleDelete={this._toggleConfirmDialog} />

@@ -102,19 +102,23 @@ class ProductAdder extends Component {
                     isAdded={!!products.find(productsItem => productsItem.product_id._id === item._id)}
                     selected={this.state.product_id === item._id} />
                 )}
-                <Alert bsStyle='info'>
-                  <strong>Heads up!</strong>
-                  {' If you don\'t see your product in the list above, you can always just create it manually.'}
-                </Alert>
-                <CreateProductDialog
-                  isOpen={this.state.isCreateDialogOpen}
-                  close={this._toggleCreateProductDialog}
-                  initialValues={{ name: product.name }} />
-                <div className='text-center'>
-                  <button className='btn btn-default' ref='createBtn' onClick={this._toggleCreateProductDialog}>
-                    Create Product
-                  </button>
+                {!catalog.isFetching &&
+                <div>
+                  <Alert bsStyle='info'>
+                    <strong>Heads up!</strong>
+                    {' If you don\'t see your product in the list above, you can always just create it manually.'}
+                  </Alert>
+                  <CreateProductDialog
+                    isOpen={this.state.isCreateDialogOpen}
+                    close={this._toggleCreateProductDialog}
+                    initialValues={{ name: product.name }} />
+                  <div className='text-center'>
+                    <button className='btn btn-default' ref='createBtn' onClick={this._toggleCreateProductDialog}>
+                      Create Product
+                    </button>
+                  </div>
                 </div>
+                }
               </Panel>
             ) : (
               <Alert bsStyle='success'><strong>Success!</strong> You have successfully imported your products.</Alert>
