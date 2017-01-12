@@ -194,7 +194,11 @@ class venue extends Component {
             <div>
               <Button
                 disabled={!venueId}
-                onClick={this._toggleAddNewDialog}>Add {this._getCurrentType().slice(0, -1)}</Button>
+                onClick={this._toggleAddNewDialog}>Add {(
+                  this._getCurrentType() === 'placements'
+                    ? 'product'
+                    : this._getCurrentType().slice(0, -1)
+                )}</Button>
               {venueId &&
                 <AddVenueItemDialog
                   isOpen={this.state.isAddNewDialogOpen}
