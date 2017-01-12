@@ -13,16 +13,17 @@ class AddProductDialog extends Component {
     super(props)
 
     this.state = {
-      isCreateDialogOpen: false
+      isCreateDialogOpen: false,
+      searchedProduct: ''
     }
 
-    this.handleSearch = this.props.handleSearch.bind(this)
+    this._handleSearch = this._handleSearch.bind(this)
     this._addProduct = this._addProduct.bind(this)
     this._toggleCreateProductDialog = this._toggleCreateProductDialog.bind(this)
   }
 
   componentDidMount () {
-    this.handleSearch()
+    this.props.handleSearch()
   }
 
   _addProduct (item) {
@@ -39,15 +40,21 @@ class AddProductDialog extends Component {
     })
   }
 
+  _handleSearch (filters) {
+    this.setState({ searchedProduct: filters.name })
+    this.props.handleSearch(filters)
+  }
+
   render () {
-    const { handleSearch, products } = this.props
+    const { products } = this.props
     return (
       <div className='add-product'>
         <CreateProductDialog
           isOpen={this.state.isCreateDialogOpen}
-          close={this._toggleCreateProductDialog} />
+          close={this._toggleCreateProductDialog}
+          initialValues={{ name: this.state.searchedProduct }} />
 
-        <SearchBar onSubmit={handleSearch} submitting={products.catalog.isFetching} />
+        <SearchBar onSubmit={this._handleSearch} submitting={products.catalog.isFetching} />
         {products.catalog.items.length ? (
           products.catalog.items.map(item => {
             const added = !!products.items.find(product => product.product_id._id === item._id)

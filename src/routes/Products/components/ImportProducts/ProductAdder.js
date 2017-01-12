@@ -106,7 +106,8 @@ class ProductAdder extends Component {
                 </Alert>
                 <CreateProductDialog
                   isOpen={this.state.isCreateDialogOpen}
-                  close={this._toggleCreateProductDialog} />
+                  close={this._toggleCreateProductDialog}
+                  initialValues={{ name: product.name }} />
                 <div className='text-center'>
                   <Button onClick={this._toggleCreateProductDialog}>Create Product</Button>
                 </div>
