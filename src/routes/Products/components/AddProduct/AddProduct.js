@@ -42,7 +42,7 @@ class AddProductDialog extends Component {
   render () {
     const { handleSearch, products } = this.props
     return (
-      <div>
+      <div className='add-product'>
         <CreateProductDialog
           isOpen={this.state.isCreateDialogOpen}
           close={this._toggleCreateProductDialog} />
