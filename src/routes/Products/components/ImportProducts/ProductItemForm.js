@@ -6,7 +6,7 @@ import FormInput from '../../../../components/FormInput'
 import FormSelect from '../../../../components/FormSelect'
 
 const ProductItemForm = ({
-  error, submitSucceeded, handleSubmit, onSkip, submitting, dirty, suppliers, product
+  error, submitSucceeded, handleSubmit, onSkip, submitting, dirty, suppliers, product, usedSKU
 }) => (
   <form onSubmit={handleSubmit} className={'row'}>
     <div className={'col-xs-12'}>
@@ -28,10 +28,16 @@ const ProductItemForm = ({
           <strong>Woops!</strong> {error}
         </Alert>
       }
-      {submitSucceeded && !submitting && !dirty &&
-        <Alert bsStyle='success'>
-          <strong>Success!</strong> Your changes have been saved successfully.
+      {!error && usedSKU &&
+        <Alert bsStyle='warning'>
+          <strong>Duplicate!</strong>
+          {` A product with the SKU: ${usedSKU} has already been added, skip if you don't want to add it again.`}
         </Alert>
+      }
+      {// submitSucceeded && !submitting && !dirty &&
+      //  <Alert bsStyle='success'>
+      //    <strong>Success!</strong> Your changes have been saved successfully.
+      //  </Alert>
       }
     </div>
     <Field
@@ -130,7 +136,8 @@ ProductItemForm.propTypes = {
   submitSucceeded: React.PropTypes.bool,
   dirty: React.PropTypes.bool,
   suppliers: React.PropTypes.object,
-  product: React.PropTypes.object
+  product: React.PropTypes.object,
+  usedSKU: React.PropTypes.string
 }
 
 export default reduxForm({

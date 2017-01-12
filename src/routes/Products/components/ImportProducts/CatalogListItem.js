@@ -1,7 +1,7 @@
 import React from 'react'
 import { Media, Button, Label } from 'react-bootstrap'
 
-const CatalogListItem = ({ item, added, selected, onSelect }) => {
+const CatalogListItem = ({ item, isAdded, selected, onSelect }) => {
   const { images, name, type, category, capacity, sub_category: subCategory } = item
 
   return (
@@ -25,13 +25,14 @@ const CatalogListItem = ({ item, added, selected, onSelect }) => {
         </p>
       </Media.Body>
       <Media.Right align='middle'>
-        {!added &&
-          <Button
+        {(isAdded
+          ? <Button disabled>Product added already</Button>
+          : <Button
             onClick={() => onSelect(item)}
             bsStyle={selected ? 'success' : 'default'}>
             {selected ? 'Selected' : 'Select'}
           </Button>
-        }
+        )}
       </Media.Right>
     </Media>
   )
@@ -46,7 +47,7 @@ CatalogListItem.propTypes = {
     capacity: React.PropTypes.number.isRequired,
     images: React.PropTypes.object.isRequired
   }),
-  added: React.PropTypes.bool.isRequired,
+  isAdded: React.PropTypes.bool.isRequired,
   selected: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired
 }

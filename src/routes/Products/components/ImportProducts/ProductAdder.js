@@ -58,7 +58,7 @@ class ProductAdder extends Component {
   }
 
   render () {
-    const { product, percent = 0, catalog } = this.props
+    const { product, products, percent = 0, catalog } = this.props
     const supplier = this.props.suppliers.items.find(item =>
       product && product.supplier && item.name.toLowerCase() === product.supplier.toLowerCase()) || {}
     return (
@@ -82,7 +82,10 @@ class ProductAdder extends Component {
                   form='importer'
                   enableReinitialize
                   suppliers={this.props.suppliers}
-                  product={product} />
+                  product={product}
+                  usedSKU={products
+                    .map(productsItem => productsItem.supplier_product_code)
+                    .find(productsItem => productsItem === product.supplier_product_code)} />
 
                 <label>Choose product</label>
                 {catalog.isFetching &&
@@ -93,7 +96,7 @@ class ProductAdder extends Component {
                     key={item._id}
                     item={item}
                     onSelect={(item) => this.setState({ product_id: item._id })}
-                    added={false}
+                    isAdded={!!products.find(productsItem => productsItem.product_id._id === item._id)}
                     selected={this.state.product_id === item._id} />
                 )}
                 <Alert bsStyle='info'>
@@ -120,6 +123,7 @@ class ProductAdder extends Component {
 ProductAdder.propTypes = {
   onSubmit: React.PropTypes.func.isRequired,
   product: React.PropTypes.object.isRequired,
+  products: React.PropTypes.array.isRequired,
   suppliers: React.PropTypes.object.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
   catalog: React.PropTypes.object.isRequired,

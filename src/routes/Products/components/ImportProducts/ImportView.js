@@ -20,17 +20,19 @@ class ImportView extends Component {
   }
 
   componentDidMount () {
-    const { venueId, suppliers, fetchSuppliers } = this.props
-    if (venueId && !suppliers.items.length) {
+    const { venueId, suppliers, fetchSuppliers, products, fetchProducts } = this.props
+    if ((venueId && !suppliers.items.length) || (venueId && !products.items.length)) {
       fetchSuppliers(venueId)
+      fetchProducts(venueId)
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { venueId, fetchSuppliers } = this.props
+    const { venueId, fetchSuppliers, fetchProducts } = this.props
     // Fetch new suppliers
     if (venueId !== nextProps.venueId) {
       fetchSuppliers(nextProps.venueId)
+      fetchProducts(nextProps.venueId)
     }
   }
 
@@ -70,6 +72,7 @@ class ImportView extends Component {
             : <ProductAdder
               onSubmit={this._handleProductAdd}
               product={this.state.items[this.state.currentIndex]}
+              products={this.props.products.items}
               suppliers={this.props.suppliers}
               percent={Math.round((this.state.currentIndex / this.state.items.length * 100))}
               catalog={this.props.products.catalog}
