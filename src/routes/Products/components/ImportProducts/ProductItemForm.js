@@ -12,11 +12,11 @@ const ProductItemForm = ({
     <div className={'col-xs-12'}>
       <div className='page-header clearfix'>
         <h4>{product.name}</h4>
-        <Button
+        {/* <Button
           className='pull-right'
           bsStyle='primary'
           disabled={submitting}
-          type='submit'>Add</Button>
+          type='submit'>Add</Button> */}
         <Button
           className='pull-right'
           bsStyle='danger'
@@ -31,14 +31,13 @@ const ProductItemForm = ({
       {!error && usedSKU &&
         <Alert bsStyle='warning'>
           <strong>Duplicate!</strong>
-          {` A product with the SKU: ${usedSKU} has already been added, skip if you don't want to add it again.`}
+          {` A product with the SKU:${usedSKU} has already been added, skip if you don't want to add it again.`}
         </Alert>
       }
-      {// submitSucceeded && !submitting && !dirty &&
-      //  <Alert bsStyle='success'>
-      //    <strong>Success!</strong> Your changes have been saved successfully.
-      //  </Alert>
-      }
+      {/* submitSucceeded && !submitting && !dirty &&
+      <Alert bsStyle='success'>
+        <strong>Success!</strong> Your changes have been saved successfully.
+      </Alert> */}
     </div>
     <Field
       name='supplier_id'
@@ -65,25 +64,25 @@ const ProductItemForm = ({
       description='The minimum quantity that your business must keep on hand.'
       className={'col-xs-12 col-md-4'} />
 
-    {
-      // <Field
-      //   name='cost_price'
-      //   component={FormInput}
-      //   label='Cost Price'
-      //   type='number'
-      //   addon='£'
-      //   description='The price at which the product have been bought.'
-      //   className={'col-xs-12 col-md-3'} />
-      //
-      // <Field
-      //   name='sale_unit_size'
-      //   component={FormInput}
-      //   label='Serving Measure'
-      //   type='number'
-      //   addon='ml'
-      //   description='The base serving measure for the product.'
-      //   className={'col-xs-12 col-md-3'} />
-    }
+    {/*
+      <Field
+        name='cost_price'
+        component={FormInput}
+        label='Cost Price'
+        type='number'
+        addon='£'
+        description='The price at which the product have been bought.'
+        className={'col-xs-12 col-md-3'} />
+
+      <Field
+        name='sale_unit_size'
+        component={FormInput}
+        label='Serving Measure'
+        type='number'
+        addon='ml'
+        description='The base serving measure for the product.'
+        className={'col-xs-12 col-md-3'} />
+    */}
 
     <Field
       name='sale_price'

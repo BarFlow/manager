@@ -27,11 +27,7 @@ const CatalogListItem = ({ item, isAdded, selected, onSelect }) => {
       <Media.Right align='middle'>
         {(isAdded
           ? <Button disabled>Product added already</Button>
-          : <Button
-            onClick={() => onSelect(item)}
-            bsStyle={selected ? 'success' : 'default'}>
-            {selected ? 'Selected' : 'Select'}
-          </Button>
+          : <Button onClick={() => onSelect(item)}>Add</Button>
         )}
       </Media.Right>
     </Media>

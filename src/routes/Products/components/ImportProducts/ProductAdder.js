@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Panel, ProgressBar, Alert, Button } from 'react-bootstrap'
-import { SubmissionError } from 'redux-form'
 
 import ProductItemForm from './ProductItemForm'
 import CatalogListItem from './CatalogListItem'
@@ -16,6 +15,7 @@ class ProductAdder extends Component {
     }
     this._onSubmit = this._onSubmit.bind(this)
     this._onSkip = this._onSkip.bind(this)
+    this._onSelect = this._onSelect.bind(this)
     this._toggleCreateProductDialog = this._toggleCreateProductDialog.bind(this)
   }
 
@@ -34,21 +34,21 @@ class ProductAdder extends Component {
   }
 
   _onSubmit (values) {
-    if (!this.state.product_id) {
-      return Promise.reject(new SubmissionError({ _error: 'Please select a product to continue.' }))
-    }
     return this.props.onSubmit({
-      product_id: this.state.product_id,
+      product_id: this.product_id,
       ...values
     }).then(() => {
-      this.setState({
-        product_id: ''
-      })
+      this.product_id = undefined
     })
   }
 
   _onSkip () {
     this.props.onSubmit()
+  }
+
+  _onSelect (item) {
+    this.product_id = item._id
+    this.refs.ProductItemForm.submit()
   }
 
   _toggleCreateProductDialog () {
@@ -72,6 +72,7 @@ class ProductAdder extends Component {
               <Panel>
 
                 <ProductItemForm
+                  ref='ProductItemForm'
                   initialValues={{
                     count_as_full: 0.5,
                     ...product,
@@ -95,7 +96,7 @@ class ProductAdder extends Component {
                   <CatalogListItem
                     key={item._id}
                     item={item}
-                    onSelect={(item) => this.setState({ product_id: item._id })}
+                    onSelect={this._onSelect}
                     isAdded={!!products.find(productsItem => productsItem.product_id._id === item._id)}
                     selected={this.state.product_id === item._id} />
                 )}
