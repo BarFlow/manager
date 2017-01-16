@@ -41,7 +41,7 @@ class Measure extends Component {
     // get parent element position in document
     if (obj.offsetParent) {
       do {
-        ePosy += obj.offsetTop
+        ePosy += obj.offsetTop - obj.scrollTop
       } while (obj = obj.offsetParent) // eslint-disable-line
     }
     // mouse position minus elm position is mouseposition relative to element:
