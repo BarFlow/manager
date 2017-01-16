@@ -66,20 +66,26 @@ class AddProductDialog extends Component {
             <Alert bsStyle='warning'>Loading...</Alert>
           ) : (
             (products.catalog.filters.name) &&
-              <div>
-                <Alert bsStyle='warning'>Product not found.</Alert>
-                <div className='text-center'>
-                  <p>{
-                      "If you don't see your product in the list above, you can always just create it manually."
-                  }</p>
-                  <Button onClick={this._toggleCreateProductDialog}>Create Product</Button>
-                </div>
-              </div>
+              <Alert bsStyle='warning'>Product not found.</Alert>
           )
         )}
-        <div className='product-add-footer'>
-          Showing {products.catalog.items.length} of {products.catalog.totalCount} items.
-        </div>
+        {!products.catalog.isFetching &&
+          <div>
+            {!!products.catalog.items.length &&
+              <div className='text-right'>
+                Showing {products.catalog.items.length} of {products.catalog.totalCount} items.
+              </div>
+            }
+            <div className='product-add-footer'>
+              <div className='text-center'>
+                <Alert bsStyle='info'>
+                  If you don't see your product in the list above, you can always just create it manually.
+                </Alert>
+                <Button onClick={this._toggleCreateProductDialog}>Create Product</Button>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     )
   }
