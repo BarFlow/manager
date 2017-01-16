@@ -19,7 +19,9 @@ class ListItem extends Component {
     return (
       <Media>
         <Media.Left align='middle'>
-          <img width={50} height={50} src={images && images.thumbnail} alt={name} />
+          <div>
+            <img src={images && images.thumbnail} alt={name} />
+          </div>
         </Media.Left>
         <Media.Body>
           <Media.Heading>{name}</Media.Heading>
