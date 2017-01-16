@@ -18,8 +18,9 @@ class Report extends Component {
 
   componentDidMount () {
     const {
-      venueId, reports, changeReportFilters, fetchReport, suppliers, fetchSuppliers, types, fetchTypes, location, params
+      venueId, reports, changeReportFilters, fetchReport, suppliers, fetchSuppliers, types, fetchTypes, router, params
     } = this.props
+    const location = router.location
 
     // Fetch reports if there is new venueId or no reports in store yet
     if (
@@ -65,8 +66,10 @@ class Report extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {
-      venueId, changeReportFilters, fetchReport, fetchSuppliers, location, reports, params
+      venueId, changeReportFilters, fetchReport, fetchSuppliers, router, reports, params
     } = this.props
+    const location = router.location
+
     if (venueId !== nextProps.venueId) {
       // Only fetch new reports for new venue_id
       fetchReport({ venueId: nextProps.venueId, reportId: nextProps.params.reportId })
@@ -113,7 +116,7 @@ class Report extends Component {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       this.props.router.replace({
-        pathname: this.props.location.pathname,
+        pathname: this.props.router.location.pathname,
         query: filters
       })
     }, 500)
@@ -155,9 +158,10 @@ class Report extends Component {
 
   render () {
     const {
-      reports, types, venueId, createReport, location, suppliers
+      reports, types, venueId, createReport, router, suppliers
     } = this.props
     const reportId = this.props.params.reportId
+    const location = router.location
 
     const ProductList = reports.filteredItems.map(item =>
       <ProductListItem
@@ -225,7 +229,6 @@ class Report extends Component {
 }
 
 Report.propTypes = {
-  location: React.PropTypes.object,
   params: React.PropTypes.object,
   router: React.PropTypes.object,
   types: React.PropTypes.object.isRequired,

@@ -24,9 +24,9 @@ class Products extends Component {
 
   componentDidMount () {
     const {
-      venueId, products, changeProductsFilter, fetchProducts, suppliers, fetchSuppliers, types, fetchTypes, location
+      venueId, products, changeProductsFilter, fetchProducts, suppliers, fetchSuppliers, types, fetchTypes, router
     } = this.props
-
+    const location = router.location
     // Fetch products if there is new venueId or no products in store yet
     if ((venueId && !products.items.length) || (venueId && venueId !== products.filters.venue_id)) {
       fetchProducts(venueId)
@@ -60,8 +60,9 @@ class Products extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {
-      venueId, changeProductsFilter, fetchProducts, fetchSuppliers, location
+      venueId, changeProductsFilter, fetchProducts, fetchSuppliers, router
     } = this.props
+    const location = router.location
     if (venueId !== nextProps.venueId) {
       // Only fetch new products for new venue_id
       fetchProducts(nextProps.venueId)
@@ -93,7 +94,7 @@ class Products extends Component {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       this.props.router.replace({
-        pathname: this.props.location.pathname,
+        pathname: this.props.router.location.pathname,
         query: filters
       })
     }, 500)
@@ -196,7 +197,6 @@ class Products extends Component {
 }
 
 Products.propTypes = {
-  location: React.PropTypes.object,
   router: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,

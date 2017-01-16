@@ -32,8 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => (
   {
     suppliers : state.suppliers,
-    venueId: state.venues.current,
-    location: state.location
+    venueId: state.venues.current
   }
 )
 

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import {
   fetchReport,
   createReport,
   changeReportFilters
 } from '../modules/reports'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
-import { withRouter } from 'react-router'
 import { fetchTypes } from '../../../store/types'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -48,7 +48,6 @@ const mapStateToProps = (state) => {
     },
     venueId: state.venues.current,
     types: state.types,
-    location: state.location,
     suppliers: state.suppliers,
     token: state.auth.token
   }
