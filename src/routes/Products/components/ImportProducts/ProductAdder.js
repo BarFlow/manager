@@ -116,7 +116,6 @@ class ProductAdder extends Component {
             </div>
             }
           </Panel>
-          }
         </div>
       </div>
     )
