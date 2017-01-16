@@ -39,9 +39,14 @@ class AddVenueItemDialog extends Component {
     }
   }
 
-  _addVenueItem (e, item) {
-    e && e.preventDefault()
+  _addVenueItem (e) {
+    e.preventDefault()
     const { currentType, venueId, venue, params } = this.props
+
+    if (!this.state.name.length) {
+      return
+    }
+
     this.props.addVenueItem({
       type: currentType === 'placements' ? 'placements?populate=true' : currentType,
       payload: {
@@ -49,11 +54,25 @@ class AddVenueItemDialog extends Component {
         area_id: params.area_id,
         section_id: params.section_id,
         order: venue.items.length,
-        inventory_item_id: item && item._id,
-        ...this.state
+        name: this.state.name
       }
     })
-    currentType !== 'placements' && this._close()
+
+    this._close()
+  }
+
+  _addPlacement (item) {
+    const { venueId, venue, params } = this.props
+    this.props.addVenueItem({
+      type: 'placements?populate=true',
+      payload: {
+        venue_id: venueId,
+        area_id: params.area_id,
+        section_id: params.section_id,
+        order: venue.items.length,
+        inventory_item_id: item._id
+      }
+    })
   }
 
   _handleSearchBarChange (filters) {
@@ -108,7 +127,7 @@ class AddVenueItemDialog extends Component {
         {filteredItems.length ? (
           <div className='items'>
             {filteredItems.map(item =>
-              <ListItem key={item._id} item={item} onSelect={() => this._addVenueItem(null, item)} />
+              <ListItem key={item._id} item={item} onSelect={() => this._addPlacement(item)} />
             ).splice(this.state.skip, 20)}
 
             {filteredItems.length > 20 &&
