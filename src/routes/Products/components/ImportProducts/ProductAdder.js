@@ -69,60 +69,55 @@ class ProductAdder extends Component {
           <Panel>
             <ProgressBar now={percent} label={`${percent}%`} />
           </Panel>
-          {product
-            ? (
-              <Panel>
+          <Panel>
 
-                <ProductItemForm
-                  ref='ProductItemForm'
-                  initialValues={{
-                    count_as_full: 0.5,
-                    ...product,
-                    supplier_id: supplier._id
-                  }}
-                  onSubmit={this._onSubmit}
-                  onSkip={this._onSkip}
-                  form='importer'
-                  enableReinitialize
-                  suppliers={this.props.suppliers}
-                  product={product}
-                  usedSKU={products
-                    .map(productsItem => productsItem.supplier_product_code)
-                    .find(productsItem => productsItem === product.supplier_product_code)} />
+            <ProductItemForm
+              ref='ProductItemForm'
+              initialValues={{
+                count_as_full: 0.5,
+                ...product,
+                supplier_id: supplier._id
+              }}
+              onSubmit={this._onSubmit}
+              onSkip={this._onSkip}
+              form='importer'
+              enableReinitialize
+              suppliers={this.props.suppliers}
+              product={product}
+              usedSKU={products
+                .map(productsItem => productsItem.supplier_product_code)
+                .find(productsItem => productsItem === product.supplier_product_code)} />
 
-                <label>Choose product</label>
-                {catalog.isFetching &&
-                  <Alert bsStyle='warning'>Loading products from catalog.</Alert>
-                }
-                {catalog.items.map(item =>
-                  <CatalogListItem
-                    key={item._id}
-                    item={item}
-                    onSelect={this._onSelect}
-                    isAdded={!!products.find(productsItem => productsItem.product_id._id === item._id)}
-                    selected={this.state.product_id === item._id} />
-                )}
-                {!catalog.isFetching &&
-                <div>
-                  <Alert bsStyle='info'>
-                    <strong>Heads up!</strong>
-                    {' If you don\'t see your product in the list above, you can always just create it manually.'}
-                  </Alert>
-                  <CreateProductDialog
-                    isOpen={this.state.isCreateDialogOpen}
-                    close={this._toggleCreateProductDialog}
-                    initialValues={{ name: product.name }} />
-                  <div className='text-center'>
-                    <button className='btn btn-default' ref='createBtn' onClick={this._toggleCreateProductDialog}>
-                      Create Product
-                    </button>
-                  </div>
-                </div>
-                }
-              </Panel>
-            ) : (
-              <Alert bsStyle='success'><strong>Success!</strong> You have successfully imported your products.</Alert>
-            )
+            <label>Choose product</label>
+            {catalog.isFetching &&
+              <Alert bsStyle='warning'>Loading products from catalog.</Alert>
+            }
+            {catalog.items.map(item =>
+              <CatalogListItem
+                key={item._id}
+                item={item}
+                onSelect={this._onSelect}
+                isAdded={!!products.find(productsItem => productsItem.product_id._id === item._id)}
+                selected={this.state.product_id === item._id} />
+            )}
+            {!catalog.isFetching &&
+            <div>
+              <Alert bsStyle='info'>
+                <strong>Heads up!</strong>
+                {' If you don\'t see your product in the list above, you can always just create it manually.'}
+              </Alert>
+              <CreateProductDialog
+                isOpen={this.state.isCreateDialogOpen}
+                close={this._toggleCreateProductDialog}
+                initialValues={{ name: product.name }} />
+              <div className='text-center'>
+                <button className='btn btn-default' ref='createBtn' onClick={this._toggleCreateProductDialog}>
+                  Create Product
+                </button>
+              </div>
+            </div>
+            }
+          </Panel>
           }
         </div>
       </div>

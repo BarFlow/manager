@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Alert } from 'react-bootstrap'
 
 import SubHeader from '../../../../components/SubHeader'
 import ProductParser from './ProductParser'
@@ -12,7 +13,8 @@ class ImportView extends Component {
 
     this.state = {
       items: [],
-      currentIndex: 0
+      currentIndex: 0,
+      success: false
     }
 
     this._handleParse = this._handleParse.bind(this)
@@ -43,6 +45,8 @@ class ImportView extends Component {
   }
 
   _handleProductAdd (values) {
+    const nextIndex = this.state.items[this.state.currentIndex + 1] ? this.state.currentIndex + 1 : 0
+
     // Import product if values are sent
     if (values) {
       return this.props.addProduct({
@@ -50,13 +54,17 @@ class ImportView extends Component {
         ...values
       }).then(() =>
         this.setState({
-          currentIndex: this.state.currentIndex + 1
+          currentIndex: nextIndex,
+          success: nextIndex === 0,
+          items: nextIndex === 0 ? [] : this.state.items
         })
       )
     }
     // Skip product
     this.setState({
-      currentIndex: this.state.currentIndex + 1
+      currentIndex: nextIndex,
+      success: nextIndex === 0,
+      items: nextIndex === 0 ? [] : this.state.items
     })
   }
 
@@ -68,7 +76,12 @@ class ImportView extends Component {
           left={<h3>Products <span className='small'>/ Import</span></h3>} />
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 product-import'>
           {!this.state.items.length
-            ? <ProductParser onParse={this._handleParse} />
+            ? <div>
+              {this.state.success &&
+                <Alert bsStyle='success'><strong>Success!</strong> You have successfully imported your products.</Alert>
+              }
+              <ProductParser onParse={this._handleParse} />
+            </div>
             : <ProductAdder
               onSubmit={this._handleProductAdd}
               product={this.state.items[this.state.currentIndex]}
