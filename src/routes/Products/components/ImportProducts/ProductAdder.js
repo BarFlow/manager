@@ -61,8 +61,7 @@ class ProductAdder extends Component {
 
   render () {
     const { product, products, percent = 0, catalog } = this.props
-    const supplier = this.props.suppliers.items.find(item =>
-      product && product.supplier && item.name.toLowerCase() === product.supplier.toLowerCase()) || {}
+
     return (
       <div className='product-adder row'>
         <div className='col-xs-12'>
@@ -75,8 +74,7 @@ class ProductAdder extends Component {
               ref='ProductItemForm'
               initialValues={{
                 count_as_full: 0.5,
-                ...product,
-                supplier_id: supplier._id
+                ...product
               }}
               onSubmit={this._onSubmit}
               onSkip={this._onSkip}

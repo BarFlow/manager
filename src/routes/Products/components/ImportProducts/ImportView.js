@@ -80,7 +80,9 @@ class ImportView extends Component {
               {this.state.success &&
                 <Alert bsStyle='success'><strong>Success!</strong> You have successfully imported your products.</Alert>
               }
-              <ProductParser onParse={this._handleParse} />
+              <ProductParser
+                onParse={this._handleParse}
+                suppliers={this.props.suppliers} />
             </div>
             : <ProductAdder
               onSubmit={this._handleProductAdd}

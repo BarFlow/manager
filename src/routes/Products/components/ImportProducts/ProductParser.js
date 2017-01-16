@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import XLSX from 'xlsx'
 import { Alert } from 'react-bootstrap'
+import { Link } from 'react-router'
 
 class ProductParser extends Component {
   constructor (props) {
@@ -33,7 +34,7 @@ class ProductParser extends Component {
         category: item['Category'],
         name: item['Name'].replace(/[$-/:-?{-~!"^_`[\]]/g, ''),
         supplier_product_code: item['SKU'],
-        supplier: item['Supplier'],
+        supplier_id: this.refs.supplierId ? this.refs.supplierId.value : undefined,
         par_level: item['Par Level'],
         cost_price: item['Cost Price'],
         sale_unit_size: item['Serving Measure'],
@@ -45,18 +46,32 @@ class ProductParser extends Component {
   }
 
   render () {
+    const { suppliers } = this.props
     return (
       <div className='product-parser'>
         <div className='panel panel-default'>
           <div className='panel-body'>
-            <h4 className='media-heading'>
-              Step 1. Download our product list excel template file <a href='#'>here</a>.
-            </h4>
+            <h4 className='media-heading'>Step 1. Choose a supplier for the products you are about to import.</h4>
+            {(suppliers.isFetching || !!suppliers.items.length) &&
+              <select className='form-control' ref='supplierId'>
+                {!!suppliers.items.length && suppliers.items.map(supplier =>
+                  <option key={supplier._id} value={supplier._id}>{supplier.name}</option>
+                )}
+              </select>
+              }
+            {!suppliers.isFetching && !suppliers.items.length &&
+              <Alert bsStyle='warning'>
+                It seems like you don't have your suppliers in our system yet,
+                please add them <Link to='/suppliers'>here</Link>.
+              </Alert>
+            }
           </div>
         </div>
         <div className='panel panel-default'>
           <div className='panel-body'>
-            <h4 className='media-heading'>Step 2. Add your products to it and save it on your computer.</h4>
+            <h4 className='media-heading'>
+              Step 2. <a href='#'>Download</a> and add your products to our excel template file.
+            </h4>
           </div>
         </div>
         <div className='panel panel-default'>
@@ -77,7 +92,8 @@ class ProductParser extends Component {
 }
 
 ProductParser.propTypes = {
-  onParse: React.PropTypes.func.isRequired
+  onParse: React.PropTypes.func.isRequired,
+  suppliers: React.PropTypes.object
 }
 
 export default ProductParser
