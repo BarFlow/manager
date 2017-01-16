@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button } from 'react-bootstrap'
+import { Alert, Button, Pagination } from 'react-bootstrap'
 
 import SearchBar from './SearchBar'
 import ListItem from './ListItem'
@@ -14,12 +14,14 @@ class AddProductDialog extends Component {
 
     this.state = {
       isCreateDialogOpen: false,
-      searchedProduct: ''
+      searchedProduct: '',
+      skip: 0
     }
 
     this._handleSearch = this._handleSearch.bind(this)
     this._addProduct = this._addProduct.bind(this)
     this._toggleCreateProductDialog = this._toggleCreateProductDialog.bind(this)
+    this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
   }
 
   componentDidMount () {
@@ -41,8 +43,16 @@ class AddProductDialog extends Component {
   }
 
   _handleSearch (filters) {
-    this.setState({ searchedProduct: filters.name })
+    this.setState({ searchedProduct: filters.name, skip: 0 })
     this.props.handleSearch(filters)
+  }
+
+  _handlePaginationSelect (page) {
+    const skip = (20 * (page - 1))
+    this.setState({
+      skip
+    })
+    this.props.handleSearch({ name: this.state.searchedProduct, skip })
   }
 
   render () {
@@ -71,11 +81,20 @@ class AddProductDialog extends Component {
         )}
         {!products.catalog.isFetching &&
           <div>
-            {!!products.catalog.items.length &&
+            {products.catalog.totalCount > 20 &&
+            <div className='pagination-container text-center'>
+              <Pagination ellipsis boundaryLinks
+                items={Math.ceil(products.catalog.totalCount / 20)}
+                maxButtons={5}
+                activePage={(this.state.skip / 20) + 1}
+                onSelect={this._handlePaginationSelect} />
+            </div>
+            }
+            {/* !!products.catalog.items.length &&
               <div className='text-right'>
                 Showing {products.catalog.items.length} of {products.catalog.totalCount} items.
               </div>
-            }
+            */}
             <div className='product-add-footer'>
               <div className='text-center'>
                 <Alert bsStyle='info'>
