@@ -155,7 +155,9 @@ class AddVenueItemDialog extends Component {
     return (
       <Modal show={isOpen} onHide={this._close} className={'add-venue-item-dialog ' + currentType}>
         <Modal.Header closeButton>
-          <Modal.Title>Add {currentType.slice(0, -1)}</Modal.Title>
+          <Modal.Title>Add {currentType === 'placements'
+            ? 'product'
+            : currentType.slice(0, -1)}</Modal.Title>
         </Modal.Header>
         {currentType === 'placements' ? (
           addPlacement

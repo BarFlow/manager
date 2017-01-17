@@ -155,7 +155,7 @@ class Products extends Component {
           left={<h3>Products</h3>}
           right={
             <div>
-              <Button onClick={this.toggleAddNewDialog} disabled={!venueId}>Add New</Button>
+              <Button onClick={this.toggleAddNewDialog} disabled={!venueId}>Add Product</Button>
               <Link className='btn btn-default' to='/products/import'>Import</Link>
             </div>
           } />

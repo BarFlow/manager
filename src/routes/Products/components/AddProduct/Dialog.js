@@ -7,7 +7,7 @@ const AddProductDialog = (props) => {
   return (
     <Modal show={props.isOpen} onHide={props.close} className='add-product-dialog'>
       <Modal.Header closeButton>
-        <Modal.Title>Create Product</Modal.Title>
+        <Modal.Title>Add Product</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <AddProduct {...props} />
