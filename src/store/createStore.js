@@ -5,12 +5,13 @@ import { browserHistory } from 'react-router'
 import makeRootReducer from './reducers'
 import { updateLocation } from './location'
 import apiDefaultConfig from './middlewares/apiDefaultConfig'
+import postApiCall from './middlewares/postApiCall'
 
 export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk, apiDefaultConfig, apiMiddleware]
+  const middleware = [thunk, apiDefaultConfig, apiMiddleware, postApiCall]
 
   // ======================================================
   // Store Enhancers
