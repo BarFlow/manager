@@ -56,7 +56,7 @@ class Suppliers extends Component {
           right={
             <div>
               {addSupplierDialog}
-              <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add new</Button>
+              <Button onClick={toggleAddNewDialog} disabled={!venueId}>Add Supplier</Button>
             </div>
           } />
 
