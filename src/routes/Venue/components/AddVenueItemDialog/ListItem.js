@@ -13,7 +13,7 @@ class ListItem extends Component {
   }
 
   render () {
-    const { item, added } = this.props
+    const { item, added, submitting } = this.props
     const { images, name, type, category, capacity, sub_category: subCategory } = item.product_id
 
     return (
@@ -38,7 +38,7 @@ class ListItem extends Component {
         </Media.Body>
         <Media.Right align='middle'>
           {!added &&
-            <Button onClick={() => this._handleAdd(item)}>Add</Button>
+            <Button onClick={() => this._handleAdd(item)} disabled={submitting}>Add</Button>
           }
         </Media.Right>
       </Media>
@@ -58,7 +58,8 @@ ListItem.propTypes = {
     })
   }),
   added: React.PropTypes.bool,
-  onSelect: React.PropTypes.func.isRequired
+  onSelect: React.PropTypes.func.isRequired,
+  submitting: React.PropTypes.bool
 }
 
 export default ListItem

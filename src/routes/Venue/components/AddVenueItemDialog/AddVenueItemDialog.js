@@ -13,7 +13,8 @@ class AddVenueItemDialog extends Component {
     this.initialState = {
       name: '',
       filters: {},
-      skip: 0
+      skip: 0,
+      submitting: false
     }
     this.state = this.initialState
 
@@ -21,6 +22,7 @@ class AddVenueItemDialog extends Component {
     this._close = this._close.bind(this)
     this._handleSearchBarChange = this._handleSearchBarChange.bind(this)
     this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
+    this._batchAddPlacements = this._batchAddPlacements.bind(this)
   }
 
   componentDidMount () {
@@ -63,6 +65,9 @@ class AddVenueItemDialog extends Component {
 
   _addPlacement (item) {
     const { venueId, venue, params } = this.props
+    this.setState({
+      submitting: true
+    })
     this.props.addVenueItem({
       type: 'placements?populate=true',
       payload: {
@@ -73,6 +78,29 @@ class AddVenueItemDialog extends Component {
         inventory_item_id: item._id
       }
     })
+    .then((r) => this.setState({
+      submitting: false
+    }))
+  }
+
+  _batchAddPlacements (items) {
+    const { venueId, venue, params } = this.props
+    this.setState({
+      submitting: true
+    })
+    this.props.addVenueItem({
+      type: 'placements?populate=true',
+      payload: items.map((item, index) => ({
+        venue_id: venueId,
+        area_id: params.area_id,
+        section_id: params.section_id,
+        order: (venue.items.length + index),
+        inventory_item_id: item._id
+      }))
+    })
+    .then((r) => this.setState({
+      submitting: false
+    }))
   }
 
   _handleSearchBarChange (filters) {
@@ -97,6 +125,7 @@ class AddVenueItemDialog extends Component {
   render () {
     const { products = { items: [] }, isOpen, currentType, types } = this.props
     const filteredItems = [...filterProductItems(products.items, this.state.filters)]
+    const { submitting } = this.state
 
     const addAreaOrSectionForm = <form onSubmit={this._addVenueItem}>
       <Modal.Body>
@@ -126,8 +155,23 @@ class AddVenueItemDialog extends Component {
       <Modal.Footer>
         {filteredItems.length ? (
           <div className='items'>
+
+            {filteredItems.length > 1 &&
+            <div className='row add-all'>
+              <div className='col-xs-12 col-sm-9'>
+                There are <span>{filteredItems.length}</span> products found,
+                you can add them to this section all at once using this button.
+              </div>
+              <div className='col-xs-12 col-sm-3 text-right'>
+                <Button onClick={() => this._batchAddPlacements(filteredItems)} disabled={submitting}>
+                  Add {filteredItems.length} Items
+                </Button>
+              </div>
+            </div>
+            }
+
             {filteredItems.map(item =>
-              <ListItem key={item._id} item={item} onSelect={() => this._addPlacement(item)} />
+              <ListItem key={item._id} item={item} onSelect={() => this._addPlacement(item)} submitting={submitting} />
             ).splice(this.state.skip, 20)}
 
             {filteredItems.length > 20 &&

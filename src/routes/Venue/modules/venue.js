@@ -140,11 +140,12 @@ const ACTION_HANDLERS = {
     }
   },
   [VENUE_ITEM_ADD_SUCCESS] : (state, action) => {
+    const payload = Array.isArray(action.payload) ? action.payload : [action.payload]
     return {
       ...state,
       items: [
         ...state.items,
-        action.payload
+        ...payload
       ]
     }
   },
