@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Alert, Panel } from 'react-bootstrap'
+import { Button, Alert, Panel, Pagination } from 'react-bootstrap'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
 import SubHeader from '../../../components/SubHeader'
@@ -12,7 +12,8 @@ class venue extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isAddNewDialogOpen: false
+      isAddNewDialogOpen: false,
+      skip: 0
     }
 
     this._openItem = this._openItem.bind(this)
@@ -20,6 +21,7 @@ class venue extends Component {
     this._getCurrentType = this._getCurrentType.bind(this)
     this._onSortEnd = this._onSortEnd.bind(this)
     this._toggleAddNewDialog = this._toggleAddNewDialog.bind(this)
+    this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
   }
 
   componentDidMount () {
@@ -97,6 +99,7 @@ class venue extends Component {
         area: item.name
       }
     }
+    this.setState({ skip: 0 })
     router.push({
       pathname: pathname + '/' + item._id,
       query: {
@@ -115,6 +118,7 @@ class venue extends Component {
       pathname += '/' + params.area_id
       query.area = router.location.query.area
     }
+    this.setState({ skip: 0 })
     router.push({
       pathname,
       query
@@ -123,7 +127,7 @@ class venue extends Component {
 
   _onSortEnd ({ oldIndex, newIndex }) {
     const { items } = this.props.venue
-    const sortedItems = arrayMove(items, oldIndex, newIndex)
+    const sortedItems = arrayMove(items, oldIndex + this.state.skip, newIndex + this.state.skip)
     const payload = sortedItems.map((item, index) => {
       return {
         _id: item._id,
@@ -143,6 +147,13 @@ class venue extends Component {
     this.setState({
       isAddNewDialogOpen: !this.state.isAddNewDialogOpen
     })
+  }
+
+  _handlePaginationSelect (page) {
+    this.setState({
+      skip: (20 * (page - 1))
+    })
+    window.scrollTo(0, 0)
   }
 
   render () {
@@ -173,15 +184,13 @@ class venue extends Component {
         sortableHandle={SortableHandle} />
     )
 
-    const VenueList = SortableContainer(() => {
-      return (
-        <div>
-          {venue.items.map((item, index) =>
-            <SortableItem key={`item-${index}`} index={index} item={item} />
-          )}
-        </div>
-      )
-    })
+    const VenueList = SortableContainer(() =>
+      <div>
+        {[...venue.items].splice(this.state.skip, 21).map((item, index) =>
+          <SortableItem key={`item-${index}`} index={index} item={item} />
+        )}
+      </div>
+    )
 
     const currentTitle = section || area
     return (
@@ -227,7 +236,18 @@ class venue extends Component {
               <Alert bsStyle='warning'>Loading...</Alert>
             ) : (
               venue.items.length ? (
-                <VenueList onSortEnd={this._onSortEnd} useDragHandle />
+                <div>
+                  <VenueList onSortEnd={this._onSortEnd} useDragHandle useWindowAsScrollContainer />
+                  {venue.items.length > 20 &&
+                  <div className='pagination-container text-center'>
+                    <Pagination ellipsis boundaryLinks
+                      items={Math.ceil(venue.items.length / 20)}
+                      maxButtons={5}
+                      activePage={(this.state.skip / 20) + 1}
+                      onSelect={this._handlePaginationSelect} />
+                  </div>
+                  }
+                </div>
               ) : (
                 <Alert bsStyle='warning'>No {this._getCurrentType()} found.</Alert>
               )
