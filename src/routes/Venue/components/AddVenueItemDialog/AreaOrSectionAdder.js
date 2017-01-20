@@ -48,7 +48,7 @@ class AreaOrSectionAdder extends Component {
             onChange={(e) => { this.setState({ name: e.currentTarget.value }) }} />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this._close}>Cancel</Button>
+          <Button onClick={this.props.close}>Cancel</Button>
           <Button bsStyle='primary' type='submit'>Add</Button>
         </Modal.Footer>
       </form>
