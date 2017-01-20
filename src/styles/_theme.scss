@@ -114,4 +114,11 @@ body{
   .bg-purple{
     background-color: $purple;
   }
+
+  // Modal over modal cover fix
+  div[area-hidden=true]{
+    div.modal{
+      z-index: 1040;
+    }
+  }
 }

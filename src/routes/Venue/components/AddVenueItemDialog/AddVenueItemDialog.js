@@ -14,7 +14,8 @@ class AddVenueItemDialog extends Component {
       name: '',
       filters: {},
       skip: 0,
-      submitting: false
+      submitting: false,
+      isConfirmDialogOpen: false
     }
     this.state = this.initialState
 
@@ -23,6 +24,7 @@ class AddVenueItemDialog extends Component {
     this._handleSearchBarChange = this._handleSearchBarChange.bind(this)
     this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
     this._batchAddPlacements = this._batchAddPlacements.bind(this)
+    this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
   }
 
   componentDidMount () {
@@ -122,10 +124,30 @@ class AddVenueItemDialog extends Component {
     this.props.close()
   }
 
+  _toggleConfirmDialog () {
+    this.setState({
+      isConfirmDialogOpen: !this.state.isConfirmDialogOpen
+    })
+  }
+
   render () {
     const { products = { items: [] }, isOpen, currentType, types } = this.props
     const filteredItems = [...filterProductItems(products.items, this.state.filters)]
     const { submitting } = this.state
+
+    const batchAddConfirmDialog = <Modal show={this.state.isConfirmDialogOpen}
+      onHide={this._toggleConfirmDialog}
+      className='add-confirm-dialog'>
+      <Modal.Header closeButton><Modal.Title>Confirm</Modal.Title></Modal.Header>
+      <Modal.Body>Are you sure that you want to add all {filteredItems.length} products to this section?</Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this._toggleConfirmDialog}>Cancel</Button>
+        <Button bsStyle='danger' onClick={() => {
+          this._batchAddPlacements(filteredItems)
+          this._toggleConfirmDialog()
+        }}>Yes</Button>
+      </Modal.Footer>
+    </Modal>
 
     const addAreaOrSectionForm = <form onSubmit={this._addVenueItem}>
       <Modal.Body>
@@ -163,9 +185,10 @@ class AddVenueItemDialog extends Component {
                 you can add them to this section all at once using this button.
               </div>
               <div className='col-xs-12 col-sm-3 text-right'>
-                <Button onClick={() => this._batchAddPlacements(filteredItems)} disabled={submitting}>
+                <Button onClick={this._toggleConfirmDialog} disabled={submitting}>
                   Add {filteredItems.length} Items
                 </Button>
+                {batchAddConfirmDialog}
               </div>
             </div>
             }
