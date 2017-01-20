@@ -116,9 +116,9 @@ body{
   }
 
   // Modal over modal cover fix
-  div[area-hidden=true]{
+  div[aria-hidden=true]{
     div.modal{
-      z-index: 1040;
+      z-index: 1040 !important;
     }
   }
 }
