@@ -64,16 +64,16 @@ const ProductItemForm = ({
       description='The minimum quantity that your business must keep on hand.'
       className={'col-xs-12 col-md-4'} />
 
-    {/*
-      <Field
-        name='cost_price'
-        component={FormInput}
-        label='Cost Price'
-        type='number'
-        addon='£'
-        description='The price at which the product have been bought.'
-        className={'col-xs-12 col-md-3'} />
+    <Field
+      name='cost_price'
+      component={FormInput}
+      label='Cost Price'
+      type='number'
+      addon='£'
+      description='The price at which the product have been bought.'
+      className={'col-xs-12 col-md-4'} />
 
+    {/*
       <Field
         name='sale_unit_size'
         component={FormInput}
@@ -82,16 +82,17 @@ const ProductItemForm = ({
         addon='ml'
         description='The base serving measure for the product.'
         className={'col-xs-12 col-md-3'} />
-    */}
 
-    <Field
-      name='sale_price'
-      component={FormInput}
-      label='Sale Price / Measure'
-      type='number'
-      addon='£'
-      description='The price at which the product will be sold.'
-      className={'col-xs-12 col-md-4'} />
+      <Field
+        name='sale_price'
+        component={FormInput}
+        label='Sale Price / Measure'
+        type='number'
+        addon='£'
+        description='The price at which the product will be sold.'
+        className={'col-xs-12 col-md-3'} />
+
+      */}
 
     <Field
       name='package_size'
