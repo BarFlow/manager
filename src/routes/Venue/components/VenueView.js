@@ -127,12 +127,16 @@ class venue extends Component {
 
   _onSortEnd ({ oldIndex, newIndex }) {
     const { items } = this.props.venue
-    const sortedItems = arrayMove(items, oldIndex + this.state.skip, newIndex + this.state.skip)
-    const payload = sortedItems.map((item, index) => {
+    const sortedItems = arrayMove(items, oldIndex + this.state.skip, newIndex + this.state.skip).map((item, index) => ({
+      ...item,
+      order: index
+    }))
+
+    const payload = sortedItems.map((item) => {
       return {
         _id: item._id,
         venue_id: item.venue_id,
-        order: index,
+        order: item.order,
         updated_at: new Date()
       }
     })

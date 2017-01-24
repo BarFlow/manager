@@ -35,7 +35,18 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   const currentVenue = state.venues.items.find(item => item._id === state.venues.current)
   return {
-    venue : state.venue,
+    venue : {
+      ...state.venue,
+      items: _.orderBy(
+        state.venue.items,
+        [
+          'inventory_item_id.product_id.category',
+          'inventory_item_id.product_id.sub_category',
+          'order',
+          'inventory_item_id.product_id.name'
+        ]
+      )
+    },
     venueId: state.venues.current,
     products: {
       ...state.products,
