@@ -1,4 +1,6 @@
 import { connect } from 'react-redux'
+import _ from 'lodash'
+
 import {
   fetchProducts,
   addProduct,
@@ -43,7 +45,7 @@ const mapStateToProps = (state) => {
   return {
     products : {
       ...state.products,
-      filteredItems
+      filteredItems: _.orderBy(filteredItems, ['product_id.category', 'product_id.sub_category', 'product_id.name'])
     },
     venueId: state.venues.current,
     types: state.types,

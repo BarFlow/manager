@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import _ from 'lodash'
+
 import {
   fetchReport,
   createReport,
@@ -44,7 +46,7 @@ const mapStateToProps = (state) => {
   return {
     reports : {
       ...state.reports,
-      filteredItems
+      filteredItems: _.orderBy(filteredItems, ['product_id.category', 'product_id.sub_category', 'product_id.name'])
     },
     venueId: state.venues.current,
     types: state.types,

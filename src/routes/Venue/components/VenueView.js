@@ -249,7 +249,9 @@ class venue extends Component {
                   }
                 </div>
               ) : (
-                <Alert bsStyle='warning'>No {this._getCurrentType()} found.</Alert>
+                <Alert bsStyle='warning'>No {this._getCurrentType() === 'placements'
+                  ? 'product'
+                  : this._getCurrentType().slice(0, -1)} found.</Alert>
               )
             )}
           </div>
