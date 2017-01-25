@@ -2,7 +2,8 @@ import { connect } from 'react-redux'
 import {
   fetchProducts,
   addProduct,
-  fetchCatalog
+  fetchCatalog,
+  deleteCatalogItem
 } from '../modules/products'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
 import { withRouter } from 'react-router'
@@ -24,6 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchProducts: (...args) => dispatch(fetchProducts(...args)),
   fetchTypes: (...args) => dispatch(fetchTypes(...args)),
   fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
+  deleteCatalogItem: (...args) => dispatch(deleteCatalogItem(...args)),
   fetchSuppliers: (...args) => dispatch(fetchSuppliers(...args)),
   addProduct: formApiAdapter(dispatch, addProduct)
 })
@@ -32,7 +34,8 @@ const mapStateToProps = (state) => ({
   products : state.products,
   venueId: state.venues.current,
   types: state.types,
-  suppliers: state.suppliers
+  suppliers: state.suppliers,
+  user: state.auth.user
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

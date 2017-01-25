@@ -92,7 +92,9 @@ class ImportView extends Component {
               percent={Math.round((this.state.currentIndex / this.state.items.length * 100))}
               catalog={this.props.products.catalog}
               fetchCatalog={this.props.fetchCatalog}
-              veuneId={this.props.venueId} />
+              deleteCatalogItem={this.props.deleteCatalogItem}
+              veuneId={this.props.venueId}
+              user={this.props.user} />
           }
         </div>
       </div>
@@ -104,11 +106,13 @@ ImportView.propTypes = {
   fetchProducts: React.PropTypes.func.isRequired,
   fetchTypes: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
+  deleteCatalogItem: React.PropTypes.func.isRequired,
   fetchSuppliers: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string,
   products : React.PropTypes.object,
   types: React.PropTypes.object,
-  suppliers: React.PropTypes.object
+  suppliers: React.PropTypes.object,
+  user: React.PropTypes.object.isRequired
 }
 export default ImportView

@@ -7,14 +7,23 @@
     }
   }
 
-
-  .media-left{
-    div{
-      width: 50px;
-      text-align: center;
-      img{
-        max-width: 50px;
-        max-height: 50px;
+  .catalog-item{
+    .media-left{
+      div{
+        width: 50px;
+        text-align: center;
+        img{
+          max-width: 50px;
+          max-height: 50px;
+        }
+      }
+      div.admin{
+        width: 150px;
+        text-align: center;
+        img{
+          max-width: 150px;
+          max-height: 150px;
+        }
       }
     }
   }

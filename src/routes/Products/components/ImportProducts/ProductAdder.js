@@ -21,14 +21,16 @@ class ProductAdder extends Component {
 
   componentDidMount () {
     this.props.fetchCatalog({
-      name: this.props.product.name
+      name: this.props.product.name,
+      limit: 30
     })
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.product && this.props.product !== nextProps.product) {
       this.props.fetchCatalog({
-        name: nextProps.product.name
+        name: nextProps.product.name,
+        limit: 30
       })
     }
   }
@@ -60,7 +62,7 @@ class ProductAdder extends Component {
   }
 
   render () {
-    const { product, products, percent = 0, catalog } = this.props
+    const { product, products, percent = 0, catalog, user } = this.props
 
     return (
       <div className='product-adder row'>
@@ -95,8 +97,10 @@ class ProductAdder extends Component {
                 key={item._id}
                 item={item}
                 onSelect={this._onSelect}
+                deleteCatalogItem={this.props.deleteCatalogItem}
                 isAdded={!!products.find(productsItem => productsItem.product_id._id === item._id)}
-                selected={this.state.product_id === item._id} />
+                selected={this.state.product_id === item._id}
+                user={user} />
             )}
             {!catalog.isFetching &&
             <div>
@@ -128,8 +132,10 @@ ProductAdder.propTypes = {
   products: React.PropTypes.array.isRequired,
   suppliers: React.PropTypes.object.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
+  deleteCatalogItem: React.PropTypes.func.isRequired,
   catalog: React.PropTypes.object.isRequired,
-  percent: React.PropTypes.number
+  percent: React.PropTypes.number,
+  user: React.PropTypes.object.isRequired
 }
 
 export default ProductAdder

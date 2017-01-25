@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { userLogin } from '../modules/login'
+import { login } from '../../../store/auth'
 import formApiAdapter from '../../../utils/formApiAdapter'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -14,7 +14,7 @@ import Login from '../components/Login'
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = (dispatch) => ({
-  userLogin: formApiAdapter(dispatch, userLogin)
+  userLogin: formApiAdapter(dispatch, login)
 })
 
 const mapStateToProps = (state) => ({

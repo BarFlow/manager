@@ -33,6 +33,10 @@ export const CATALOG_UPDATE_REQUEST = 'products/CATALOG_UPDATE_REQUEST'
 export const CATALOG_UPDATE_SUCCESS = 'products/CATALOG_UPDATE_SUCCESS'
 export const CATALOG_UPDATE_FAILURE = 'products/CATALOG_UPDATE_FAILURE'
 
+export const CATALOG_DELETE_REQUEST = 'products/CATALOG_DELETE_REQUEST'
+export const CATALOG_DELETE_SUCCESS = 'products/CATALOG_DELETE_SUCCESS'
+export const CATALOG_DELETE_FAILURE = 'products/CATALOG_DELETE_FAILURE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -164,6 +168,20 @@ export const updateCatalogItem = (payload) => {
   }
 }
 
+export const deleteCatalogItem = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/products/${payload._id}`,
+      method: 'DELETE',
+      types: [
+        CATALOG_DELETE_REQUEST,
+        CATALOG_DELETE_SUCCESS,
+        CATALOG_DELETE_FAILURE
+      ]
+    }
+  }
+}
+
 export const actions = {
   fetchProducts,
   updateProduct,
@@ -171,7 +189,8 @@ export const actions = {
   addProduct,
   fetchCatalog,
   addCatalogItem,
-  updateCatalogItem
+  updateCatalogItem,
+  deleteCatalogItem
 }
 
 // ------------------------------------
@@ -277,6 +296,15 @@ const ACTION_HANDLERS = {
           }
           return item
         })
+      }
+    }
+  },
+  [CATALOG_DELETE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      catalog: {
+        ...state.catalog,
+        items: state.catalog.items.filter(item => item._id !== action.payload._id)
       }
     }
   }

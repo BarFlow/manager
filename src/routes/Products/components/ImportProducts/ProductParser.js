@@ -48,7 +48,15 @@ class ProductParser extends Component {
       <div className='product-parser'>
         <div className='panel panel-default'>
           <div className='panel-body'>
-            <h4 className='media-heading'>Step 1. Choose a supplier for the products you are about to import.</h4>
+            <h4 className='media-heading'>
+              Step 1. <a href='/barflow-import-template.xlsx' target='_blank'>Download</a> our excel template file.
+              Send one to each of your suppliers to fill out and set your par levels.
+            </h4>
+          </div>
+        </div>
+        <div className='panel panel-default'>
+          <div className='panel-body'>
+            <h4 className='media-heading'>Step 2. Choose a supplier for the products you are about to import.</h4>
             {(suppliers.isFetching || !!suppliers.items.length) &&
               <select className='form-control' ref='supplierId'>
                 {!!suppliers.items.length && suppliers.items.map(supplier =>
@@ -62,13 +70,6 @@ class ProductParser extends Component {
                 please add them <Link to='/suppliers'>here</Link>.
               </Alert>
             }
-          </div>
-        </div>
-        <div className='panel panel-default'>
-          <div className='panel-body'>
-            <h4 className='media-heading'>
-              Step 2. <a href='#'>Download</a> and add your products to our excel template file.
-            </h4>
           </div>
         </div>
         <div className='panel panel-default'>
