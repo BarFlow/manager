@@ -22,7 +22,7 @@ class ProductParser extends Component {
       const workbook = XLSX.read(data, { type: 'binary' })
       const productsToImport = XLSX.utils
         .sheet_to_json(workbook.Sheets[workbook.SheetNames[0]])
-        .filter(item => item['Name'])
+        .filter(item => item['Description'])
 
       if (!productsToImport.length) {
         return this.setState({
@@ -31,11 +31,11 @@ class ProductParser extends Component {
       }
 
       this.props.onParse(productsToImport.map(item => ({
-        name: item['Name'].replace(/[^\w\s]/gi, ''),
+        name: item['Description'].replace(/[^\w\s]/gi, ''),
         supplier_product_code: item['SKU'],
         supplier_id: this.refs.supplierId ? this.refs.supplierId.value : undefined,
         par_level: item['Par Level'] && item['Par Level'].replace(/[^0-9.]+/g, ''),
-        cost_price: item['Cost Price'] && item['Cost Price'].replace(/[^0-9.]+/g, ''),
+        cost_price: item['Net Price'] && item['Net Price'].replace(/[^0-9.]+/g, ''),
         package_size: item['Case Size'] && item['Case Size'].replace(/[^0-9.]+/g, '')
       })))
     }
