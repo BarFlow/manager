@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import _ from 'lodash'
 import './SearchBar.scss'
 
 class SearchBar extends Component {
@@ -57,7 +58,7 @@ class SearchBar extends Component {
           value={filters['category'] || ''}>
           <option value=''>any</option>
           {typeTree.beverage &&
-            Object.keys(typeTree.beverage.children).map(category =>
+            _.orderBy(Object.keys(typeTree.beverage.children)).map(category =>
               <option
                 key={typeTree.beverage.children[category]._id}
                 value={typeTree.beverage.children[category].title}>
@@ -78,13 +79,14 @@ class SearchBar extends Component {
           disabled={!filters['category'] || filters['category'] === ''}>
           <option value=''>any</option>
           {(typeTree.beverage && typeTree.beverage.children[filters['category']]) &&
-            Object.keys(typeTree.beverage.children[filters['category']].children).map(subCategory =>
+            _.orderBy(Object.keys(typeTree.beverage.children[filters['category']].children)).map(subCategory =>
               <option
                 key={typeTree.beverage.children[filters['category']].children[subCategory]._id}
                 value={typeTree.beverage.children[filters['category']].children[subCategory].title}>
                 {typeTree.beverage.children[filters['category']].children[subCategory].title}
               </option>
           )}
+          <option value='other'>other</option>
         </FormControl>
       </FormGroup>
 

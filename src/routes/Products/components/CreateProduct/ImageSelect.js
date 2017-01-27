@@ -59,6 +59,16 @@ class ImageSelect extends Component {
   getCategoryDefaults (product) {
     const { category, sub_category: subCategory } = product
     const { types } = this.props
+    if (category === 'other') {
+      return {
+        images: {
+          normal: 'http://placehold.it/455x855/6D6D72/fff?text=Other',
+          thumbnail: 'http://placehold.it/150x150/6D6D72/fff?text=Other'
+        },
+        measurable_from: 0.1,
+        measurable_till: 0.8
+      }
+    }
     if (subCategory && types.tree.beverage.children[category].children[subCategory]) {
       return types.items.find(item => item._id === types.tree.beverage.children[category].children[subCategory]._id)
     }

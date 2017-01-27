@@ -2,9 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field, formValueSelector } from 'redux-form'
 import buildSchema from 'redux-form-schema'
+import _ from 'lodash'
+
 import { Button, Alert, Checkbox, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 import FormInput from '../../../../components/FormInput'
 import FormSelect from '../../../../components/FormSelect'
+
+const other = {
+  _id: 'other',
+  title: 'other'
+}
 
 let CreateProductForm = ({
   error, submitSucceeded, handleSubmit, submitting, dirty, types, category
@@ -25,7 +32,10 @@ let CreateProductForm = ({
       label='Category'
       type='select'
       description='The category of the product.'
-      options={types.items.filter(item => item.parent_id === types.tree.beverage._id)}
+      options={[
+        ..._.orderBy(types.items.filter(item => item.parent_id === types.tree.beverage._id), 'title'),
+        other
+      ]}
       className={'col-xs-12'}
       displayKey={'title'}
       valueKey={'title'} />
@@ -37,7 +47,9 @@ let CreateProductForm = ({
       type='select'
       description='The subcategory of the product.'
       options={category
-        ? types.items.filter(item => item.parent_id === types.tree.beverage.children[category]._id)
+        ? _.orderBy(types.items.filter(item =>
+            types.tree.beverage.children[category] && item.parent_id === types.tree.beverage.children[category]._id),
+            'title')
         : []
       }
       disabled={!category}
