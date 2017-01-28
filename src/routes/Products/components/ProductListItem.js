@@ -109,9 +109,7 @@ class ProductListItem extends Component {
             <p>
               <Label>{category}</Label>
               {subCategory && subCategory !== 'other' &&
-                <span>
-                  <Label>{subCategory}</Label>
-                </span>
+                <Label>{subCategory}</Label>
               }
               <Label>{capacity} ml</Label>
               <Label>{costPrice && `£ ${costPrice}`}</Label>

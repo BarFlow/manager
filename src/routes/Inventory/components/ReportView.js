@@ -184,7 +184,7 @@ class Report extends Component {
           ) : (
             <a className='btn btn-default'
               href={`http://api.stockmate.co.uk/reports/${reportId}/export?token=${this.props.token}`}
-              target='_blank'>Export</a>
+              target='_blank'>Download Order Sheets</a>
           )
           } />
 
