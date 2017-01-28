@@ -49,7 +49,23 @@ class ProductListItem extends Component {
   }
 
   render () {
-    const { name, type, category, sub_category: subCategory, capacity, images } = this.props.item.product_id
+    const {
+      name,
+      category,
+      sub_category: subCategory,
+      capacity,
+      images
+    } = this.props.item.product_id
+
+    const {
+      package_size: caseSize,
+      cost_price: costPrice,
+      par_level: parLevel,
+      supplier_product_code: sku,
+      supplier_id: supplierId
+    } = this.props.item
+
+    const selectedSupplier = this.props.suppliers.items.find(item => item._id === supplierId)
 
     const confirmDialog = <Modal show={this.state.isConfirmDialogOpen}
       onHide={this._toggleConfirmDialog}
@@ -78,23 +94,44 @@ class ProductListItem extends Component {
             </div>
           </Media.Left>
           <Media.Body>
-            <Media.Heading>{name}</Media.Heading>
-            <p>
-              <Label>{type}</Label>{' '}
-              <Label>{category}</Label>{' '}
-              {subCategory &&
-                <span>
-                  <Label>{subCategory}</Label>{' '}
-                </span>
+            <Media.Heading>
+              {name}{' '}
+              {this.state.isFormOpen &&
+                <Button className='update' bsSize='xsmall' onClick={this._toggleCreateProductDialog}>Edit</Button>
               }
-              <Label>{capacity} ml</Label>{' '}
-              <Label className='update' onClick={this._toggleCreateProductDialog}>Update</Label>
               {this.state.isCreateDialogOpen &&
                 <CreateProductDialog
                   isOpen
                   initialValues={this.props.item.product_id}
                   close={this._toggleCreateProductDialog} />
               }
+            </Media.Heading>
+            <p>
+              <Label>{category}</Label>
+              {subCategory && subCategory !== 'other' &&
+                <span>
+                  <Label>{subCategory}</Label>
+                </span>
+              }
+              <Label>{capacity} ml</Label>
+              <Label>{costPrice && `£ ${costPrice}`}</Label>
+              <Label>Par level: {parLevel}</Label>
+              <Label>{selectedSupplier && selectedSupplier.name}</Label>
+              <Label bsStyle='danger'>
+                {!sku && 'SKU'}
+              </Label>
+              <Label bsStyle='danger'>
+                {!selectedSupplier && 'Supplier'}
+              </Label>
+              <Label bsStyle='danger'>
+                {!costPrice && 'Price'}
+              </Label>
+              <Label bsStyle='danger'>
+                {!parLevel && 'Par level'}
+              </Label>
+              <Label bsStyle='danger'>
+                {!caseSize && 'Case size'}
+              </Label>
             </p>
           </Media.Body>
           <Media.Right>
@@ -133,18 +170,7 @@ class ProductListItem extends Component {
 }
 
 ProductListItem.propTypes = {
-  item: React.PropTypes.shape({
-    _id: React.PropTypes.string.isRequired,
-    product_id: React.PropTypes.shape({
-      _id: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired,
-      type: React.PropTypes.string.isRequired,
-      category: React.PropTypes.string.isRequired,
-      sub_category: React.PropTypes.string,
-      capacity: React.PropTypes.number.isRequired,
-      images: React.PropTypes.object
-    })
-  }),
+  item: React.PropTypes.object.isRequired,
   suppliers: React.PropTypes.object.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   deleteProduct: React.PropTypes.func.isRequired
