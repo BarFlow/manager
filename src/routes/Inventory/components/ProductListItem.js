@@ -35,7 +35,7 @@ class ProductListItem extends Component {
             <p>
               <Label>{type}</Label>{' '}
               <Label>{category}</Label>{' '}
-              {subCategory &&
+              {subCategory && subCategory !== 'other' &&
                 <span>
                   <Label>{subCategory}</Label>{' '}
                 </span>
