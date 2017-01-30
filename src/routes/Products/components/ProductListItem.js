@@ -19,6 +19,7 @@ class ProductListItem extends Component {
     this._handleDelete = this._handleDelete.bind(this)
     this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
     this._toggleCreateProductDialog = this._toggleCreateProductDialog.bind(this)
+    this._forkProductIfNeeded = this._forkProductIfNeeded.bind(this)
   }
 
   _toggleCollapse () {
@@ -46,6 +47,16 @@ class ProductListItem extends Component {
     this.setState({
       isCreateDialogOpen: !this.state.isCreateDialogOpen
     })
+  }
+
+  _forkProductIfNeeded (action) {
+    // Product has been forked
+    if (action.type === 'products/CATALOG_ADD_SUCCESS') {
+      this.props.updateProduct({
+        _id: this.props.item._id,
+        product_id: action.payload._id
+      })
+    }
   }
 
   render () {
@@ -103,7 +114,9 @@ class ProductListItem extends Component {
                 <CreateProductDialog
                   isOpen
                   initialValues={this.props.item.product_id}
-                  close={this._toggleCreateProductDialog} />
+                  close={this._toggleCreateProductDialog}
+                  onSubmit={this._forkProductIfNeeded}
+                  />
               }
             </Media.Heading>
             <p>

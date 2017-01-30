@@ -48,16 +48,18 @@ class CreateProduct extends Component {
   }
 
   _handleSubmit () {
-    if (this.state.product._id) {
-      return this.props.updateCatalogItem({
-        venue_id: this.props.venueId,
-        ...this.state.product
-      })
+    const product = this.state.product
+    let method = ''
+    if ((product._id && product.venue_id) || (product._id && this.props.user.admin)) {
+      method = 'updateCatalogItem'
+    } else {
+      method = 'addCatalogItem'
     }
-    return this.props.addCatalogItem({
-      venue_id: this.props.venueId,
-      ...this.state.product
-    })
+    return this.props[method]({
+      venue_id: !this.props.user.admin ? this.props.venueId : undefined,
+      parent_id: (method === 'addCatalogItem' && product._id) ? product._id : undefined,
+      ...product
+    }).then(item => this.props.onSubmit && this.props.onSubmit(item))
   }
 
   render () {
@@ -102,7 +104,9 @@ CreateProduct.propTypes = {
   addCatalogItem: React.PropTypes.func.isRequired,
   updateCatalogItem: React.PropTypes.func.isRequired,
   token: React.PropTypes.string.isRequired,
-  close: React.PropTypes.func
+  user: React.PropTypes.object.isRequired,
+  close: React.PropTypes.func,
+  onSubmit: React.PropTypes.func
 }
 
 export default CreateProduct

@@ -1,12 +1,11 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import {
   fetchProducts,
   fetchCatalog,
   addCatalogItem,
   updateCatalogItem
 } from '../../modules/products'
-import { withRouter } from 'react-router'
-import formApiAdapter from '../../../../utils/formApiAdapter'
 import { fetchTypes } from '../../../../store/types'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -20,19 +19,20 @@ import CreateProduct from './CreateProduct'
     Keys will be passed as props to presentational components. Here we are
     implementing our wrapper around fetchProdcusts; the component doesn't care   */
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchProducts: (...args) => dispatch(fetchProducts(...args)),
-  fetchTypes: (...args) => dispatch(fetchTypes(...args)),
-  fetchCatalog: (...args) => dispatch(fetchCatalog(...args)),
-  addCatalogItem: formApiAdapter(dispatch, addCatalogItem),
-  updateCatalogItem: formApiAdapter(dispatch, updateCatalogItem)
-})
+const mapDispatchToProps = {
+  fetchProducts,
+  fetchTypes,
+  fetchCatalog,
+  addCatalogItem,
+  updateCatalogItem
+}
 
 const mapStateToProps = (state) => ({
   products : state.products,
   venueId: state.venues.current,
   types: state.types,
-  token: state.auth.token
+  token: state.auth.token,
+  user: state.auth.user
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
