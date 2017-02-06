@@ -2,6 +2,7 @@
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import BaseLayout from '../layouts/BaseLayout/BaseLayout'
 import InventoryRoute from './Inventory'
+import OrdersRoute from './Orders'
 import ProductsRoute from './Products'
 import VenueRoute from './Venue'
 import SuppliersRoute from './Suppliers'
@@ -22,7 +23,8 @@ export const createRoutes = (store) => ({
         InventoryRoute(store),
         ProductsRoute(store),
         VenueRoute(store),
-        SuppliersRoute(store)
+        SuppliersRoute(store),
+        OrdersRoute(store)
       ]
     },
     CounterRoute(store),

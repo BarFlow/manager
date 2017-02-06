@@ -59,6 +59,9 @@ class Sidebar extends Component {
           <LinkContainer to='/inventory/archive' activeHref='active'>
             <NavItem className={`sub ${inventorySubItemsHidden}`}>Archive</NavItem>
           </LinkContainer>
+          <LinkContainer to='/orders' activeHref='active'>
+            <NavItem>Orders</NavItem>
+          </LinkContainer>
           <LinkContainer to='/products' activeHref='active'>
             <NavItem>Products</NavItem>
           </LinkContainer>

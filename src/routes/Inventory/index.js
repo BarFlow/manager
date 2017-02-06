@@ -19,10 +19,10 @@ export default (store) => ({
           /*  Webpack - use require callback to define
               dependencies for bundling   */
           const ReportViewContainer = require('./containers/ReportViewContainer').default
-          const reducer = require('./modules/reports').default
+          // const reducer = require('./modules/reports').default
 
           /*  Add the reducer to the store on key 'reports'  */
-          injectReducer(store, { key: 'reports', reducer })
+          // injectReducer(store, { key: 'reports', reducer })
 
           /*  Return getComponent   */
           cb(null, ReportViewContainer)
