@@ -7,8 +7,6 @@ export const REPORTS_FETCH_REQUEST = 'reports/FETCH_REPORTS_REQUEST'
 export const REPORTS_FETCH_SUCCESS = 'reports/FETCH_REPORTS_SUCCESS'
 export const REPORTS_FETCH_FAILURE = 'reports/FETCH_REPORTS_FAILURE'
 
-export const REPORT_UPDATE_FETCH_REQUEST = 'reports/FETCH_UPDATE_REPORT_REQUEST'
-
 export const REPORT_FETCH_REQUEST = 'reports/FETCH_REPORT_REQUEST'
 export const REPORT_FETCH_SUCCESS = 'reports/FETCH_REPORT_SUCCESS'
 export const REPORT_FETCH_FAILURE = 'reports/FETCH_REPORT_FAILURE'
@@ -16,6 +14,8 @@ export const REPORT_FETCH_FAILURE = 'reports/FETCH_REPORT_FAILURE'
 export const REPORT_CREATE_REQUEST = 'reports/CREATE_REQUEST'
 export const REPORT_CREATE_SUCCESS = 'reports/CREATE_SUCCESS'
 export const REPORT_CREATE_FAILURE = 'reports/CREATE_FAILURE'
+
+export const REPORT_UPDATE_REQUEST = 'reports/UPDATE_REPORT_REQUEST'
 
 export const REPORT_DELETE_REQUEST = 'reports/DELETE_REQUEST'
 export const REPORT_DELETE_SUCCESS = 'reports/DELETE_SUCCESS'
@@ -46,7 +46,7 @@ export const fetchReport = ({ reportId, venueId }, update = false) => {
       endpoint: `/reports/${reportId}?venue_id=${venueId}`,
       method: 'GET',
       types: [
-        !update ? REPORT_FETCH_REQUEST : REPORT_UPDATE_FETCH_REQUEST,
+        !update ? REPORT_FETCH_REQUEST : REPORT_UPDATE_REQUEST,
         {
           type: REPORT_FETCH_SUCCESS,
           payload: (action, state, res) => {
@@ -134,7 +134,7 @@ const ACTION_HANDLERS = {
       }
     }
   },
-  [REPORT_UPDATE_FETCH_REQUEST] : (state, action) => {
+  [REPORT_UPDATE_REQUEST] : (state, action) => {
     return {
       ...state,
       isFetching: true,

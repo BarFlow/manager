@@ -20,7 +20,7 @@ class ProductListItem extends Component {
     const { item } = this.props
 
     const round = (value) =>
-      Math.round(value * 10) / 10
+      Math.round(value * 100) / 100
 
     return (
       <Panel onClick={this._toggleCollapse}>
