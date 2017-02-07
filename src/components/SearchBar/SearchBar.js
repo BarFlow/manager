@@ -13,20 +13,22 @@ class SearchBar extends Component {
   _handleChange (event) {
     const { id, value } = event.target
     const { filters = {}, onChange } = this.props
-    onChange({
-      ...filters,
-      ...{
-        skip: 0,
-        sub_category: id === 'category' ? '' : filters.sub_category
-      },
-      [`${id}`]: value
-    })
+    if (id === 'category') {
+      const category = value.split(' - ')
+      filters.category = category.shift()
+      filters.sub_category = category.join(' - ')
+    }
+
+    if (id === 'supplier') {
+      filters.supplier = value
+    }
+    onChange(filters)
   }
 
   render () {
     const { types, filters = {}, suppliers, exclude = [] } = this.props
     const typeTree = types.tree
-    const dropdownSize = 6 / (3 - exclude.length)
+    const dropdownSize = 6 / (2 - exclude.length)
 
     const supplierSelector =
       <FormGroup controlId='supplier' className={`col-xs-${dropdownSize}`}>
@@ -48,6 +50,25 @@ class SearchBar extends Component {
         </FormControl>
       </FormGroup>
 
+    const categoryOptions = []
+
+    _.orderBy(Object.keys(typeTree.beverage.children)).map(category => {
+      categoryOptions.push(<option
+        key={typeTree.beverage.children[category]._id}
+        value={typeTree.beverage.children[category].title}>
+        {typeTree.beverage.children[category].title}
+      </option>)
+
+      _.orderBy(Object.keys(typeTree.beverage.children[category].children)).map(subCategory =>
+        categoryOptions.push(<option
+          key={typeTree.beverage.children[category].children[subCategory]._id}
+          value={`${typeTree.beverage.children[category].title} - ${typeTree.beverage.children[category].children[subCategory].title}`}>
+          {typeTree.beverage.children[category].title} {' - '}
+          {typeTree.beverage.children[category].children[subCategory].title}
+        </option>)
+      )
+    })
+
     const categorySelector =
       <FormGroup controlId='category' className={`col-xs-${dropdownSize}`}>
         <ControlLabel>Category</ControlLabel>
@@ -55,38 +76,11 @@ class SearchBar extends Component {
         <FormControl
           componentClass='select'
           onChange={this._handleChange}
-          value={filters['category'] || ''}>
+          value={filters['sub_category'] ? `${filters['category']} - ${filters['sub_category']}` : filters['category']}>
           <option value=''>any</option>
           {typeTree.beverage &&
-            _.orderBy(Object.keys(typeTree.beverage.children)).map(category =>
-              <option
-                key={typeTree.beverage.children[category]._id}
-                value={typeTree.beverage.children[category].title}>
-                {typeTree.beverage.children[category].title}
-              </option>
-          )}
-        </FormControl>
-      </FormGroup>
-
-    const subCategorySelector =
-      <FormGroup controlId='sub_category' className={`col-xs-${dropdownSize}`}>
-        <ControlLabel>Subcategory</ControlLabel>
-        {' '}
-        <FormControl
-          componentClass='select'
-          onChange={this._handleChange}
-          value={filters['sub_category'] || ''}
-          disabled={!filters['category'] || filters['category'] === ''}>
-          <option value=''>any</option>
-          {(typeTree.beverage && typeTree.beverage.children[filters['category']]) &&
-            _.orderBy(Object.keys(typeTree.beverage.children[filters['category']].children)).map(subCategory =>
-              <option
-                key={typeTree.beverage.children[filters['category']].children[subCategory]._id}
-                value={typeTree.beverage.children[filters['category']].children[subCategory].title}>
-                {typeTree.beverage.children[filters['category']].children[subCategory].title}
-              </option>
-          )}
-          <option value='other'>other</option>
+            categoryOptions
+          }
         </FormControl>
       </FormGroup>
 
@@ -104,7 +98,6 @@ class SearchBar extends Component {
         </FormGroup>
         {exclude.indexOf('suppliers') === -1 && supplierSelector}
         {exclude.indexOf('category') === -1 && categorySelector}
-        {exclude.indexOf('subCategory') === -1 && subCategorySelector}
       </Form>
     )
   }
