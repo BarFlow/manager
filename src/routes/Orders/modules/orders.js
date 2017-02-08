@@ -21,8 +21,6 @@ export const ORDER_DELETE_REQUEST = 'reports/DELETE_REQUEST'
 export const ORDER_DELETE_SUCCESS = 'reports/DELETE_SUCCESS'
 export const ORDER_DELETE_FAILURE = 'reports/DELETE_FAILURE'
 
-export const ORDERS_FILTER_CHANGE = 'reports/FILTER_CHANGE'
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -53,15 +51,6 @@ export const fetchOrder = ({ reportId, venueId }) => {
     }
   }
 }
-
-export const changeOrderFilters = (filter) => ({
-  type: ORDERS_FILTER_CHANGE,
-  payload: {
-    limit: 20,
-    skip: 0,
-    ...filter
-  }
-})
 
 export const createOrder = (payload) => {
   return {
@@ -95,7 +84,6 @@ export const deleteOrder = (reportId) => {
 export const actions = {
   fetchOrders,
   fetchOrder,
-  changeOrderFilters,
   createOrder,
   deleteOrder
 }
@@ -135,12 +123,6 @@ const ACTION_HANDLERS = {
         }
         return item
       })
-    }
-  },
-  [ORDERS_FILTER_CHANGE] : (state, action) => {
-    return {
-      ...state,
-      filters: action.payload
     }
   },
   [ORDER_CREATE_REQUEST] : (state, action) => {
@@ -183,10 +165,6 @@ const ACTION_HANDLERS = {
 const initialState = {
   isFetching: false,
   isSaving: false,
-  filters: {
-    limit: 20,
-    skip: 0
-  },
   items: [],
   cart_items: []
 }

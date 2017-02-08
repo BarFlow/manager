@@ -22,7 +22,7 @@ export default (store) => ({
         cb(null, Orders)
 
       /* Webpack named bundle   */
-      }, 'products')
+      }, 'orders')
     },
     onEnter: (nextState, replace) => protectRoute(nextState, replace, store)
   },
@@ -36,7 +36,7 @@ export default (store) => ({
         require.ensure([], (require) => {
           /*  Webpack - use require callback to define
               dependencies for bundling   */
-          const CartView = require('./components/CartView').default
+          const CartView = require('./containers/CartViewContainer').default
           // const reducer = require('./modules/products').default
 
           /*  Add the reducer to the store on key 'counter'  */
@@ -46,7 +46,7 @@ export default (store) => ({
           cb(null, CartView)
 
         /* Webpack named bundle   */
-        }, 'products-import')
+        }, 'orders-create')
       },
       onEnter: (nextState, replace) => protectRoute(nextState, replace, store)
     }

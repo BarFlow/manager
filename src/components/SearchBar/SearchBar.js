@@ -10,19 +10,49 @@ class SearchBar extends Component {
     this._handleChange = this._handleChange.bind(this)
   }
 
+  componentDidMount () {
+    const { types, fetchTypes, suppliers, fetchSuppliers, venueId } = this.props
+
+    // Fetch suppliers if needed
+    if (
+      (!suppliers.items.length && !suppliers.isFetching && venueId) ||
+      // Dirty way to check if the current venue_id is valid, should be other way
+      (venueId && suppliers.items.length && venueId !== suppliers.items[0].venue_id)
+    ) {
+      fetchSuppliers(venueId)
+    }
+
+    // Fetch products if needed
+    if (
+      (!types.items.length && !types.isFetching && venueId) ||
+      // Dirty way to check if the current venue_id is valid, should be other way
+      (venueId && types.items.length && venueId !== types.items[0].venue_id)
+    ) {
+      fetchTypes(venueId)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { fetchTypes, fetchSuppliers, venueId } = this.props
+    if (nextProps.venueId !== venueId) {
+      fetchTypes(nextProps.venueId)
+      fetchSuppliers(nextProps.venueId)
+    }
+  }
+
   _handleChange (event) {
     const { id, value } = event.target
     const { filters = {}, onChange } = this.props
+    const change = {}
     if (id === 'category') {
       const category = value.split(' - ')
-      filters.category = category.shift()
-      filters.sub_category = category.join(' - ')
+      change.category = category.shift()
+      change.sub_category = category.join(' - ')
+    } else {
+      change[id] = value
     }
 
-    if (id === 'supplier') {
-      filters.supplier = value
-    }
-    onChange(filters)
+    onChange({ ...filters, ...change })
   }
 
   render () {
@@ -108,7 +138,10 @@ SearchBar.propTypes = {
   onChange : React.PropTypes.func.isRequired,
   filters : React.PropTypes.object,
   types: React.PropTypes.object,
+  fetchTypes: React.PropTypes.func.isRequired,
   suppliers: React.PropTypes.object,
-  exclude: React.PropTypes.array
+  fetchSuppliers: React.PropTypes.func.isRequired,
+  exclude: React.PropTypes.array,
+  venueId: React.PropTypes.string
 }
 export default SearchBar

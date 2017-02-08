@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import {
   fetchOrders,
   deleteOrder
 } from '../modules/orders'
-import { withRouter } from 'react-router'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

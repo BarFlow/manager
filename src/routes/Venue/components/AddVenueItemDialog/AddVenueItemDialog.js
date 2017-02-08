@@ -36,9 +36,7 @@ AddVenueItemDialog.propTypes = {
   products: React.PropTypes.object,
   currentType: React.PropTypes.string.isRequired,
   venueId: React.PropTypes.string.isRequired,
-  params: React.PropTypes.object.isRequired,
-  fetchTypes: React.PropTypes.func.isRequired,
-  types:React.PropTypes.object
+  params: React.PropTypes.object.isRequired
 }
 
 export default AddVenueItemDialog

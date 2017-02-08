@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Alert, Pagination } from 'react-bootstrap'
 
 import SubHeader from '../../../components/SubHeader'
-import SearchBar from '../../../components/SearchBar'
+import SearchBar from '../../../containers/SearchBarContainer'
 import ProductListItem from './ProductListItem'
 
 import './ReportView.scss'
@@ -18,7 +18,7 @@ class Report extends Component {
 
   componentDidMount () {
     const {
-      venueId, reports, changeReportFilters, fetchReport, suppliers, fetchSuppliers, types, fetchTypes, router, params
+      venueId, reports, changeReportFilters, fetchReport, router, params
     } = this.props
     const location = router.location
 
@@ -29,20 +29,6 @@ class Report extends Component {
       (venueId && params.reportId !== reports.filters.report_id)
     ) {
       fetchReport({ venueId, reportId: params.reportId })
-    }
-
-    // Fetch suppliers if needed
-    if (
-      (!suppliers.items.length && !suppliers.isFetching && venueId) ||
-      // Dirty way to check if the current venue_id is valid, should be other way
-      (venueId && suppliers.items.length && venueId !== suppliers.items[0].venue_id)
-    ) {
-      fetchSuppliers(venueId)
-    }
-
-    // Fetch types if they are not in store yet
-    if (!types.items.length) {
-      fetchTypes()
     }
 
     // Load current filters from URI
@@ -66,16 +52,13 @@ class Report extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {
-      venueId, changeReportFilters, fetchReport, fetchSuppliers, router, reports, params
+      venueId, changeReportFilters, fetchReport, router, reports, params
     } = this.props
     const location = router.location
 
     if (venueId !== nextProps.venueId) {
       // Only fetch new reports for new venue_id
       fetchReport({ venueId: nextProps.venueId, reportId: nextProps.params.reportId })
-
-      // Fetch new suppliers
-      fetchSuppliers(nextProps.venueId)
     }
 
     if (venueId && venueId !== nextProps.venueId) {
@@ -158,7 +141,7 @@ class Report extends Component {
 
   render () {
     const {
-      reports, types, venueId, createReport, router, suppliers
+      reports, venueId, createReport, router
     } = this.props
     const reportId = this.props.params.reportId
     const location = router.location
@@ -196,9 +179,7 @@ class Report extends Component {
           }
           <SearchBar
             filters={reports.filters}
-            onChange={this._updateReportFilterAndURI}
-            types={types}
-            suppliers={suppliers} />
+            onChange={this._updateReportFilterAndURI} />
 
           <div className='items'>
             {!venueId || (reports.isFetching && !reports.isUpdate) ? (
@@ -231,10 +212,6 @@ class Report extends Component {
 Report.propTypes = {
   params: React.PropTypes.object,
   router: React.PropTypes.object,
-  types: React.PropTypes.object.isRequired,
-  fetchTypes: React.PropTypes.func.isRequired,
-  suppliers: React.PropTypes.object.isRequired,
-  fetchSuppliers: React.PropTypes.func.isRequired,
   fetchReport: React.PropTypes.func.isRequired,
   changeReportFilters: React.PropTypes.func.isRequired,
   createReport: React.PropTypes.func.isRequired,

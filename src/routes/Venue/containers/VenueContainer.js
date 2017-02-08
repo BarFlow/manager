@@ -9,7 +9,6 @@ import {
   deleteVenueItem
 } from '../modules/venue'
 import { fetchProducts } from '../../Products/modules/products'
-import { fetchTypes } from '../../../store/types'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -28,8 +27,7 @@ const mapDispatchToProps = {
   updateVenueItem,
   batchUpdateVenueItems,
   deleteVenueItem,
-  fetchProducts,
-  fetchTypes
+  fetchProducts
 }
 
 const mapStateToProps = (state) => {

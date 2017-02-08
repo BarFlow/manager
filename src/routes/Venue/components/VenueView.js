@@ -169,8 +169,6 @@ class venue extends Component {
       addVenueItem,
       fetchProducts,
       products,
-      fetchTypes,
-      types,
       router,
       params,
       venueName
@@ -218,8 +216,6 @@ class venue extends Component {
                   addVenueItem={addVenueItem}
                   products={products}
                   fetchProducts={fetchProducts}
-                  types={types}
-                  fetchTypes={fetchTypes}
                   params={params}
                   venue={venue}
                   venueId={venueId}
@@ -275,8 +271,6 @@ venue.propTypes = {
   deleteVenueItem: React.PropTypes.func.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
   products: React.PropTypes.object,
-  fetchTypes: React.PropTypes.func.isRequired,
-  types: React.PropTypes.object,
   params: React.PropTypes.object.isRequired,
   router: React.PropTypes.object.isRequired,
   venue: React.PropTypes.object.isRequired,

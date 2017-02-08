@@ -3,7 +3,7 @@ import { Button, Alert, Pagination } from 'react-bootstrap'
 import { Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
-import SearchBar from '../../../components/SearchBar'
+import SearchBar from '../../../containers/SearchBarContainer'
 import AddProductDialog from './AddProduct/Dialog'
 import ProductListItem from './ProductListItem'
 
@@ -121,7 +121,6 @@ class Products extends Component {
   render () {
     const {
       products,
-      types,
       venueId,
       addProduct,
       updateProduct,
@@ -164,9 +163,7 @@ class Products extends Component {
 
           <SearchBar
             filters={products.filters}
-            onChange={this._updateProductsFilterAndURI}
-            types={types}
-            suppliers={suppliers} />
+            onChange={this._updateProductsFilterAndURI} />
 
           <div className='items'>
             {!venueId || products.isFetching ? (

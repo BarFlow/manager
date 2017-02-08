@@ -3,7 +3,7 @@ import { Modal, Alert, Button, Pagination, Checkbox } from 'react-bootstrap'
 import { Link } from 'react-router'
 
 import ListItem from './ListItem'
-import SearchBar from '../../../../components/SearchBar'
+import SearchBar from '../../../../containers/SearchBarContainer'
 import { filterProductItems } from '../../../Products/modules/products'
 
 class PlacementAdder extends Component {
@@ -25,10 +25,8 @@ class PlacementAdder extends Component {
   }
 
   componentDidMount () {
-    const { types = { items:[] }, fetchTypes, products = { items:[] }, fetchProducts, venueId } = this.props
-    if (!types.items.length && !types.isFetching) {
-      fetchTypes()
-    }
+    const { products = { items:[] }, fetchProducts, venueId } = this.props
+
     if (!products.items.length && !products.isFetching) {
       fetchProducts(venueId)
     }
@@ -100,7 +98,7 @@ class PlacementAdder extends Component {
   }
 
   render () {
-    const { products, types, venue } = this.props
+    const { products, venue } = this.props
     const idsOfPlacements = venue.items.map(item => item.inventory_item_id._id)
     const filteredItems = [...filterProductItems(products.items, this.state.filters)]
     .filter(product => !this.state.uniqueProducts || idsOfPlacements.indexOf(product._id) === -1)
@@ -124,7 +122,6 @@ class PlacementAdder extends Component {
       {batchAddConfirmDialog}
       <Modal.Body>
         <SearchBar
-          types={types}
           exclude={['suppliers']}
           filters={this.state.filters}
           onChange={this._handleSearchBarChange} />
@@ -195,9 +192,7 @@ PlacementAdder.propTypes = {
   products: React.PropTypes.object,
   currentType: React.PropTypes.string.isRequired,
   venueId: React.PropTypes.string.isRequired,
-  params: React.PropTypes.object.isRequired,
-  fetchTypes: React.PropTypes.func.isRequired,
-  types:React.PropTypes.object
+  params: React.PropTypes.object.isRequired
 }
 
 export default PlacementAdder
