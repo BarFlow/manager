@@ -52,7 +52,7 @@ class SearchBar extends Component {
 
     const categoryOptions = []
 
-    _.orderBy(Object.keys(typeTree.beverage.children)).map(category => {
+    typeTree.beverage && _.orderBy(Object.keys(typeTree.beverage.children)).map(category => {
       categoryOptions.push(<option
         key={typeTree.beverage.children[category]._id}
         value={typeTree.beverage.children[category].title}>
@@ -62,6 +62,7 @@ class SearchBar extends Component {
       _.orderBy(Object.keys(typeTree.beverage.children[category].children)).map(subCategory =>
         categoryOptions.push(<option
           key={typeTree.beverage.children[category].children[subCategory]._id}
+          // eslint-disable-next-line
           value={`${typeTree.beverage.children[category].title} - ${typeTree.beverage.children[category].children[subCategory].title}`}>
           {typeTree.beverage.children[category].title} {' - '}
           {typeTree.beverage.children[category].children[subCategory].title}
