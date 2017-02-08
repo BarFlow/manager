@@ -12,7 +12,7 @@ export default (store) => ({
       require.ensure([], (require) => {
         /*  Webpack - use require callback to define
             dependencies for bundling   */
-        const Orders = require('./components/ArchiveView').default
+        const Orders = require('./containers/ArchiveViewContainer').default
         // const reducer = require('./modules/products').default
 
         /*  Add the reducer to the store on key 'counter'  */

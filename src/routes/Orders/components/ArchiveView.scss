@@ -1,0 +1,34 @@
+.orders-archive{
+  padding-top: 2rem;
+  .panel {
+    cursor: pointer;
+    .actions {
+      min-width: 210px;
+      text-align: right;
+      button+button {
+        margin: 0;
+      }
+      button{
+        display: inline-block;
+        border: none;
+        background: none;
+        outline: none;
+        img{
+          width: 24px;
+          user-select: none;
+        }
+      }
+    }
+    .panel-body h4.media-heading{
+      margin: 0;
+    }
+    .media-body{
+      vertical-align: middle;
+    }
+  }
+  .panel:hover {
+    .panel-body h4.media-heading{
+      text-decoration: underline;
+    }
+  }
+}
