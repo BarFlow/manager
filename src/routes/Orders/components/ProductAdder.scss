@@ -1,0 +1,35 @@
+.orders-create-product-adder{
+  .media:first-of-type{
+    border-top: none;
+  }
+  .media{
+    padding: 10px 0;
+    margin-top: 0;
+    border-top: 1px solid #e8e8e8;
+    h4{
+      font-size: 16px;
+    }
+    p{
+      margin-bottom: 0;
+      span.label{
+        font-weight: 400;
+      }
+    }
+    .media-left{
+      div{
+        width: 50px;
+        text-align: center;
+        img{
+          max-width: 50px;
+          max-height: 50px;
+        }
+      }
+    }
+  }
+  .add-low-pars{
+    padding: 0 0 15px;
+    span{
+      font-weight: 500;
+    }
+  }
+}

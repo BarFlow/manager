@@ -2,7 +2,12 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import {
   fetchOrders,
-  createOrder
+  fetchOrder,
+  createOrder,
+  deleteOrder,
+  addCartItems,
+  updateCartItem,
+  deleteCartItem
 } from '../modules/orders'
 import { fetchReport } from '../../Inventory/modules/reports'
 import { fetchProducts } from '../../Products/modules/products'
@@ -12,7 +17,7 @@ import { fetchProducts } from '../../Products/modules/products'
     wiring in the actions and state necessary to render a presentational
     component - in this case, the orders:   */
 
-import CartView from '../components/CartView'
+import CreateView from '../components/CreateView'
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are
@@ -20,7 +25,12 @@ import CartView from '../components/CartView'
 
 const mapDispatchToProps = {
   fetchOrders,
+  fetchOrder,
   createOrder,
+  deleteOrder,
+  addCartItems,
+  updateCartItem,
+  deleteCartItem,
   fetchReport,
   fetchProducts
 }
@@ -46,4 +56,4 @@ const mapStateToProps = (state) => ({
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CartView))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateView))

@@ -3,23 +3,25 @@ import { CALL_API } from 'redux-api-middleware'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const ORDERS_FETCH_REQUEST = 'reports/FETCH_ORDERS_REQUEST'
-export const ORDERS_FETCH_SUCCESS = 'reports/FETCH_ORDERS_SUCCESS'
-export const ORDERS_FETCH_FAILURE = 'reports/FETCH_ORDERS_FAILURE'
+export const ORDERS_FETCH_REQUEST = 'orders/FETCH_ORDERS_REQUEST'
+export const ORDERS_FETCH_SUCCESS = 'orders/FETCH_ORDERS_SUCCESS'
+export const ORDERS_FETCH_FAILURE = 'orders/FETCH_ORDERS_FAILURE'
 
-export const ORDER_FETCH_REQUEST = 'reports/FETCH_ORDER_REQUEST'
-export const ORDER_FETCH_SUCCESS = 'reports/FETCH_ORDER_SUCCESS'
-export const ORDER_FETCH_FAILURE = 'reports/FETCH_ORDER_FAILURE'
+export const ORDER_FETCH_REQUEST = 'orders/FETCH_ORDER_REQUEST'
+export const ORDER_FETCH_SUCCESS = 'orders/FETCH_ORDER_SUCCESS'
+export const ORDER_FETCH_FAILURE = 'orders/FETCH_ORDER_FAILURE'
 
-export const ORDER_CREATE_REQUEST = 'reports/CREATE_REQUEST'
-export const ORDER_CREATE_SUCCESS = 'reports/CREATE_SUCCESS'
-export const ORDER_CREATE_FAILURE = 'reports/CREATE_FAILURE'
+export const ORDER_CREATE_REQUEST = 'orders/CREATE_REQUEST'
+export const ORDER_CREATE_SUCCESS = 'orders/CREATE_SUCCESS'
+export const ORDER_CREATE_FAILURE = 'orders/CREATE_FAILURE'
 
-export const ORDER_UPDATE_REQUEST = 'reports/UPDATE_ORDER_REQUEST'
+export const ORDER_DELETE_REQUEST = 'orders/DELETE_REQUEST'
+export const ORDER_DELETE_SUCCESS = 'orders/DELETE_SUCCESS'
+export const ORDER_DELETE_FAILURE = 'orders/DELETE_FAILURE'
 
-export const ORDER_DELETE_REQUEST = 'reports/DELETE_REQUEST'
-export const ORDER_DELETE_SUCCESS = 'reports/DELETE_SUCCESS'
-export const ORDER_DELETE_FAILURE = 'reports/DELETE_FAILURE'
+export const ORDER_CART_ADD_ITEMS = 'orders/ADD_CART_ITEMS'
+export const ORDER_CART_DELETE_ITEM = 'orders/DELETE_CART_ITEM'
+export const ORDER_CART_UPDATE_ITEM = 'orders/UPDATE_CART_ITEM'
 
 // ------------------------------------
 // Actions
@@ -81,11 +83,38 @@ export const deleteOrder = (reportId) => {
   }
 }
 
+export const addCartItems = (items) => {
+  if (!Array.isArray(items)) {
+    items = [items]
+  }
+  return {
+    type: ORDER_CART_ADD_ITEMS,
+    payload: items
+  }
+}
+
+export const updateCartItem = (item) => (
+  {
+    type: ORDER_CART_UPDATE_ITEM,
+    payload: item
+  }
+)
+
+export const deleteCartItem = (item) => (
+  {
+    type: ORDER_CART_DELETE_ITEM,
+    payload: item
+  }
+)
+
 export const actions = {
   fetchOrders,
   fetchOrder,
   createOrder,
-  deleteOrder
+  deleteOrder,
+  addCartItems,
+  updateCartItem,
+  deleteCartItem
 }
 
 // ------------------------------------
@@ -151,10 +180,30 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isSaving: false,
-      archive: {
-        ...state,
-        items: state.items.filter(item => item._id !== action.payload._id)
-      }
+      items: state.items.filter(item => item._id !== action.payload._id)
+    }
+  },
+  [ORDER_CART_ADD_ITEMS] : (state, action) => {
+    return {
+      ...state,
+      cart: [...state.cart, ...action.payload]
+    }
+  },
+  [ORDER_CART_UPDATE_ITEM] : (state, action) => {
+    return {
+      ...state,
+      cart: this.state.cart.map(item => {
+        if (item._id === action.payload._id) {
+          item = { ...item, ...action.payload }
+        }
+        return item
+      })
+    }
+  },
+  [ORDER_CART_DELETE_ITEM] : (state, action) => {
+    return {
+      ...state,
+      cart: state.cart.filter(item => item._id !== action.payload._id)
     }
   }
 }
@@ -166,9 +215,9 @@ const initialState = {
   isFetching: false,
   isSaving: false,
   items: [],
-  cart_items: []
+  cart: []
 }
-export default function reportsReducer (state = initialState, action) {
+export default function ordersReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
