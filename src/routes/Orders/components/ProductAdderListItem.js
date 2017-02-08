@@ -54,7 +54,10 @@ class ListItem extends Component {
               </span>
             }
             <Label>{capacity} ml</Label>{' '}
-            <Label>£{item.cost_price}</Label>
+            <Label>
+              £{item.cost_price} x {this.state.order}
+              {' '}(£{Math.round(item.cost_price * this.state.order * 100) / 100})
+            </Label>
           </p>
         </Media.Body>
         <Media.Right align='middle'>
