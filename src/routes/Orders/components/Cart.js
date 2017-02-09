@@ -7,6 +7,36 @@ import SupplierGroup from './CartSupplierGroup'
 import './Cart.scss'
 
 class Cart extends Component {
+  constructor (props) {
+    super(props)
+
+    this._handleOnSubmit = this._handleOnSubmit.bind(this)
+  }
+
+  _handleOnSubmit () {
+    const { onSubmit, venueId } = this.props
+    const groupedItems = _.groupBy(this.props.orders.cart, 'supplier_id._id')
+    const payload = Object.keys(groupedItems).map((key, index) => ({
+      venue_id: venueId,
+      supplier_id: groupedItems[key].length && groupedItems[key][0].supplier_id && groupedItems[key][0].supplier_id._id,
+      items: groupedItems[key].map(item => ({
+        inventory_item: {
+          _id: item._id,
+          product_id: {
+            name: item.product_id.name,
+            type: item.product_id.type,
+            category: item.product_id.category,
+            sub_category: item.product_id.sub_category
+          },
+          supplier_product_code: item.supplier_product_code,
+          cost_price: item.cost_price
+        },
+        ammount: item.ammount
+      }))
+    }))
+    onSubmit(payload)
+  }
+
   render () {
     const groupedItems = _.groupBy(this.props.orders.cart, 'supplier_id._id')
     const summary = this.props.orders.cart.reduce((mem, item) => {
@@ -40,6 +70,18 @@ class Cart extends Component {
             Grand Total <div className='pull-right'>£{summary.grandTotal}</div>
           </div>
         </div>
+        <div className='create-orders'>
+          <button
+            onClick={this._handleOnSubmit}
+            disabled={this.props.orders.isSaving || !this.props.orders.cart.length}>
+            {this.props.orders.isSaving &&
+              <span>Loading...</span>
+            }
+            {!this.props.orders.isSaving &&
+              <span>Create Orders</span>
+            }
+          </button>
+        </div>
       </Panel>
     )
   }
@@ -48,6 +90,8 @@ class Cart extends Component {
 Cart.propTypes = {
   deleteCartItem: React.PropTypes.func.isRequired,
   updateCartItem: React.PropTypes.func.isRequired,
+  onSubmit: React.PropTypes.func.isRequired,
+  venueId: React.PropTypes.string,
   orders: React.PropTypes.object
 }
 

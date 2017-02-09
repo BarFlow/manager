@@ -8,6 +8,11 @@ import Cart from './Cart'
 import './CreateView.scss'
 
 class CartView extends Component {
+  constructor (props) {
+    super(props)
+
+    this._handleOrderCreation = this._handleOrderCreation.bind(this)
+  }
   componentDidMount () {
     const { products, fetchProducts, reports, fetchReport, venueId } = this.props
 
@@ -36,6 +41,11 @@ class CartView extends Component {
       fetchProducts(nextProps.venueId)
       fetchReport({ venueId: nextProps.venueId, reportId: 'live' })
     }
+  }
+
+  _handleOrderCreation (payload) {
+    this.props.createOrder(payload)
+      .then(() => this.props.router.push({ pathname: '/orders', query: { saved: true } }))
   }
 
   render () {
@@ -79,12 +89,15 @@ class CartView extends Component {
           <ProductAdder
             products={_.orderBy(mergedProducts, ['product_id.category', 'product_id.sub_category'])}
             addCartItems={this.props.addCartItems}
-            updateCartItem={this.props.updateCartItem} />
+            updateCartItem={this.props.updateCartItem}
+            isFetching={this.props.products.isFetching || this.props.reports.isFetching} />
         </div>
         <div className='col-xs-12 col-sm-5 col-lg-4'>
           <Cart
             deleteCartItem={this.props.deleteCartItem}
             updateCartItem={this.props.updateCartItem}
+            onSubmit={this._handleOrderCreation}
+            venueId={this.props.venueId}
             orders={this.props.orders} />
         </div>
       </div>
@@ -101,6 +114,8 @@ CartView.propTypes = {
   addCartItems: React.PropTypes.func.isRequired,
   updateCartItem: React.PropTypes.func.isRequired,
   deleteCartItem: React.PropTypes.func.isRequired,
+  createOrder: React.PropTypes.func.isRequired,
+  router: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string
 }
 

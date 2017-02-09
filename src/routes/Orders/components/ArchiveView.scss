@@ -1,34 +1,34 @@
 .orders-archive{
 
   .panel {
-    cursor: pointer;
+    // cursor: pointer;
     .actions {
       min-width: 210px;
       text-align: right;
       button+button {
         margin: 0;
       }
-      button{
-        display: inline-block;
-        border: none;
-        background: none;
-        outline: none;
-        img{
-          width: 24px;
-          user-select: none;
-        }
+      a{
+        margin-right: 5px;
       }
     }
     .panel-body h4.media-heading{
-      margin: 0;
+      margin-bottom: 5px;
     }
     .media-body{
       vertical-align: middle;
+      .label{
+        margin-right: 5px;
+      }
+      // p{
+      //   margin-bottom: 0;
+      //   // margin-top: 10px;
+      // }
     }
   }
-  .panel:hover {
-    .panel-body h4.media-heading{
-      text-decoration: underline;
-    }
-  }
+  // .panel:hover {
+  //   .panel-body h4.media-heading{
+  //     text-decoration: underline;
+  //   }
+  // }
 }

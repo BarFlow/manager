@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button, Panel, Media, Modal } from 'react-bootstrap'
+import { Alert, Button, Panel, Media, Modal, Label } from 'react-bootstrap'
 import { Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
@@ -39,7 +39,7 @@ class ArchiveView extends Component {
   _viewOrder (item) {
     const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
     this.props.router.push({
-      pathname: `/inventory/orders/${item._id}`,
+      pathname: `/orders/${item._id}`,
       query: {
         title: itemDate
       }
@@ -67,15 +67,16 @@ class ArchiveView extends Component {
   render () {
     const { items, isFetching } = this.props.orders
     const { venueId, orders } = this.props
+    const { location } = this.props.router
 
     const confirmDialog = <Modal show={this.state.isDialogOpen}
       onHide={this._toggleConfirmDialog}
       className='delete-confirm-dialog'>
       <Modal.Header closeButton>
-        <Modal.Title>Delete - {this.state.item.name}</Modal.Title>
+        <Modal.Title>Delete - Order</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to <strong>permanently remove {this.state.item.name}</strong> from your venue?
+        <p>Are you sure you want to <strong>permanently remove</strong> this order from your venue?
         Please note that this action is irreversible.</p>
       </Modal.Body>
       <Modal.Footer>
@@ -96,28 +97,43 @@ class ArchiveView extends Component {
 
           {confirmDialog}
 
+          {location.query.saved &&
+            <Alert bsStyle='success'>
+              <strong>Success!</strong> Order sheets have been successfuly created.
+            </Alert>
+          }
+
           {!venueId || isFetching ? (
             <Alert bsStyle='warning'>
-              Loading
+              Loading...
             </Alert>
           ) : (
             items.length ? (
-              items.map(item => {
+              items.map((item, index) => {
                 const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
+                const supplier = item.supplier_id && item.supplier_id.name ? item.supplier_id.name : 'Other Supplier'
+                const totalInvoiceValue = Math.round(item.total_invoice_value * 100) / 100
                 return (
-                  <Panel key={item._id} onClick={() => this._viewOrder(item)}>
+                  <Panel key={index}>
                     <Media>
                       <Media.Body>
-                        <Media.Heading>{itemDate}</Media.Heading>
+                        <Media.Heading>{supplier}</Media.Heading>
+                        <Label>{itemDate}</Label>
+                        <Label>£{totalInvoiceValue}</Label>
+                        <Label>Placed by: {item.placed_by}</Label>
                       </Media.Body>
                       <Media.Right align='middle'>
                         <div className='actions'>
-                          <button
+                          <a className='btn btn-default'
+                            href={`http://api.stockmate.co.uk/orders/${item._id}/export?token=${this.props.token}`}
+                            target='_blank'>Download</a>
+                          <Button
+                            bsStyle='danger'
                             onClick={(e) => {
                               e.stopPropagation()
                               this._handleDelete({ ...item, name: itemDate })
                             }}
-                            disabled={orders.isSaving}>Delete</button>
+                            disabled={orders.isSaving}>Delete</Button>
                         </div>
                       </Media.Right>
                     </Media>

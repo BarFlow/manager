@@ -29,7 +29,7 @@ export const ORDER_CART_UPDATE_ITEM = 'orders/UPDATE_CART_ITEM'
 export const fetchOrders = (venueId) => {
   return {
     [CALL_API]: {
-      endpoint: `/orders?venue_id=${venueId}`,
+      endpoint: `/orders?venue_id=${venueId}&populate=true`,
       method: 'GET',
       types: [
         ORDERS_FETCH_REQUEST,
@@ -43,7 +43,7 @@ export const fetchOrders = (venueId) => {
 export const fetchOrder = ({ reportId, venueId }) => {
   return {
     [CALL_API]: {
-      endpoint: `/orders/${reportId}?venue_id=${venueId}`,
+      endpoint: `/orders/${reportId}?venue_id=${venueId}&populate=true`,
       method: 'GET',
       types: [
         ORDER_FETCH_REQUEST,
@@ -57,7 +57,7 @@ export const fetchOrder = ({ reportId, venueId }) => {
 export const createOrder = (payload) => {
   return {
     [CALL_API]: {
-      endpoint: `/orders`,
+      endpoint: `/orders?populate=true`,
       method: 'POST',
       body: JSON.stringify(payload),
       types: [
@@ -167,7 +167,8 @@ const ACTION_HANDLERS = {
       items: [
         action.payload,
         ...state.items
-      ]
+      ],
+      cart: []
     }
   },
   [ORDER_DELETE_REQUEST] : (state, action) => {

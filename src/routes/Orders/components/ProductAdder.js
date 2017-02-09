@@ -50,7 +50,7 @@ class ProductAdder extends Component {
   }
 
   render () {
-    const { products } = this.props
+    const { products, isFetching } = this.props
     const filteredItems = [...filterProductItems(products, this.state.filters)]
       .filter(item => {
         if (!this.state.showAdded) {
@@ -126,7 +126,7 @@ class ProductAdder extends Component {
             }
           </div>
         ) : (
-          products.isFetching ? (
+          isFetching ? (
             <Alert bsStyle='warning'>Loading...</Alert>
           ) : (
             <Alert bsStyle='warning'>
@@ -142,7 +142,8 @@ class ProductAdder extends Component {
 ProductAdder.propTypes = {
   addCartItems: React.PropTypes.func.isRequired,
   updateCartItem: React.PropTypes.func.isRequired,
-  products: React.PropTypes.array
+  products: React.PropTypes.array,
+  isFetching: React.PropTypes.bool
 }
 
 export default ProductAdder
