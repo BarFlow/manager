@@ -1,4 +1,7 @@
 .orders-create-product-adder{
+  .panel-body{
+    padding-bottom: 0;
+  }
   .media:first-of-type{
     border-top: none;
   }
@@ -30,7 +33,7 @@
         padding: 2px 5px;
         margin-bottom: 3px;
         height: auto;
-        text-align: right;
+        text-align: center;
       }
       input[type=number]::-webkit-inner-spin-button,
       input[type=number]::-webkit-outer-spin-button {

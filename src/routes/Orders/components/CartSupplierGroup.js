@@ -1,21 +1,21 @@
 import React from 'react'
-import { Button, Label } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
-export const CartSupplierGroup = ({ supplier = { name: 'Supplier' }, items, deleteCartItem, updateCartItem }) => (
-  <div>
+export const CartSupplierGroup = ({ supplier = { name: 'Supplier' }, items, deleteCartItem, updateCartItem }) => {
+  let subTotal = 0
+  return <div className='supplier-group'>
     <h4>{supplier.name}</h4>
-    {items.map((item, index) =>
-      <div key={index}>
-        <div>
-          {item.ammount} x {item.product_id.name}
-          {item.cost_price &&
-            <Label>
-              {item.ammount} x £{item.cost_price}
-              {' '}(£{Math.round(item.cost_price * item.ammount * 100) / 100})
-            </Label>
-          }
-        </div>
-        <div>
+    {items.map((item, index) => {
+      const price = Math.round(item.cost_price * item.ammount * 100) / 100
+      subTotal = Math.round((subTotal + price) * 100) / 100
+      return <div key={index} className='cart-item'>
+        <span className='info'>{item.ammount} x {item.product_id.name}</span>{' '}
+        {item.cost_price &&
+          <span className='price'>
+            {' '}£{price}
+          </span>
+        }
+        <div className='actions'>
           <input
             className='form-control'
             type='number'
@@ -24,12 +24,17 @@ export const CartSupplierGroup = ({ supplier = { name: 'Supplier' }, items, dele
               ...item,
               ammount: parseInt(e.currentTarget.value, 10) > 1 ? parseInt(e.currentTarget.value, 10) : 1
             })} />
-          <Button bsStyle='danger' onClick={() => deleteCartItem(item)}>Delete</Button>
+          <Button bsStyle='danger' bsSize='small' onClick={() => deleteCartItem(item)}>Remove</Button>
         </div>
       </div>
-    )}
+    }
+  )}
+    <div className='sub-total'>
+      <span className='info'>Subtotal</span>
+      <span className='price'>£{subTotal}</span>
+    </div>
   </div>
-)
+}
 
 CartSupplierGroup.propTypes = {
   supplier: React.PropTypes.object,
