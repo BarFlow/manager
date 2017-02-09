@@ -1,17 +1,24 @@
 import React, { Component } from 'react'
 import { Panel } from 'react-bootstrap'
+import _ from 'lodash'
 
-// import SupplierGroup from './CartSupplierGroup'
+import SupplierGroup from './CartSupplierGroup'
 
 import './Cart.scss'
 
 class Cart extends Component {
   render () {
-    const { cart } = this.props.orders
+    const groupedItems = _.groupBy(this.props.orders.cart, 'supplier_id._id')
+
     return (
       <Panel className='orders-create-cart'>
-        {!!cart.length && cart.map(item =>
-          <div key={item._id}>{item.product_id.name}</div>
+        {Object.keys(groupedItems).map((key, index) =>
+          <SupplierGroup
+            key={index}
+            supplier={groupedItems[key].length && groupedItems[key][0].supplier_id}
+            items={groupedItems[key].length && groupedItems[key]}
+            deleteCartItem={this.props.deleteCartItem}
+            updateCartItem={this.props.updateCartItem} />
         )}
       </Panel>
     )

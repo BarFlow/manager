@@ -5,31 +5,29 @@ class ListItem extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      order: this.props.item.order || 0
+      ammount: this.props.item.ammount || 1
     }
     this._handleAdd = this._handleAdd.bind(this)
     this._handleAmmountChange = this._handleAmmountChange.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.item.order !== this.props.item.order) {
-      this.setState({
-        order: nextProps.item.order || 0
-      })
-    }
+    this.setState({
+      ammount: nextProps.item.ammount || 1
+    })
   }
 
   _handleAmmountChange (e) {
-    const order = e.currentTarget.value
+    const ammount = parseInt(e.currentTarget.value, 10)
     this.setState({
-      order
+      ammount: ammount < 1 ? 1 : ammount
     })
   }
 
   _handleAdd () {
     this.props.onSelect({
       ...this.props.item,
-      order: this.state.order
+      ammount: this.state.ammount
     })
   }
 
@@ -48,16 +46,22 @@ class ListItem extends Component {
           <Media.Heading>{name}</Media.Heading>
           <p>
             <Label>{category}</Label>{' '}
-            {subCategory &&
+            {subCategory && subCategory !== 'other' &&
               <span>
                 <Label>{subCategory}</Label>{' '}
               </span>
             }
             <Label>{capacity} ml</Label>{' '}
-            <Label>
-              £{item.cost_price} x {this.state.order}
-              {' '}(£{Math.round(item.cost_price * this.state.order * 100) / 100})
-            </Label>
+            {item.cost_price &&
+              <span>
+                <Label>£{item.cost_price}</Label>{' '}
+              </span>
+            }
+            {item.order > 0 &&
+              <span>
+                <Label bsStyle='danger'>Par Level -{item.order}</Label>
+              </span>
+            }
           </p>
         </Media.Body>
         <Media.Right align='middle'>
@@ -65,13 +69,13 @@ class ListItem extends Component {
             type='number'
             className='form-control'
             onChange={this._handleAmmountChange}
-            value={this.state.order}
+            value={this.state.ammount}
             disabled={item.added} />
           {!item.added &&
-            <Button onClick={this._handleAdd}>Add</Button>
+            <Button bsSize='small' onClick={this._handleAdd}>Add</Button>
           }
           {item.added &&
-            <Button disabled>Added</Button>
+            <Button bsSize='small' disabled>Added</Button>
           }
         </Media.Right>
       </Media>
@@ -89,7 +93,7 @@ ListItem.propTypes = {
       capacity: React.PropTypes.number.isRequired,
       images: React.PropTypes.object
     }),
-    order: React.PropTypes.number
+    ammount: React.PropTypes.number
   }),
   onSelect: React.PropTypes.func.isRequired
 }

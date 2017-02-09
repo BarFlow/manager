@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import _ from 'lodash'
 
 import SubHeader from '../../../components/SubHeader'
 import ProductAdder from './ProductAdder'
 import Cart from './Cart'
+
+import './CreateView.scss'
 
 class CartView extends Component {
   componentDidMount () {
@@ -37,25 +40,36 @@ class CartView extends Component {
 
   render () {
     // products + reports items
-    const mergedProducts = this.props.products.items.reduce((mem, product) => {
-      // Check if product is found in report
-      const match = mem.find(item => item._id === product._id) || {}
-      // Check if item is in cart already
-      const cartMatch = this.props.orders.cart.find(item => item._id === product._id)
+    // const mergedProducts = this.props.products.items.reduce((mem, product) => {
+    //   // Check if product is found in report
+    //   const match = mem.find(item => item._id === product._id) || {}
+    //   // Check if item is in cart already
+    //   const cartMatch = this.props.orders.cart.find(item => item._id === product._id)
+    //
+    //   match.added = !!cartMatch
+    //   match.order = cartMatch && cartMatch.order || match.order
+    //   match.supplier_id = match.supplier_id && match.supplier_id._id
+    //
+    //   if (!match._id) {
+    //     mem.push({
+    //       ...product,
+    //       order: cartMatch && cartMatch.order || 0,
+    //       added: !!cartMatch
+    //     })
+    //   }
+    //   return mem
+    // }, [...this.props.reports.items])
 
-      match.added = !!cartMatch
-      match.order = cartMatch && cartMatch.order || match.order
-
-      if (!match._id) {
-        mem.push({
-          ...product,
-          order: cartMatch && cartMatch.order || 0,
-          added: !!cartMatch
-        })
+    // TODO Temp fix, using only reportItems (products with no placements are NOT in this list)
+    // Problem is that we don't have supplier populated in normal GET /inventory models
+    const mergedProducts = [...this.props.reports.items].map(reportItem => {
+      const cartMatch = this.props.orders.cart.find(item => item._id === reportItem._id)
+      return {
+        ...reportItem,
+        ammount: cartMatch && cartMatch.ammount || reportItem.order,
+        added: !!cartMatch
       }
-      return mem
-    }, [...this.props.reports.items])
-
+    })
     return (
       <div className='row orders'>
         <SubHeader
@@ -63,7 +77,7 @@ class CartView extends Component {
           left={<h3>Orders / <span className='small'>Create</span></h3>} />
         <div className='col-xs-12 col-sm-7 col-lg-6 col-lg-offset-1'>
           <ProductAdder
-            products={mergedProducts}
+            products={_.orderBy(mergedProducts, ['product_id.category', 'product_id.sub_category'])}
             addCartItems={this.props.addCartItems}
             updateCartItem={this.props.updateCartItem} />
         </div>

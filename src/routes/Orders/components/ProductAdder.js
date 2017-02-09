@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Alert, Button, Panel, Pagination } from 'react-bootstrap'
+import { Modal, Alert, Button, Panel, Pagination, Checkbox } from 'react-bootstrap'
 import { Link } from 'react-router'
 
 import ListItem from './ProductAdderListItem'
@@ -14,7 +14,8 @@ class ProductAdder extends Component {
     this.initialState = {
       filters: {},
       skip: 0,
-      isConfirmDialogOpen: false
+      isConfirmDialogOpen: false,
+      showAdded: false
     }
     this.state = this.initialState
 
@@ -51,16 +52,23 @@ class ProductAdder extends Component {
   render () {
     const { products } = this.props
     const filteredItems = [...filterProductItems(products, this.state.filters)]
+      .filter(item => {
+        if (!this.state.showAdded) {
+          return !item.added
+        }
+        return item
+      })
+    const belowParItems = filteredItems.filter(item => item.order >= 1 && !item.added)
 
     const batchAddConfirmDialog = <Modal show={this.state.isConfirmDialogOpen}
       onHide={this._toggleConfirmDialog}
       className='add-confirm-dialog'>
       <Modal.Header closeButton><Modal.Title>Confirm</Modal.Title></Modal.Header>
-      <Modal.Body>Are you sure that you want to add all {filteredItems.length} products to this section?</Modal.Body>
+      <Modal.Body>Are you sure that you want to add all {belowParItems.length} products to yor basket?</Modal.Body>
       <Modal.Footer>
         <Button onClick={this._toggleConfirmDialog}>Cancel</Button>
         <Button bsStyle='danger' onClick={() => {
-          this._addToCart(filteredItems)
+          this._addToCart(belowParItems)
           this._toggleConfirmDialog()
         }}>Yes</Button>
       </Modal.Footer>
@@ -73,19 +81,27 @@ class ProductAdder extends Component {
           filters={this.state.filters}
           onChange={this._handleSearchBarChange} />
       </div>
+      <div className='not-added'>
+        <Checkbox
+          inline
+          checked={!this.state.showAdded}
+          onChange={() => this.setState({ showAdded: !this.state.showAdded })}>
+          Only show products which have not been added to the basket.
+        </Checkbox>
+      </div>
       <div>
         {filteredItems.length ? (
           <div className='items'>
 
-            {filteredItems.length > 1 &&
+            {belowParItems.length > 0 &&
             <div className='row add-low-pars'>
               <div className='col-xs-12 col-sm-9'>
-                There are <span>{filteredItems.length}</span> products found,
-                you can add them to this section all at once using this button.
+                <span>{belowParItems.length}</span> products are below par level
+                and not in your basket. Add them all at once using this button.
               </div>
               <div className='col-xs-12 col-sm-3 text-right'>
                 <Button onClick={this._toggleConfirmDialog}>
-                  Add {filteredItems.length} Items
+                  Add {belowParItems.length} Items
                 </Button>
                 {batchAddConfirmDialog}
               </div>

@@ -192,7 +192,7 @@ const ACTION_HANDLERS = {
   [ORDER_CART_UPDATE_ITEM] : (state, action) => {
     return {
       ...state,
-      cart: this.state.cart.map(item => {
+      cart: state.cart.map(item => {
         if (item._id === action.payload._id) {
           item = { ...item, ...action.payload }
         }
