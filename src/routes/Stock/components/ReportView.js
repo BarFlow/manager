@@ -63,7 +63,7 @@ class Report extends Component {
 
     if (venueId && venueId !== nextProps.venueId) {
       this.props.router.push({
-        pathname: '/inventory/reports/live'
+        pathname: '/stock/reports/live'
       })
     }
 
@@ -121,7 +121,7 @@ class Report extends Component {
 
   _viewReport (item) {
     this.props.router.push({
-      pathname: `/inventory/reports/${item._id}`,
+      pathname: `/stock/reports/${item._id}`,
       query: {
         title: new Date(item.created_at).toString().split(' ').splice(0, 5).join(' '),
         saved: item.saved
@@ -157,7 +157,7 @@ class Report extends Component {
         <SubHeader
           className='bg-blue'
           left={
-            <h3>Inventory
+            <h3>Stock Levels
               {location.query.title && <span> / <span className='small'>{location.query.title}</span></span>}
             </h3>}
           right={reportId === 'live' ? (
@@ -174,7 +174,7 @@ class Report extends Component {
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 report'>
           {location.query.saved &&
             <Alert bsStyle='success'>
-              <strong>Success!</strong> Inventory report has been successfuly saved.
+              <strong>Success!</strong> Stock report has been successfuly saved.
             </Alert>
           }
           <SearchBar

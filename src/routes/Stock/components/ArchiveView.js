@@ -39,7 +39,7 @@ class ArchiveView extends Component {
   _viewReport (item) {
     const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
     this.props.router.push({
-      pathname: `/inventory/reports/${item._id}`,
+      pathname: `/stock/reports/${item._id}`,
       query: {
         title: itemDate
       }
@@ -88,7 +88,7 @@ class ArchiveView extends Component {
       <div className='row'>
         <SubHeader
           className='bg-blue'
-          left={<h3>Inventory / <span className='small'>Archive</span></h3>} />
+          left={<h3>Stock Levels / <span className='small'>Archive</span></h3>} />
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 archive'>
 
           {confirmDialog}

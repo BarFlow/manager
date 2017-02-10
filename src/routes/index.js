@@ -1,7 +1,7 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import BaseLayout from '../layouts/BaseLayout/BaseLayout'
-import InventoryRoute from './Inventory'
+import StockRoute from './Stock'
 import OrdersRoute from './Orders'
 import ProductsRoute from './Products'
 import VenueRoute from './Venue'
@@ -15,12 +15,12 @@ import LoginRoute from './Login'
 export const createRoutes = (store) => ({
   path        : '/',
   component   : BaseLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/inventory') },
+  indexRoute: { onEnter: (nextState, replace) => replace('/stock') },
   childRoutes : [
     {
       component: CoreLayout,
       childRoutes: [
-        InventoryRoute(store),
+        StockRoute(store),
         ProductsRoute(store),
         VenueRoute(store),
         SuppliersRoute(store),

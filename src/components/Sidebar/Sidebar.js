@@ -37,7 +37,7 @@ class Sidebar extends Component {
       </option>
     )
 
-    const inventorySubItemsHidden = location.pathname.match(/^\/inventory/) ? '' : 'hidden'
+    const stockSubItemsHidden = location.pathname.match(/^\/stock/) ? '' : 'hidden'
     const ordersSubItemsHidden = location.pathname.match(/^\/orders/) ? '' : 'hidden'
 
     return (
@@ -51,14 +51,14 @@ class Sidebar extends Component {
           </FormControl>
         </div>
         <Nav>
-          <LinkContainer to='/inventory' activeHref='active'>
-            <NavItem>Inventory</NavItem>
+          <LinkContainer to='/stock' activeHref='active'>
+            <NavItem>Stock Levels</NavItem>
           </LinkContainer>
-          <LinkContainer to='/inventory/reports/live' activeHref='active'>
-            <NavItem className={`sub inventory_sub ${inventorySubItemsHidden}`}>Live</NavItem>
+          <LinkContainer to='/stock/reports/live' activeHref='active'>
+            <NavItem className={`sub stock_sub ${stockSubItemsHidden}`}>Live</NavItem>
           </LinkContainer>
-          <LinkContainer to='/inventory/archive' activeHref='active'>
-            <NavItem className={`sub inventory_sub ${inventorySubItemsHidden}`}>Archive</NavItem>
+          <LinkContainer to='/stock/archive' activeHref='active'>
+            <NavItem className={`sub stock_sub ${stockSubItemsHidden}`}>Archive</NavItem>
           </LinkContainer>
           <LinkContainer to='/orders' activeHref='active'>
             <NavItem>Orders</NavItem>

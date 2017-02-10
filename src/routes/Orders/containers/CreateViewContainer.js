@@ -9,7 +9,7 @@ import {
   updateCartItem,
   deleteCartItem
 } from '../modules/orders'
-import { fetchReport } from '../../Inventory/modules/reports'
+import { fetchReport } from '../../Stock/modules/reports'
 import { fetchProducts } from '../../Products/modules/products'
 
 /*  This is a container component. Notice it does not contain any JSX,

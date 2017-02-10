@@ -4,9 +4,9 @@ import protectRoute from '../../utils/protectRoute'
 
 // Sync route definition
 export default (store) => ({
-  path: 'inventory',
+  path: 'stock',
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/inventory/reports/live')
+    onEnter: (nextState, replace) => replace('/stock/reports/live')
   },
   childRoutes: [
     {
