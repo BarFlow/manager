@@ -77,12 +77,7 @@ class Cart extends Component {
           <button
             onClick={this._handleOnSubmit}
             disabled={this.props.orders.isSaving || !this.props.orders.cart.length}>
-            {this.props.orders.isSaving &&
-              <span>Loading...</span>
-            }
-            {!this.props.orders.isSaving &&
-              <span>Create Orders</span>
-            }
+            {(this.props.orders.isSaving) ? 'Loading...' : 'Create Orders'}
           </button>
         </div>
       </Panel>
