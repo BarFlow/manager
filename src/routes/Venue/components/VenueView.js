@@ -198,7 +198,7 @@ class venue extends Component {
     return (
       <div className='row'>
         <SubHeader
-          className='bg-green'
+          className='bg-cyanblue'
           left={
             <h3>Venue {currentTitle && '/ '}<span className='small'>{currentTitle}</span></h3>}
           right={

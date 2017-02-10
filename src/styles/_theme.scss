@@ -5,6 +5,7 @@ $lightGrey: #ccc;
 $darkGrey: #4A4A4A;
 $yellow: #FEBC75;
 $blue: #75B4FE;
+$cyanblue: #75E1FE;
 $red: #F08A8A;
 $green: #83C883;
 $purple: #7D75FE;
@@ -105,6 +106,9 @@ body{
   .bg-blue{
     background-color: $blue;
   }
+  .bg-cyanblue{
+    background-color: $cyanblue;
+  }
   .bg-red{
     background-color: $red;
   }
@@ -114,6 +118,7 @@ body{
   .bg-purple{
     background-color: $purple;
   }
+
 
   // Modal over modal cover fix
   div[aria-hidden=true]{
