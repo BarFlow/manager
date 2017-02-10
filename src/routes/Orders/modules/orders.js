@@ -22,6 +22,7 @@ export const ORDER_DELETE_FAILURE = 'orders/DELETE_FAILURE'
 export const ORDER_CART_ADD_ITEMS = 'orders/ADD_CART_ITEMS'
 export const ORDER_CART_DELETE_ITEM = 'orders/DELETE_CART_ITEM'
 export const ORDER_CART_UPDATE_ITEM = 'orders/UPDATE_CART_ITEM'
+export const ORDER_CART_FLUSH = 'orders/FLUSH_CART'
 
 // ------------------------------------
 // Actions
@@ -107,6 +108,12 @@ export const deleteCartItem = (item) => (
   }
 )
 
+export const emptyCart = () => (
+  {
+    type: ORDER_CART_FLUSH
+  }
+)
+
 export const actions = {
   fetchOrders,
   fetchOrder,
@@ -114,7 +121,8 @@ export const actions = {
   deleteOrder,
   addCartItems,
   updateCartItem,
-  deleteCartItem
+  deleteCartItem,
+  emptyCart
 }
 
 // ------------------------------------
@@ -205,6 +213,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       cart: state.cart.filter(item => item._id !== action.payload._id)
+    }
+  },
+  [ORDER_CART_FLUSH] : (state, action) => {
+    return {
+      ...state,
+      cart: []
     }
   }
 }

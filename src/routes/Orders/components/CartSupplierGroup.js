@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-export const CartSupplierGroup = ({ supplier = { name: 'Supplier' }, items, deleteCartItem, updateCartItem }) => {
+export const CartSupplierGroup = ({ supplier = { name: 'Other Supplier' }, items, deleteCartItem, updateCartItem }) => {
   let subTotal = 0
   return <div className='supplier-group'>
     <h4>{supplier.name}</h4>
@@ -10,7 +10,7 @@ export const CartSupplierGroup = ({ supplier = { name: 'Supplier' }, items, dele
       subTotal = Math.round((subTotal + price) * 100) / 100
       return <div key={index} className='cart-item'>
         <span className='info'>{item.ammount} x {item.product_id.name}</span>{' '}
-        {item.cost_price &&
+        {item.cost_price !== undefined &&
           <span className='price'>
             {' '}£{price}
           </span>

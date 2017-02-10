@@ -7,7 +7,8 @@ import {
   deleteOrder,
   addCartItems,
   updateCartItem,
-  deleteCartItem
+  deleteCartItem,
+  emptyCart
 } from '../modules/orders'
 import { fetchReport } from '../../Stock/modules/reports'
 import { fetchProducts } from '../../Products/modules/products'
@@ -31,6 +32,7 @@ const mapDispatchToProps = {
   addCartItems,
   updateCartItem,
   deleteCartItem,
+  emptyCart,
   fetchReport,
   fetchProducts
 }

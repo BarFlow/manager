@@ -52,7 +52,7 @@ class ListItem extends Component {
               </span>
             }
             <Label>{capacity} ml</Label>{' '}
-            {item.cost_price &&
+            {item.cost_price !== undefined &&
               <span>
                 <Label>£{item.cost_price}</Label>{' '}
               </span>

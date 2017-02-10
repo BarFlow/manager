@@ -14,7 +14,7 @@ class CartView extends Component {
     this._handleOrderCreation = this._handleOrderCreation.bind(this)
   }
   componentDidMount () {
-    const { products, fetchProducts, reports, fetchReport, venueId } = this.props
+    const { products, fetchProducts, reports, fetchReport, emptyCart, venueId } = this.props
 
     // Fetch products if needed
     if (
@@ -23,6 +23,7 @@ class CartView extends Component {
       (venueId && products.items.length && venueId !== products.items[0].venue_id)
     ) {
       fetchProducts(venueId)
+      emptyCart()
     }
 
     // Fetch reports if needed
@@ -32,14 +33,16 @@ class CartView extends Component {
       (venueId && reports.items.length && venueId !== reports.items[0].venue_id)
     ) {
       fetchReport({ venueId, reportId: 'live' })
+      emptyCart()
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { fetchProducts, fetchReport, venueId } = this.props
+    const { fetchProducts, fetchReport, emptyCart, venueId } = this.props
     if (nextProps.venueId !== venueId) {
       fetchProducts(nextProps.venueId)
       fetchReport({ venueId: nextProps.venueId, reportId: 'live' })
+      emptyCart()
     }
   }
 
@@ -76,6 +79,7 @@ class CartView extends Component {
       const cartMatch = this.props.orders.cart.find(item => item._id === reportItem._id)
       return {
         ...reportItem,
+        cost_price: reportItem.cost_price || 0,
         ammount: cartMatch && cartMatch.ammount || reportItem.order,
         added: !!cartMatch
       }
@@ -114,6 +118,7 @@ CartView.propTypes = {
   addCartItems: React.PropTypes.func.isRequired,
   updateCartItem: React.PropTypes.func.isRequired,
   deleteCartItem: React.PropTypes.func.isRequired,
+  emptyCart: React.PropTypes.func.isRequired,
   createOrder: React.PropTypes.func.isRequired,
   router: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string
