@@ -16,7 +16,7 @@ class ProductListItem extends Component {
   }
 
   render () {
-    const { name, type, category, sub_category: subCategory, capacity, images } = this.props.item.product_id
+    const { name, category, sub_category: subCategory, capacity, images } = this.props.item.product_id
     const { item } = this.props
 
     const round = (value) =>
@@ -33,14 +33,21 @@ class ProductListItem extends Component {
           <Media.Body>
             <Media.Heading>{name}</Media.Heading>
             <p>
-              <Label>{type}</Label>{' '}
               <Label>{category}</Label>{' '}
               {subCategory && subCategory !== 'other' &&
                 <span>
                   <Label>{subCategory}</Label>{' '}
                 </span>
               }
-              <Label>{capacity} ml</Label>
+              <Label>{capacity} ml</Label>{' '}
+              {item.cost_price !== undefined &&
+                <span><Label>£{item.cost_price}</Label>{' '}</span>
+              }
+              {item.supplier_id &&
+                <span>
+                  <Label>{item.supplier_id.name}</Label>{' '}
+                </span>
+              }
             </p>
           </Media.Body>
           <Media.Right align='middle'>
@@ -54,8 +61,13 @@ class ProductListItem extends Component {
                 <p>{round(item.par_level) || 'n/a'}</p>
               </div>
               <div>
-                <label>Order</label>
-                <p>{item.order}</p>
+                <label>Value</label>
+                {item.cost_price !== undefined &&
+                  <p>£{round(item.volume * item.cost_price)}</p>
+                }
+                {!item.cost_price &&
+                  <p>n/a</p>
+                }
               </div>
             </div>
           </Media.Right>
