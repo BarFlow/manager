@@ -45,7 +45,7 @@ class CartView extends Component {
 
   _handleOrderCreation (payload) {
     this.props.createOrder(payload)
-      .then(() => this.props.router.push({ pathname: '/orders', query: { saved: true } }))
+      .then(() => this.props.router.push({ pathname: '/orders/archive', query: { saved: true } }))
   }
 
   render () {

@@ -38,6 +38,7 @@ class Sidebar extends Component {
     )
 
     const inventorySubItemsHidden = location.pathname.match(/^\/inventory/) ? '' : 'hidden'
+    const ordersSubItemsHidden = location.pathname.match(/^\/orders/) ? '' : 'hidden'
 
     return (
       <div className={className + ' sidebar'}>
@@ -54,13 +55,19 @@ class Sidebar extends Component {
             <NavItem>Inventory</NavItem>
           </LinkContainer>
           <LinkContainer to='/inventory/reports/live' activeHref='active'>
-            <NavItem className={`sub ${inventorySubItemsHidden}`}>Live</NavItem>
+            <NavItem className={`sub inventory_sub ${inventorySubItemsHidden}`}>Live</NavItem>
           </LinkContainer>
           <LinkContainer to='/inventory/archive' activeHref='active'>
-            <NavItem className={`sub ${inventorySubItemsHidden}`}>Archive</NavItem>
+            <NavItem className={`sub inventory_sub ${inventorySubItemsHidden}`}>Archive</NavItem>
           </LinkContainer>
           <LinkContainer to='/orders' activeHref='active'>
             <NavItem>Orders</NavItem>
+          </LinkContainer>
+          <LinkContainer to='/orders/create' activeHref='active'>
+            <NavItem className={`sub orders_sub ${ordersSubItemsHidden}`}>Create</NavItem>
+          </LinkContainer>
+          <LinkContainer to='/orders/archive' activeHref='active'>
+            <NavItem className={`sub orders_sub ${ordersSubItemsHidden}`}>Archive</NavItem>
           </LinkContainer>
           <LinkContainer to='/products' activeHref='active'>
             <NavItem>Products</NavItem>

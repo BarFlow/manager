@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Alert, Button, Panel, Media, Modal, Label } from 'react-bootstrap'
-import { Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
 import './ArchiveView.scss'
@@ -89,10 +88,7 @@ class ArchiveView extends Component {
       <div className='row'>
         <SubHeader
           className='bg-green'
-          left={<h3>Orders</h3>}
-          right={
-            <Link className='btn btn-default' to='/orders/create'>New Order</Link>
-          } />
+          left={<h3>Orders / <span className='small'>Archive</span></h3>} />
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 orders-archive'>
 
           {confirmDialog}

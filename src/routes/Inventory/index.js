@@ -1,4 +1,4 @@
-import { injectReducer } from '../../store/reducers'
+// import { injectReducer } from '../../store/reducers'
 // import ArchiveView from './components/ArchiveView'
 import protectRoute from '../../utils/protectRoute'
 
@@ -40,10 +40,10 @@ export default (store) => ({
           /*  Webpack - use require callback to define
               dependencies for bundling   */
           const ArchiveViewContainer = require('./containers/ArchiveViewContainer').default
-          const reducer = require('./modules/reports').default
+          // const reducer = require('./modules/reports').default
 
           /*  Add the reducer to the store on key 'reports'  */
-          injectReducer(store, { key: 'reports', reducer })
+          // injectReducer(store, { key: 'reports', reducer })
 
           /*  Return getComponent   */
           cb(null, ArchiveViewContainer)
