@@ -37,8 +37,8 @@ class Sidebar extends Component {
       </option>
     )
 
-    const stockSubItemsHidden = location.pathname.match(/^\/stock/) ? '' : 'hidden'
-    const ordersSubItemsHidden = location.pathname.match(/^\/orders/) ? '' : 'hidden'
+    const stockSubItemsHidden = false // location.pathname.match(/^\/stock/) ? '' : 'hidden'
+    const ordersSubItemsHidden = false // location.pathname.match(/^\/orders/) ? '' : 'hidden'
 
     return (
       <div className={className + ' sidebar'}>
@@ -52,7 +52,7 @@ class Sidebar extends Component {
         </div>
         <Nav>
           <LinkContainer to='/stock' activeHref='active'>
-            <NavItem>Stock Levels</NavItem>
+            <NavItem>Stock Report</NavItem>
           </LinkContainer>
           <LinkContainer to='/stock/reports/live' activeHref='active'>
             <NavItem className={`sub stock_sub ${stockSubItemsHidden}`}>Live</NavItem>

@@ -8,6 +8,7 @@
     h4{
       font-size: 14px;
       margin: 0 0 10px;
+      text-align: center;
     }
     span{
       display: inline-block;
@@ -74,10 +75,19 @@
   .summary{
     background-color: #757575;
     color: #fff;
-    font-weight: 500;
     font-size: 14px;
     margin: 0 -15px 0;
-    padding: 5px 15px;
+    padding: 10px 15px 7px;
+    div{
+      margin-bottom: 3px;
+    }
+    .grand-total{
+      font-weight: 500;
+      font-size: 15px;
+      border-top: 1px solid white;
+      margin: 5px -15px 0;
+      padding: 5px 15px 0;
+    }
   }
   .create-orders{
     margin: 0 -15px;
@@ -90,5 +100,15 @@
       padding: 10px;
       border: none;
     }
+  }
+  .create-orders button:disabled{
+    background-color: lighten( #83C883, 10% );
+    cursor: not-allowed;
+  }
+  .empty{
+    font-size: 14px;
+    padding: 15px;
+    text-align: center;
+    font-weight: 500;
   }
 }

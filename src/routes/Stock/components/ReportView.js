@@ -157,7 +157,7 @@ class Report extends Component {
         <SubHeader
           className='bg-blue'
           left={
-            <h3>Stock Levels
+            <h3>Stock Report
               {location.query.title && <span> / <span className='small'>{location.query.title}</span></span>}
             </h3>}
           right={reportId === 'live' ? (
@@ -167,7 +167,7 @@ class Report extends Component {
           ) : (
             <a className='btn btn-default'
               href={`http://api.stockmate.co.uk/reports/${reportId}/export?token=${this.props.token}`}
-              target='_blank'>Download Order Sheets</a>
+              target='_blank'>Export Report</a>
           )
           } />
 

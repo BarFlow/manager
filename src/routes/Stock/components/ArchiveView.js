@@ -88,7 +88,7 @@ class ArchiveView extends Component {
       <div className='row'>
         <SubHeader
           className='bg-blue'
-          left={<h3>Stock Levels / <span className='small'>Archive</span></h3>} />
+          left={<h3>Stock Report / <span className='small'>Archive</span></h3>} />
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 archive'>
 
           {confirmDialog}

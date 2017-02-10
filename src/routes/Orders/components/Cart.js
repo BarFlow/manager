@@ -50,6 +50,9 @@ class Cart extends Component {
 
     return (
       <Panel className='orders-create-cart'>
+        {!this.props.orders.cart.length &&
+          <div className='empty'>Basket is empty</div>
+        }
         {Object.keys(groupedItems).map((key, index) =>
           <SupplierGroup
             key={index}
