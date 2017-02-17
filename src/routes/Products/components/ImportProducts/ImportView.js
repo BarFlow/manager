@@ -19,6 +19,8 @@ class ImportView extends Component {
 
     this._handleParse = this._handleParse.bind(this)
     this._handleProductAdd = this._handleProductAdd.bind(this)
+    this._handleProductUpdate = this._handleProductUpdate.bind(this)
+    this._next = this._next.bind(this)
   }
 
   componentDidMount () {
@@ -45,22 +47,25 @@ class ImportView extends Component {
   }
 
   _handleProductAdd (values) {
-    const nextIndex = this.state.items[this.state.currentIndex + 1] ? this.state.currentIndex + 1 : 0
+    return this.props.addProduct({
+      venue_id: this.props.venueId,
+      ...values
+    }).then(() =>
+      this._next()
+    )
+  }
 
-    // Import product if values are sent
-    if (values) {
-      return this.props.addProduct({
-        venue_id: this.props.venueId,
-        ...values
-      }).then(() =>
-        this.setState({
-          currentIndex: nextIndex,
-          success: nextIndex === 0,
-          items: nextIndex === 0 ? [] : this.state.items
-        })
-      )
-    }
-    // Skip product
+  _handleProductUpdate (values) {
+    return this.props.updateProduct({
+      venue_id: this.props.venueId,
+      ...values
+    }).then(() =>
+      this._next()
+    )
+  }
+
+  _next () {
+    const nextIndex = this.state.items[this.state.currentIndex + 1] ? this.state.currentIndex + 1 : 0
     this.setState({
       currentIndex: nextIndex,
       success: nextIndex === 0,
@@ -85,16 +90,16 @@ class ImportView extends Component {
                 suppliers={this.props.suppliers} />
             </div>
             : <ProductAdder
-              onSubmit={this._handleProductAdd}
+              onAdd={this._handleProductAdd}
+              onUpdate={this._handleProductUpdate}
+              onSkip={this._next}
               product={this.state.items[this.state.currentIndex]}
               products={this.props.products.items}
               suppliers={this.props.suppliers}
               percent={Math.round((this.state.currentIndex / this.state.items.length * 100))}
               catalog={this.props.products.catalog}
               fetchCatalog={this.props.fetchCatalog}
-              deleteCatalogItem={this.props.deleteCatalogItem}
-              veuneId={this.props.venueId}
-              user={this.props.user} />
+              veuneId={this.props.venueId} />
           }
         </div>
       </div>
@@ -106,13 +111,12 @@ ImportView.propTypes = {
   fetchProducts: React.PropTypes.func.isRequired,
   fetchTypes: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
-  deleteCatalogItem: React.PropTypes.func.isRequired,
   fetchSuppliers: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
+  updateProduct: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string,
   products : React.PropTypes.object,
   types: React.PropTypes.object,
-  suppliers: React.PropTypes.object,
-  user: React.PropTypes.object.isRequired
+  suppliers: React.PropTypes.object
 }
 export default ImportView

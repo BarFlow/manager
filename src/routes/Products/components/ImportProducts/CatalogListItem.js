@@ -3,38 +3,15 @@ import { Media, Button, Label } from 'react-bootstrap'
 
 class CatalogListItem extends Component {
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      height: 0,
-      width: 0
-    }
-  }
-
   render () {
-    const { item, onSelect, isAdded, user } = this.props
+    const { item, onSelect, isAdded, isDisabled } = this.props
     const { images, name, type, category, capacity, sub_category: subCategory } = item
 
     return (
       <Media className='catalog-item'>
         <Media.Left align='middle'>
-          <div className={user.admin && 'admin'}>
-            <img src={images && images.thumbnail} alt={name} onLoad={(e) => {
-              if (user.admin) {
-                this.setState({
-                  width: e.target.naturalWidth,
-                  height: e.target.naturalHeight
-                })
-              }
-            }
-            } />
-            {user.admin &&
-              <p>
-                Height: {this.state.height} {' '}
-                Width: {this.state.width}
-              </p>
-            }
+          <div>
+            <img src={images && images.thumbnail} alt={name} />
           </div>
         </Media.Left>
         <Media.Body>
@@ -53,11 +30,8 @@ class CatalogListItem extends Component {
         <Media.Right align='middle'>
           {(isAdded
             ? <Button disabled>Added</Button>
-            : <Button onClick={() => onSelect(item)}>Add</Button>
+            : <Button onClick={() => onSelect(item)} disabled={isDisabled}>Add</Button>
           )}
-          {user.admin &&
-            <Button bsStyle='danger' onClick={() => this.props.deleteCatalogItem(item)}>Delete</Button>
-          }
         </Media.Right>
       </Media>
     )
@@ -74,10 +48,8 @@ CatalogListItem.propTypes = {
     images: React.PropTypes.object.isRequired
   }),
   isAdded: React.PropTypes.bool.isRequired,
-  selected: React.PropTypes.bool.isRequired,
-  onSelect: React.PropTypes.func.isRequired,
-  deleteCatalogItem: React.PropTypes.func.isRequired,
-  user: React.PropTypes.object.isRequired
+  isDisabled: React.PropTypes.bool.isRequired,
+  onSelect: React.PropTypes.func.isRequired
 }
 
 export default CatalogListItem

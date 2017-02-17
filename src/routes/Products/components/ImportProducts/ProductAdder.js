@@ -10,7 +10,6 @@ class ProductAdder extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      product_id: '',
       isCreateDialogOpen: false
     }
     this._onSubmit = this._onSubmit.bind(this)
@@ -36,16 +35,17 @@ class ProductAdder extends Component {
   }
 
   _onSubmit (values) {
-    return this.props.onSubmit({
-      product_id: this.product_id,
-      ...values
+    const method = values._id ? 'onUpdate' : 'onAdd'
+    return this.props[method]({
+      ...values,
+      product_id: this.product_id || values.product_id._id
     }).then(() => {
       this.product_id = undefined
     })
   }
 
   _onSkip () {
-    this.props.onSubmit()
+    this.props.onSkip()
   }
 
   _onSelect (item) {
@@ -62,7 +62,9 @@ class ProductAdder extends Component {
   }
 
   render () {
-    const { product, products, percent = 0, catalog, user } = this.props
+    const { product, products, percent = 0, catalog } = this.props
+    const addedProduct = products.find(productsItem =>
+      productsItem.supplier_product_code === product.supplier_product_code) || {}
 
     return (
       <div className='product-adder row'>
@@ -76,6 +78,7 @@ class ProductAdder extends Component {
               ref='ProductItemForm'
               initialValues={{
                 count_as_full: 0.5,
+                ...addedProduct,
                 ...product
               }}
               onSubmit={this._onSubmit}
@@ -84,9 +87,7 @@ class ProductAdder extends Component {
               enableReinitialize
               suppliers={this.props.suppliers}
               product={product}
-              usedSKU={products
-                .map(productsItem => productsItem.supplier_product_code)
-                .find(productsItem => productsItem === product.supplier_product_code)} />
+              usedSKU={addedProduct.supplier_product_code} />
 
             <label>Choose product</label>
             {catalog.isFetching &&
@@ -97,10 +98,8 @@ class ProductAdder extends Component {
                 key={item._id}
                 item={item}
                 onSelect={this._onSelect}
-                deleteCatalogItem={this.props.deleteCatalogItem}
                 isAdded={!!products.find(productsItem => productsItem.product_id._id === item._id)}
-                selected={this.state.product_id === item._id}
-                user={user} />
+                isDisabled={!!addedProduct.supplier_product_code} />
             )}
             {!catalog.isFetching &&
             <div>
@@ -127,15 +126,15 @@ class ProductAdder extends Component {
 }
 
 ProductAdder.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired,
+  onAdd: React.PropTypes.func.isRequired,
+  onUpdate: React.PropTypes.func.isRequired,
+  onSkip: React.PropTypes.func.isRequired,
   product: React.PropTypes.object.isRequired,
   products: React.PropTypes.array.isRequired,
   suppliers: React.PropTypes.object.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
-  deleteCatalogItem: React.PropTypes.func.isRequired,
   catalog: React.PropTypes.object.isRequired,
-  percent: React.PropTypes.number,
-  user: React.PropTypes.object.isRequired
+  percent: React.PropTypes.number
 }
 
 export default ProductAdder

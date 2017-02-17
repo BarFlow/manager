@@ -12,11 +12,13 @@ const ProductItemForm = ({
     <div className={'col-xs-12'}>
       <div className='page-header clearfix'>
         <h4>{product.name}</h4>
-        {/* <Button
-          className='pull-right'
-          bsStyle='primary'
-          disabled={submitting}
-          type='submit'>Add</Button> */}
+        {usedSKU &&
+          <Button
+            className='pull-right'
+            bsStyle='primary'
+            disabled={submitting}
+            type='submit'>Update</Button>
+        }
         <Button
           className='pull-right'
           bsStyle='danger'
@@ -31,7 +33,7 @@ const ProductItemForm = ({
       {!error && usedSKU &&
         <Alert bsStyle='warning'>
           <strong>Duplicate!</strong>
-          {` A product with the SKU: ${usedSKU} has already been added, skip if you don't want to add it again.`}
+          {` Only update is allowed, since a product with the SKU: ${usedSKU} has already been added.`}
         </Alert>
       }
       {/* submitSucceeded && !submitting && !dirty &&
