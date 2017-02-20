@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Alert, Pagination } from 'react-bootstrap'
+import { Button, Alert, Pagination, Checkbox } from 'react-bootstrap'
 import { Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
@@ -24,9 +24,8 @@ class Products extends Component {
 
   componentDidMount () {
     const {
-      venueId, products, changeProductsFilter, fetchProducts, suppliers, fetchSuppliers, types, fetchTypes, router
+      venueId, products, changeProductsFilter, fetchProducts, suppliers, fetchSuppliers, types, fetchTypes, location
     } = this.props
-    const location = router.location
     // Fetch products if there is new venueId or no products in store yet
     if ((venueId && !products.items.length) || (venueId && venueId !== products.filters.venue_id)) {
       fetchProducts(venueId)
@@ -60,9 +59,9 @@ class Products extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {
-      venueId, changeProductsFilter, fetchProducts, fetchSuppliers, router
+      venueId, changeProductsFilter, fetchProducts, fetchSuppliers, location
     } = this.props
-    const location = router.location
+
     if (venueId !== nextProps.venueId) {
       // Only fetch new products for new venue_id
       fetchProducts(nextProps.venueId)
@@ -94,7 +93,7 @@ class Products extends Component {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       this.props.router.replace({
-        pathname: this.props.router.location.pathname,
+        pathname: this.props.location.pathname,
         query: filters
       })
     }, 500)
@@ -138,6 +137,8 @@ class Products extends Component {
         deleteProduct={deleteProduct} />
     ).splice(products.filters.skip, products.filters.limit)
 
+    const productsWithMissingFileds = products.filteredItems.filter(item => item.hasMissingField)
+
     const addProductDialog = venueId && <AddProductDialog
       close={this.toggleAddNewDialog}
       isOpen={this.state.isAddProductDialogOpen}
@@ -164,6 +165,26 @@ class Products extends Component {
           <SearchBar
             filters={products.filters}
             onChange={this._updateProductsFilterAndURI} />
+
+          {!!productsWithMissingFileds.length &&
+            <div>
+              <Alert bsStyle='warning'>
+                <strong>Warning!</strong>
+                {' '}{productsWithMissingFileds.length} products found with missing information.
+              </Alert>
+              <div className='missing-fields'>
+                <Checkbox
+                  checked={!!products.filters.hasMissingField}
+                  onChange={() =>
+                    this._updateProductsFilterAndURI({
+                      ...products.filters,
+                      hasMissingField: products.filters.hasMissingField ? undefined : true
+                    })}>
+                    Only show products with missing information
+                  </Checkbox>
+              </div>
+            </div>
+          }
 
           <div className='items'>
             {!venueId || products.isFetching ? (
@@ -195,6 +216,7 @@ class Products extends Component {
 
 Products.propTypes = {
   router: React.PropTypes.object,
+  location: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
   types: React.PropTypes.object.isRequired,

@@ -45,7 +45,8 @@ const mapStateToProps = (state) => {
   return {
     products : {
       ...state.products,
-      filteredItems: _.orderBy(filteredItems, ['product_id.category', 'product_id.sub_category', 'product_id.name'])
+      filteredItems: _.orderBy(filteredItems,
+        ['product_id.category', 'product_id.sub_category', 'product_id.name'])
     },
     venueId: state.venues.current,
     types: state.types,

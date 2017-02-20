@@ -128,7 +128,7 @@ class CartView extends Component {
         <DatePicker
           onChange={this._handleDeliveryDateChange}
           value={this.state.requestedDeliveyDate}
-          dateFormat={'MM/DD/YYYY'} />
+          dateFormat={'DD/MM/YYYY'} />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={this._toggleConfirmDialog}>Cancel</Button>

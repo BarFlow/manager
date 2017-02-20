@@ -126,7 +126,7 @@ class ProductListItem extends Component {
               }
               <Label>{capacity} ml</Label>
               <Label>{costPrice && `£ ${costPrice}`}</Label>
-              <Label>Par level: {parLevel}</Label>
+              {!!parLevel && <Label>Par level: {parLevel}</Label>}
               <Label>{selectedSupplier && selectedSupplier.name}</Label>
               <Label bsStyle='danger'>
                 {!sku && 'SKU'}

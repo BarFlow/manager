@@ -338,7 +338,15 @@ export default function productsReducer (state = initialState, action) {
 
 // filters
 export const filterProductItems = (items, filters) =>
-  items.filter(item => {
+  items.map(item => ({
+    ...item,
+    hasMissingField:
+      !item.supplier_product_code ||
+      !item.cost_price ||
+      !item.package_size ||
+      (!item.par_level && item.par_level !== 0) ||
+      !item.supplier_id
+  })).filter(item => {
     const name = new RegExp(filters.name, 'i')
     if (
       item.product_id.name.match(name) &&
@@ -350,7 +358,9 @@ export const filterProductItems = (items, filters) =>
         filters.supplier === '' ||
         item.supplier_id === filters.supplier ||
         (item.supplier_id && item.supplier_id._id === filters.supplier)
-      )
+      ) &&
+      (!filters.hasMissingField || item.hasMissingField ===
+        (!!filters.hasMissingField || filters.hasMissingField === 'true'))
     ) {
       return true
     }
