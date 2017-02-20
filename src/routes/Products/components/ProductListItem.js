@@ -138,7 +138,7 @@ class ProductListItem extends Component {
                 {!costPrice && 'Price'}
               </Label>
               <Label bsStyle='danger'>
-                {!parLevel && 'Par level'}
+                {(!parLevel && parLevel !== 0) && 'Par level'}
               </Label>
               <Label bsStyle='danger'>
                 {!caseSize && 'Case size'}
