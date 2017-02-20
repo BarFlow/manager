@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Alert, Pagination } from 'react-bootstrap'
+import { Button, Alert, Pagination, Modal } from 'react-bootstrap'
 
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../containers/SearchBarContainer'
@@ -10,10 +10,15 @@ import './ReportView.scss'
 class Report extends Component {
   constructor (props) {
     super(props)
+
+    this.state = {
+      isConfirmDialogOpen: false
+    }
     this._updateReportFilterAndURI = this._updateReportFilterAndURI.bind(this)
     this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
     this._refreshReport = this._refreshReport.bind(this)
     this._viewReport = this._viewReport.bind(this)
+    this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
   }
 
   componentDidMount () {
@@ -139,6 +144,12 @@ class Report extends Component {
     window.scrollTo(0, 0)
   }
 
+  _toggleConfirmDialog () {
+    this.setState({
+      isConfirmDialogOpen: !this.state.isConfirmDialogOpen
+    })
+  }
+
   render () {
     const {
       reports, venueId, createReport, router
@@ -152,8 +163,25 @@ class Report extends Component {
         item={item} />
     ).splice(reports.filters.skip, reports.filters.limit)
 
+    const confirmDialog = <Modal show={this.state.isConfirmDialogOpen}
+      onHide={this._toggleConfirmDialog}
+      className='delete-confirm-dialog'>
+      <Modal.Header closeButton>
+        <Modal.Title>Save Report</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Are you sure you want to finalize this report?
+        {' '}<strong>All current stock levels will be erased</strong>.</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this._toggleConfirmDialog}>Cancel</Button>
+        <Button bsStyle='primary' onClick={() => createReport({ venue_id: venueId })}>Save</Button>
+      </Modal.Footer>
+    </Modal>
+
     return (
       <div className='row'>
+        {confirmDialog}
         <SubHeader
           className='bg-blue'
           left={
@@ -162,7 +190,7 @@ class Report extends Component {
             </h3>}
           right={reportId === 'live' ? (
             <Button
-              onClick={() => createReport({ venue_id: venueId })}
+              onClick={this._toggleConfirmDialog}
               disabled={!venueId || reports.isSaving}>Save Report</Button>
           ) : (
             <a className='btn btn-default'
