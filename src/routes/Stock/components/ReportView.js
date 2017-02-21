@@ -172,7 +172,11 @@ class Report extends Component {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={this._toggleConfirmDialog}>Cancel</Button>
-        <Button bsStyle='primary' onClick={() => createReport({ venue_id: venueId })}>Save</Button>
+        <Button
+          bsStyle='primary'
+          disabled={reports.isSaving}
+          onClick={() =>
+            createReport({ venue_id: venueId }).then(() => this._toggleConfirmDialog())}>Save</Button>
       </Modal.Footer>
     </Modal>
 
