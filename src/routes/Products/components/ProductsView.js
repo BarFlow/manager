@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Alert, Pagination, Checkbox } from 'react-bootstrap'
+import { Button, Alert, Pagination } from 'react-bootstrap'
 import { Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
@@ -137,7 +137,7 @@ class Products extends Component {
         deleteProduct={deleteProduct} />
     ).splice(products.filters.skip, products.filters.limit)
 
-    const productsWithMissingFileds = products.filteredItems.filter(item => item.hasMissingField)
+    // const productsWithMissingFileds = products.filteredItems.filter(item => item.hasMissingField)
 
     const addProductDialog = venueId && <AddProductDialog
       close={this.toggleAddNewDialog}
@@ -166,7 +166,7 @@ class Products extends Component {
             filters={products.filters}
             onChange={this._updateProductsFilterAndURI} />
 
-          {!!productsWithMissingFileds.length &&
+          {/* !!productsWithMissingFileds.length &&
             <div>
               <Alert bsStyle='warning'>
                 <strong>Warning!</strong>
@@ -188,7 +188,7 @@ class Products extends Component {
                   </Checkbox>
               </div>
             </div>
-          }
+          */}
 
           <div className='items'>
             {!venueId || products.isFetching ? (

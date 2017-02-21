@@ -46,7 +46,8 @@ const mapStateToProps = (state) => {
     products : {
       ...state.products,
       filteredItems: _.orderBy(filteredItems,
-        ['product_id.category', 'product_id.sub_category', 'product_id.name'])
+        ['hasMissingField', 'product_id.category', 'product_id.sub_category', 'product_id.name'],
+        ['desc', 'asc', 'asc', 'asc'])
     },
     venueId: state.venues.current,
     types: state.types,

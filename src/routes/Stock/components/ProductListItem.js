@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Media, Label, Panel, Collapse } from 'react-bootstrap'
+import { Media, Label, Panel, Collapse, Alert } from 'react-bootstrap'
 
 class ProductListItem extends Component {
   constructor (props) {
@@ -48,6 +48,11 @@ class ProductListItem extends Component {
                   <Label>{item.supplier_id.name}</Label>{' '}
                 </span>
               }
+              {!item.areas.length &&
+                <span>
+                  <Label bsStyle='danger'>Area/Section</Label>{' '}
+                </span>
+              }
             </p>
           </Media.Body>
           <Media.Right align='middle'>
@@ -58,7 +63,7 @@ class ProductListItem extends Component {
               </div>
               <div>
                 <label>Par Level</label>
-                <p>{round(item.par_level) || 'n/a'}</p>
+                <p>{!item.par_level && item.par_level !== 0 ? 'n/a' : round(item.par_level)}</p>
               </div>
               <div>
                 <label>Value</label>
@@ -89,6 +94,11 @@ class ProductListItem extends Component {
                     )}
                   </div>
                 )}
+                {!item.areas.length &&
+                  <Alert bsStyle='warning'>
+                    <strong>Warning!</strong> This product has not been placed under any Area/Section.
+                  </Alert>
+                }
               </div>
             </div>
           </Collapse>
