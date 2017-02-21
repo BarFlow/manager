@@ -37,8 +37,8 @@ class Sidebar extends Component {
       </option>
     )
 
-    const stockSubItemsHidden = location.pathname.match(/^\/stock/) ? '' : 'hidden'
-    const ordersSubItemsHidden = location.pathname.match(/^\/orders/) ? '' : 'hidden'
+    const stockSubItemsHidden = false // location.pathname.match(/^\/stock/) ? '' : 'hidden'
+    const ordersSubItemsHidden = false // location.pathname.match(/^\/orders/) ? '' : 'hidden'
 
     return (
       <div className={className + ' sidebar'}>
