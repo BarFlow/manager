@@ -70,6 +70,7 @@ class ProductAdder extends Component {
       <div className='product-adder row'>
         <div className='col-xs-12'>
           <Panel>
+            <label className='control-label'>Progress</label>
             <ProgressBar now={percent} label={`${percent}%`} />
           </Panel>
           <Panel>
