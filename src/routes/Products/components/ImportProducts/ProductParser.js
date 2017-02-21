@@ -35,7 +35,8 @@ class ProductParser extends Component {
         supplier_id: this.refs.supplierId ? this.refs.supplierId.value : undefined,
         par_level: item['Par Level'] && `${item['Par Level']}`.replace(/[^0-9.]+/g, ''),
         cost_price: item['Net Price'] && Math.round(`${item['Net Price']}`.replace(/[^0-9.]+/g, '') * 100) / 100,
-        package_size: item['Case Size'] && `${item['Case Size']}`.replace(/[^0-9.]+/g, '')
+        package_size: item['Case Size'] && `${item['Case Size']}`.replace(/[^0-9.]+/g, ''),
+        count_by: 'bottle'
       })))
     }
     reader.readAsBinaryString(files[0])

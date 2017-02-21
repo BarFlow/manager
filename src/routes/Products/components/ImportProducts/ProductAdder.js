@@ -38,7 +38,8 @@ class ProductAdder extends Component {
     const method = values._id ? 'onUpdate' : 'onAdd'
     return this.props[method]({
       ...values,
-      product_id: this.product_id || values.product_id._id
+      product_id: this.product_id || values.product_id._id,
+      count_as_full: values.count_as_full / 100
     }).then(() => {
       this.product_id = undefined
     })
@@ -78,8 +79,11 @@ class ProductAdder extends Component {
             <ProductItemForm
               ref='ProductItemForm'
               initialValues={{
-                count_as_full: 0.5,
-                ...addedProduct,
+                count_as_full: 50,
+                ...{
+                  ...addedProduct,
+                  count_as_full: addedProduct.count_as_full * 100
+                },
                 ...product
               }}
               onSubmit={this._onSubmit}
