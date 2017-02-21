@@ -30,18 +30,18 @@
   }
   ul{
     li{
-      border-bottom: 1px solid;
+      border-top: 1px solid;
     }
     .sub{
       background: #2b2b2b;
-      border-bottom: 1px solid #383838;
+      border-top: none;
       a{
         color: #d8d8d8;
         padding-left: 30px;
       }
     }
-    .sub:last-of-type{
-      border-bottom: none;
+    li:last-of-type{
+      border-bottom: 1px solid;
     }
     .sub.active{
       >a, >a:focus, >a:hover {
