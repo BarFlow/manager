@@ -1,48 +1,40 @@
 import React from 'react'
 import { reduxForm, Field } from 'redux-form'
 import buildSchema from 'redux-form-schema'
-import { Button, Alert } from 'react-bootstrap'
+import { Button, Alert, Row } from 'react-bootstrap'
 import FormInput from '../../../components/FormInput'
 import FormSelect from '../../../components/FormSelect'
 
 const ProductListItemForm = ({
   error, submitSucceeded, handleSubmit, submitting, handleDelete, dirty, suppliers
 }) => (
-  <form onSubmit={handleSubmit} className={'row'}>
+  <form onSubmit={handleSubmit}>
+    <Row>
+      <Field
+        name='supplier_id'
+        component={FormSelect}
+        label='Supplier'
+        type='select'
+        description='The supplier for the product.'
+        options={suppliers.items}
+        className={'col-xs-12 col-md-4'} />
 
-    <Field
-      name='supplier_id'
-      component={FormSelect}
-      label='Supplier'
-      type='select'
-      description='The supplier for the product.'
-      options={suppliers.items}
-      className={'col-xs-12 col-md-4'} />
+      <Field
+        name='supplier_product_code'
+        component={FormInput}
+        label='SKU'
+        type='text'
+        description='The product code associated with the supplier.'
+        className={'col-xs-12 col-md-4'} />
 
-    <Field
-      name='supplier_product_code'
-      component={FormInput}
-      label='SKU'
-      type='text'
-      description='The product code associated with the supplier.'
-      className={'col-xs-12 col-md-4'} />
-
-    <Field
-      name='par_level'
-      component={FormInput}
-      label='Par Level'
-      type='number'
-      description='The minimum quantity that your business must keep on hand.'
-      className={'col-xs-12 col-md-4'} />
-
-    <Field
-      name='cost_price'
-      component={FormInput}
-      label='Cost Price'
-      type='number'
-      addon='£'
-      description='The price at which the product have been bought.'
-      className={'col-xs-12 col-md-4'} />
+      <Field
+        name='par_level'
+        component={FormInput}
+        label='Par Level'
+        type='number'
+        description='The minimum quantity that your business must keep on hand.'
+        className={'col-xs-12 col-md-4'} />
+    </Row>
 
     {
       // <Field
@@ -63,22 +55,51 @@ const ProductListItemForm = ({
       // description='The price at which the product will be sold.'
       // className={'col-xs-12 col-md-3'} />
     }
+    <Row>
+      <Field
+        name='cost_price'
+        component={FormInput}
+        label='Cost Price'
+        type='number'
+        addon='£'
+        description='The price at which the product have been bought.'
+        className={'col-xs-12 col-md-4'} />
 
-    <Field
-      name='package_size'
-      component={FormInput}
-      label='Case Size'
-      type='number'
-      description='The number of bottles in a full package.'
-      className={'col-xs-12 col-md-4'} />
+      <Field
+        name='package_size'
+        component={FormInput}
+        label='Case Size'
+        type='number'
+        description='The number of bottles in a full package.'
+        className={'col-xs-12 col-md-4'} />
 
-    <Field
-      name='count_as_full'
-      component={FormInput}
-      label='Count as Full'
-      type='number'
-      description='The minimum level of liquid in the bottle to be counted as full during order sheet generation.'
-      className={'col-xs-12 col-md-4'} />
+      <Field
+        name='count_as_full'
+        addon='%'
+        component={FormInput}
+        label='Order Trashold'
+        type='number'
+        description='Re-order the product if the open bottle is below this level.'
+        className={'col-xs-12 col-md-4'} />
+    </Row>
+    <Row>
+      <Field
+        name='count_by'
+        component={FormSelect}
+        label='Count by'
+        type='select'
+        description='The unit of which the product should be counted by during stocktake.'
+        valueKey='name'
+        options={[
+          { name: 'bottle' },
+          { name: 'keg' },
+          { name: 'case' },
+          { name: 'piece' },
+          { name: 'pack' },
+          { name: 'box' }
+        ]}
+        className={'col-xs-12 col-md-4'} />
+    </Row>
 
     <div className={'col-xs-12'}>
       {error &&
@@ -111,11 +132,15 @@ const { validate } = buildSchema({
   count_as_full: {
     error: 'This should be between 0,1 and 1 (default is 0,5).',
     validate: {
-      float: {
-        min: 0.1,
-        max: 1
+      int: {
+        min: 0,
+        max: 100
       }
     }
+  },
+  count_by:{
+    required: true,
+    error: 'This must be set.'
   }
 })
 

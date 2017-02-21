@@ -4,7 +4,8 @@ import { FormGroup, ControlLabel, HelpBlock, FormControl } from 'react-bootstrap
 const Field = ({ meta, label, input, description, options, className, valueKey = '_id', displayKey = 'name' }) => {
   const Formcontrol = <FormControl componentClass='select' {...input}>
     <option value={null} />
-    {options.map(item => <option key={item._id} value={item[valueKey]}>{item[displayKey]}</option>)}
+    {options.map((item, index) =>
+      <option key={`${item._id}-${index}`} value={item[valueKey]}>{item[displayKey]}</option>)}
   </FormControl>
 
   return (

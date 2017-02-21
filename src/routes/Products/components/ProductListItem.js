@@ -163,11 +163,17 @@ class ProductListItem extends Component {
                     form={this.props.item._id}
                     initialValues={{
                       ...castNullToStr(this.props.item),
-                      product_id: undefined
+                      product_id: undefined,
+                      count_as_full: this.props.item.count_as_full * 100
                     }}
                     enableReinitialize
                     suppliers={this.props.suppliers}
-                    onSubmit={this.props.updateProduct}
+                    onSubmit={(values) => {
+                      this.props.updateProduct({
+                        ...values,
+                        count_as_full: values.count_as_full / 100
+                      })
+                    }}
                     handleDelete={this._toggleConfirmDialog} />
                   {confirmDialog}
                 </div>

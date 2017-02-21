@@ -170,7 +170,11 @@ class Products extends Component {
             <div>
               <Alert bsStyle='warning'>
                 <strong>Warning!</strong>
-                {' '}{productsWithMissingFileds.length} products found with missing information.
+                {' '}{productsWithMissingFileds.length} product
+                {productsWithMissingFileds.length > 1 &&
+                  's'
+                }
+                {' '}found with missing information.
               </Alert>
               <div className='missing-fields'>
                 <Checkbox
