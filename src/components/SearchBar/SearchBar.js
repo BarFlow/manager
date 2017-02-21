@@ -52,7 +52,7 @@ class SearchBar extends Component {
       change[id] = value
     }
 
-    onChange({ ...filters, ...change })
+    onChange({ ...filters, skip: 0, ...change })
   }
 
   render () {
