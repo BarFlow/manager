@@ -31,7 +31,6 @@ class CartView extends Component {
       reports,
       fetchReport,
       fetchReports,
-      emptyCart,
       venueId
     } = this.props
 
@@ -42,7 +41,6 @@ class CartView extends Component {
       (venueId && products.items.length && venueId !== products.items[0].venue_id)
     ) {
       fetchProducts(venueId)
-      emptyCart()
     }
 
     // Fetch reports if needed
@@ -51,9 +49,15 @@ class CartView extends Component {
       // Dirty way to check if the current venue_id is valid, should be other way
       (venueId && reports.items.length && venueId !== reports.items[0].venue_id)
     ) {
-      fetchReport({ venueId, reportId: 'live' })
+      fetchReport({ venueId, reportId: this.state.currentReportId })
+    }
+
+    if (
+      (!reports.archive.items.length && !reports.isFetching && venueId) ||
+      // Dirty way to check if the current venue_id is valid, should be other way
+      (venueId && reports.archive.items.length && venueId !== reports.archive.items[0].venue_id)
+    ) {
       fetchReports(venueId)
-      emptyCart()
     }
   }
 
@@ -61,7 +65,7 @@ class CartView extends Component {
     const { fetchProducts, fetchReport, fetchReports, emptyCart, venueId } = this.props
     if (nextProps.venueId !== venueId) {
       fetchProducts(nextProps.venueId)
-      fetchReport({ venueId: nextProps.venueId, reportId: 'live' })
+      fetchReport({ venueId: nextProps.venueId, reportId: this.state.currentReportId })
       fetchReports(nextProps.venueId)
       emptyCart()
     }
