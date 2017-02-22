@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Media, Label, Panel, Collapse, Alert } from 'react-bootstrap'
+import { Link } from 'react-router'
 
 class ProductListItem extends Component {
   constructor (props) {
@@ -79,27 +80,26 @@ class ProductListItem extends Component {
           <Collapse in={this.state.isOpen}>
             <div>
               <hr />
-              <div>
-                {item.areas.map(area =>
-                  <div className='area' key={area._id}>
-                    <div className='area-row'>
-                      <span className='name'>{area.name}</span>
-                      <span className='volume pull-right'>{round(area.volume)}</span>
-                    </div>
-                    {area.sections.map(section =>
-                      <div className='section-row' key={section._id}>
-                        <span className='name'>{section.name}</span>
-                        <span className='volume pull-right'>{round(section.volume)}</span>
-                      </div>
-                    )}
+              {item.areas.map(area =>
+                <div className='area' key={area._id}>
+                  <div className='area-row'>
+                    <span className='name'>{area.name}</span>
+                    <span className='volume pull-right'>{round(area.volume)}</span>
                   </div>
-                )}
-                {!item.areas.length &&
-                  <Alert bsStyle='warning'>
-                    <strong>Warning!</strong> This product has not been placed under any Area/Section.
-                  </Alert>
-                }
-              </div>
+                  {area.sections.map(section =>
+                    <div className='section-row' key={section._id}>
+                      <span className='name'>{section.name}</span>
+                      <span className='volume pull-right'>{round(section.volume)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+              {!item.areas.length &&
+                <Alert bsStyle='warning'>
+                  <strong>Warning!</strong> This product has not been placed under any Area/Section.
+                  {' '}<Link to='/venue' className='alert-link'>Add it now</Link>.
+                </Alert>
+              }
             </div>
           </Collapse>
         </Media>

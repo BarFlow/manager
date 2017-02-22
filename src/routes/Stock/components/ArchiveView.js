@@ -3,8 +3,6 @@ import { Alert, Button, Panel, Media, Modal } from 'react-bootstrap'
 import SubHeader from '../../../components/SubHeader'
 import './ArchiveView.scss'
 
-import removeIcon from '../assets/remove.png'
-
 class ArchiveView extends Component {
   constructor (props) {
     super(props)
@@ -109,12 +107,13 @@ class ArchiveView extends Component {
                       </Media.Body>
                       <Media.Right align='middle'>
                         <div className='actions'>
-                          <button
+                          <Button
+                            bsStyle='danger'
                             onClick={(e) => {
                               e.stopPropagation()
                               this._handleDelete({ ...item, name: itemDate })
                             }}
-                            disabled={reports.isSaving}><img src={removeIcon} /></button>
+                            disabled={reports.isSaving}>Delete</Button>
                         </div>
                       </Media.Right>
                     </Media>

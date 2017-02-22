@@ -22,7 +22,7 @@
 
   div.collapse{
     div.alert{
-      margin-bottom: 0;
+      // margin-bottom: 0px; TODO creates a jumping bug when toggling the collapse
     }
   }
 
