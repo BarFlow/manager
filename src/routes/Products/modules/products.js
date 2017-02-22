@@ -40,13 +40,18 @@ export const CATALOG_DELETE_FAILURE = 'products/CATALOG_DELETE_FAILURE'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchProducts = (venueId) => {
+export const fetchProducts = (venueId, silent = false) => {
   return {
     [CALL_API]: {
       endpoint: `/inventory?populate=true&limit=2000&venue_id=${venueId}`,
       method: 'GET',
       types: [
-        PRODUCTS_FETCH_REQUEST,
+        {
+          type: PRODUCTS_FETCH_REQUEST,
+          meta: {
+            silent
+          }
+        },
         PRODUCTS_FETCH_SUCCESS,
         PRODUCTS_FETCH_FAILURE
       ]
@@ -200,8 +205,8 @@ const ACTION_HANDLERS = {
   [PRODUCTS_FETCH_REQUEST] : (state, action) => {
     return {
       ...state,
-      isFetching: true,
-      items:[]
+      isFetching: !action.meta.silent && true,
+      items: !action.meta.silent ? [] : state.items
     }
   },
   [PRODUCTS_FETCH_SUCCESS] : (state, action) => {

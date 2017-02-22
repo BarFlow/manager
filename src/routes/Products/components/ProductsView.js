@@ -29,6 +29,9 @@ class Products extends Component {
     // Fetch products if there is new venueId or no products in store yet
     if ((venueId && !products.items.length) || (venueId && venueId !== products.filters.venue_id)) {
       fetchProducts(venueId)
+    } else if (venueId && products.items.length) {
+      // Silent fetch new products
+      fetchProducts(venueId, true)
     }
 
     // Fetch suppliers if needed
