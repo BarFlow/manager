@@ -23,12 +23,8 @@ class SearchBar extends Component {
     }
 
     // Fetch products if needed
-    if (
-      (!types.items.length && !types.isFetching && venueId) ||
-      // Dirty way to check if the current venue_id is valid, should be other way
-      (venueId && types.items.length && venueId !== types.items[0].venue_id)
-    ) {
-      fetchTypes(venueId)
+    if (!types.items.length && !types.isFetching) {
+      fetchTypes()
     }
   }
 
