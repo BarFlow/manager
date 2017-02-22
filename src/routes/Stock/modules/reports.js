@@ -15,8 +15,6 @@ export const REPORT_CREATE_REQUEST = 'reports/CREATE_REQUEST'
 export const REPORT_CREATE_SUCCESS = 'reports/CREATE_SUCCESS'
 export const REPORT_CREATE_FAILURE = 'reports/CREATE_FAILURE'
 
-export const REPORT_UPDATE_REQUEST = 'reports/UPDATE_REPORT_REQUEST'
-
 export const REPORT_DELETE_REQUEST = 'reports/DELETE_REQUEST'
 export const REPORT_DELETE_SUCCESS = 'reports/DELETE_SUCCESS'
 export const REPORT_DELETE_FAILURE = 'reports/DELETE_FAILURE'
@@ -26,13 +24,18 @@ export const REPORTS_FILTER_CHANGE = 'reports/FILTER_CHANGE'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchReports = (venueId) => {
+export const fetchReports = (venueId, silent = false) => {
   return {
     [CALL_API]: {
       endpoint: `/reports?venue_id=${venueId}`,
       method: 'GET',
       types: [
-        REPORTS_FETCH_REQUEST,
+        {
+          type: REPORTS_FETCH_REQUEST,
+          meta: {
+            silent
+          }
+        },
         REPORTS_FETCH_SUCCESS,
         REPORTS_FETCH_FAILURE
       ]
@@ -40,13 +43,18 @@ export const fetchReports = (venueId) => {
   }
 }
 
-export const fetchReport = ({ reportId, venueId }, update = false) => {
+export const fetchReport = ({ reportId, venueId }, silent = false) => {
   return {
     [CALL_API]: {
       endpoint: `/reports/${reportId}?venue_id=${venueId}`,
       method: 'GET',
       types: [
-        !update ? REPORT_FETCH_REQUEST : REPORT_UPDATE_REQUEST,
+        {
+          type: REPORT_FETCH_REQUEST,
+          meta: {
+            silent
+          }
+        },
         {
           type: REPORT_FETCH_SUCCESS,
           payload: (action, state, res) => {
@@ -120,8 +128,8 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       archive: {
-        isFetching: true,
-        items:[]
+        isFetching: !action.meta.silent && true,
+        items: !action.meta.silent ? [] : state.archive.items
       }
     }
   },
@@ -134,19 +142,11 @@ const ACTION_HANDLERS = {
       }
     }
   },
-  [REPORT_UPDATE_REQUEST] : (state, action) => {
-    return {
-      ...state,
-      isFetching: true,
-      isUpdate: true
-    }
-  },
   [REPORT_FETCH_REQUEST] : (state, action) => {
     return {
       ...state,
-      isFetching: true,
-      isUpdate: false,
-      items:[]
+      isFetching: !action.meta.silent && true,
+      items: !action.meta.silent ? [] : state.items
     }
   },
   [REPORT_FETCH_SUCCESS] : (state, action) => {

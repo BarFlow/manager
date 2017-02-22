@@ -25,6 +25,9 @@ class ArchiveView extends Component {
       (items[0] && items[0].venue_id !== venueId)
     ) {
       fetchOrders(venueId)
+    } else if (items[0] && items[0].venue_id === venueId) {
+      // Silent refresh, no isFetching is triggered
+      fetchOrders(venueId, true)
     }
   }
 

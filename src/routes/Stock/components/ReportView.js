@@ -63,6 +63,7 @@ class Report extends Component {
 
     if (venueId !== nextProps.venueId) {
       // Only fetch new reports for new venue_id
+      clearTimeout(this._refreshTimer)
       fetchReport({ venueId: nextProps.venueId, reportId: nextProps.params.reportId })
     }
 
@@ -193,8 +194,11 @@ class Report extends Component {
         <SubHeader
           className='bg-blue'
           left={
-            <h3>Stock Report
-              {location.query.title && <span> / <span className='small'>{location.query.title}</span></span>}
+            <h3>Stock Report /
+              {!location.query.title &&
+                <span className='small'> Live <span className='glyphicon glyphicon-refresh spinning live' /></span>
+              }
+              {location.query.title && <span className='small'>{location.query.title}</span>}
             </h3>}
           right={reportId === 'live' ? (
             <Button
@@ -218,7 +222,7 @@ class Report extends Component {
             onChange={this._updateReportFilterAndURI} />
 
           <div className='items'>
-            {!venueId || (reports.isFetching && !reports.isUpdate) ? (
+            {!venueId || reports.isFetching ? (
               <Alert bsStyle='warning'>Loading...</Alert>
             ) : (
               reports.filteredItems.length ? (

@@ -27,13 +27,18 @@ export const ORDER_CART_FLUSH = 'orders/FLUSH_CART'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchOrders = (venueId) => {
+export const fetchOrders = (venueId, silent = false) => {
   return {
     [CALL_API]: {
       endpoint: `/orders?venue_id=${venueId}&populate=true`,
       method: 'GET',
       types: [
-        ORDERS_FETCH_REQUEST,
+        {
+          type: ORDERS_FETCH_REQUEST,
+          meta: {
+            silent
+          }
+        },
         ORDERS_FETCH_SUCCESS,
         ORDERS_FETCH_FAILURE
       ]
@@ -132,8 +137,8 @@ const ACTION_HANDLERS = {
   [ORDERS_FETCH_REQUEST] : (state, action) => {
     return {
       ...state,
-      isFetching: true,
-      items:[]
+      isFetching: !action.meta.silent && true,
+      items: !action.meta.silent ? [] : state.items
     }
   },
   [ORDERS_FETCH_SUCCESS] : (state, action) => {

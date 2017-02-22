@@ -58,3 +58,8 @@
     margin-bottom: 0;
   }
 }
+.glyphicon.spinning.live {
+    animation: spin 3s infinite linear;
+    font-size: 14px;
+    margin-left: 3px;
+}
