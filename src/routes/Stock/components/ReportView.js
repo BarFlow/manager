@@ -43,7 +43,9 @@ class Report extends Component {
     })
 
     // keeping report data up-to-date
-    this._refreshReport()
+    if (location.pathname.indexOf('/live') > -1) {
+      this._refreshReport()
+    }
   }
 
   componentWillUnmount () {
@@ -95,6 +97,11 @@ class Report extends Component {
         ...nextProps.reports.archive.items[0],
         saved: true
       })
+    }
+
+    // Restart polling when we are at Live view
+    if (location.pathname.indexOf('/live') === -1 && nextProps.location.pathname.indexOf('/live') > -1) {
+      this._refreshReport()
     }
   }
 
