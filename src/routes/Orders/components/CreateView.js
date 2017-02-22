@@ -15,15 +15,25 @@ class CartView extends Component {
     this.state = {
       isConfirmDialogOpen: false,
       orders: [],
-      requestedDeliveyDate: new Date().toISOString()
+      requestedDeliveyDate: new Date().toISOString(),
+      currentReportId: 'live'
     }
     this._handleOrderCreation = this._handleOrderCreation.bind(this)
     this._handleCartSubmission = this._handleCartSubmission.bind(this)
     this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
     this._handleDeliveryDateChange = this._handleDeliveryDateChange.bind(this)
+    this._handleReportIdChange = this._handleReportIdChange.bind(this)
   }
   componentDidMount () {
-    const { products, fetchProducts, reports, fetchReport, emptyCart, venueId } = this.props
+    const {
+      products,
+      fetchProducts,
+      reports,
+      fetchReport,
+      fetchReports,
+      emptyCart,
+      venueId
+    } = this.props
 
     // Fetch products if needed
     if (
@@ -42,15 +52,17 @@ class CartView extends Component {
       (venueId && reports.items.length && venueId !== reports.items[0].venue_id)
     ) {
       fetchReport({ venueId, reportId: 'live' })
+      fetchReports(venueId)
       emptyCart()
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { fetchProducts, fetchReport, emptyCart, venueId } = this.props
+    const { fetchProducts, fetchReport, fetchReports, emptyCart, venueId } = this.props
     if (nextProps.venueId !== venueId) {
       fetchProducts(nextProps.venueId)
       fetchReport({ venueId: nextProps.venueId, reportId: 'live' })
+      fetchReports(nextProps.venueId)
       emptyCart()
     }
   }
@@ -83,39 +95,32 @@ class CartView extends Component {
     })
   }
 
-  render () {
-    // products + reports items
-    // const mergedProducts = this.props.products.items.reduce((mem, product) => {
-    //   // Check if product is found in report
-    //   const match = mem.find(item => item._id === product._id) || {}
-    //   // Check if item is in cart already
-    //   const cartMatch = this.props.orders.cart.find(item => item._id === product._id)
-    //
-    //   match.added = !!cartMatch
-    //   match.order = cartMatch && cartMatch.order || match.order
-    //   match.supplier_id = match.supplier_id && match.supplier_id._id
-    //
-    //   if (!match._id) {
-    //     mem.push({
-    //       ...product,
-    //       order: cartMatch && cartMatch.order || 0,
-    //       added: !!cartMatch
-    //     })
-    //   }
-    //   return mem
-    // }, [...this.props.reports.items])
+  _handleReportIdChange (reportId) {
+    // Silent fetch new report
+    this.setState({
+      currentReportId: reportId
+    })
+    return this.props.fetchReport({ venueId: this.props.venueId, reportId })
+  }
 
-    // TODO Temp fix, using only reportItems (products with no placements are NOT in this list)
-    // Problem is that we don't have supplier populated in normal GET /inventory models
-    const mergedProducts = [...this.props.reports.items].map(reportItem => {
-      const cartMatch = this.props.orders.cart.find(item => item._id === reportItem._id)
+  render () {
+    const mergedProducts = this.props.reports.items.reduce((mem, item) => {
+      const product = mem.find(orderItem => orderItem._id === item._id)
+      if (product) {
+        product.order = item.order
+        product.supplier_id = item.supplier_id
+        product.ammount = product.ammount ? product.ammount : item.order
+      }
+      return mem
+    }, this.props.products.items.map(productItem => {
+      const cartMatch = this.props.orders.cart.find(item => item._id === productItem._id)
       return {
-        ...reportItem,
-        cost_price: reportItem.cost_price || 0,
-        ammount: cartMatch && cartMatch.ammount || reportItem.order,
+        ...productItem,
+        cost_price: productItem.cost_price || 0,
+        ammount: cartMatch && cartMatch.ammount,
         added: !!cartMatch
       }
-    })
+    }))
 
     const confirmDialog = <Modal show={this.state.isConfirmDialogOpen}
       onHide={this._toggleConfirmDialog}
@@ -150,9 +155,12 @@ class CartView extends Component {
           {confirmDialog}
           <ProductAdder
             products={_.orderBy(mergedProducts, ['product_id.category', 'product_id.sub_category'])}
+            reports={this.props.reports}
             addCartItems={this.props.addCartItems}
             updateCartItem={this.props.updateCartItem}
-            isFetching={this.props.products.isFetching || this.props.reports.isFetching} />
+            isFetching={this.props.products.isFetching}
+            onReportIdChange={this._handleReportIdChange}
+            currentReportId={this.state.currentReportId} />
         </div>
         <div className='col-xs-12 col-sm-5 col-lg-4'>
           <Cart
@@ -172,6 +180,7 @@ CartView.propTypes = {
   products: React.PropTypes.object.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
   reports: React.PropTypes.object.isRequired,
+  fetchReports: React.PropTypes.func.isRequired,
   fetchReport: React.PropTypes.func.isRequired,
   addCartItems: React.PropTypes.func.isRequired,
   updateCartItem: React.PropTypes.func.isRequired,

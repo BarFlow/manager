@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Alert, Button, Panel, Pagination, Checkbox } from 'react-bootstrap'
+import { Modal, Alert, Button, Panel, Pagination } from 'react-bootstrap'
 import { Link } from 'react-router'
 
 import ListItem from './ProductAdderListItem'
@@ -50,7 +50,7 @@ class ProductAdder extends Component {
   }
 
   render () {
-    const { products, isFetching } = this.props
+    const { products, reports, isFetching, onReportIdChange, currentReportId } = this.props
     const filteredItems = [...filterProductItems(products, this.state.filters)]
       .filter(item => {
         if (!this.state.showAdded) {
@@ -81,32 +81,40 @@ class ProductAdder extends Component {
           filters={this.state.filters}
           onChange={this._handleSearchBarChange} />
       </div>
-      <div className='not-added'>
+      {/* <div className='not-added'>
         <Checkbox
           inline
           checked={!this.state.showAdded}
           onChange={() => this.setState({ showAdded: !this.state.showAdded })}>
           Only show products which have not been added to the basket.
         </Checkbox>
-      </div>
+      </div> */}
       <div>
         {filteredItems.length ? (
           <div className='items'>
 
-            {belowParItems.length > 0 &&
             <div className='row add-low-pars'>
-              <div className='col-xs-12 col-sm-9'>
-                <span>{belowParItems.length}</span> products are below par level
-                and not in your basket. Add them all at once using this button.
-              </div>
-              <div className='col-xs-12 col-sm-3 text-right'>
-                <Button onClick={this._toggleConfirmDialog}>
+              {batchAddConfirmDialog}
+              <div className='col-xs-12'>
+                <label className='label-control'>Order products by par level based on</label>
+                <select
+                  onChange={(e) => onReportIdChange(e.currentTarget.value)}
+                  className='form-control'
+                  value={currentReportId}
+                  disabled={reports.isFetching}>
+                  <option value='live'>current stock report</option>
+                  {reports.archive.items.map((item, index) =>
+                    <option key={index} value={item._id}>report created {item.created_at}</option>
+                  )}
+                </select>
+                <Button onClick={this._toggleConfirmDialog} disabled={reports.isFetching || belowParItems.length === 0}>
                   Add {belowParItems.length} Items
                 </Button>
-                {batchAddConfirmDialog}
+              </div>
+              <div className='col-xs-12 hint'>
+                <span>{belowParItems.length}</span> products are below par level and not in your basket yet.
               </div>
             </div>
-            }
 
             {filteredItems.map(item =>
               <ListItem
@@ -142,7 +150,10 @@ class ProductAdder extends Component {
 ProductAdder.propTypes = {
   addCartItems: React.PropTypes.func.isRequired,
   updateCartItem: React.PropTypes.func.isRequired,
+  onReportIdChange: React.PropTypes.func.isRequired,
+  currentReportId: React.PropTypes.string,
   products: React.PropTypes.array,
+  reports: React.PropTypes.object,
   isFetching: React.PropTypes.bool
 }
 

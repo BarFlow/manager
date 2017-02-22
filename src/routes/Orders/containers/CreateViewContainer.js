@@ -10,7 +10,7 @@ import {
   deleteCartItem,
   emptyCart
 } from '../modules/orders'
-import { fetchReport } from '../../Stock/modules/reports'
+import { fetchReport, fetchReports } from '../../Stock/modules/reports'
 import { fetchProducts } from '../../Products/modules/products'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -34,6 +34,7 @@ const mapDispatchToProps = {
   deleteCartItem,
   emptyCart,
   fetchReport,
+  fetchReports,
   fetchProducts
 }
 
