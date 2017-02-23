@@ -28,6 +28,9 @@
 
   .stats{
     width: 270px;
+    .low{
+      color: #d9534f;
+    }
     div{
       text-align: center;
       display: inline-block;

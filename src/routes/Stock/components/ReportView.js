@@ -67,7 +67,6 @@ class Report extends Component {
     }
 
     if (venueId && venueId !== nextProps.venueId) {
-      clearTimeout(this._refreshTimer)
       this.props.router.push({
         pathname: '/stock/reports/live'
       })
