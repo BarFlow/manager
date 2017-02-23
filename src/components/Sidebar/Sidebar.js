@@ -57,7 +57,13 @@ class Sidebar extends Component {
           <LinkContainer to='/stock/reports/live' activeHref='active'>
             <NavItem className={`sub stock_sub ${stockSubItemsHidden}`}>Live</NavItem>
           </LinkContainer>
-          <LinkContainer to='/stock/archive' activeHref='active'>
+          <LinkContainer
+            to='/stock/archive'
+            activeHref='active'
+            active={
+              !!location.pathname.match(/^\/stock\/reports\/(?!live)/) ||
+              !!location.pathname.match(/^\/stock\/archive/)
+            }>
             <NavItem className={`sub stock_sub ${stockSubItemsHidden}`}>Archive</NavItem>
           </LinkContainer>
           <LinkContainer to='/orders' activeHref='active'>

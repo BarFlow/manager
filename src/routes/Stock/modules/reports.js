@@ -3,6 +3,8 @@ import { CALL_API } from 'redux-api-middleware'
 // ------------------------------------
 // Constants
 // ------------------------------------
+const LIMIT = 20
+
 export const REPORTS_FETCH_REQUEST = 'reports/FETCH_REPORTS_REQUEST'
 export const REPORTS_FETCH_SUCCESS = 'reports/FETCH_REPORTS_SUCCESS'
 export const REPORTS_FETCH_FAILURE = 'reports/FETCH_REPORTS_FAILURE'
@@ -77,7 +79,7 @@ export const fetchReport = ({ reportId, venueId }, silent = false) => {
 export const changeReportFilters = (filter) => ({
   type: REPORTS_FILTER_CHANGE,
   payload: {
-    limit: 20,
+    limit: LIMIT,
     skip: 0,
     ...filter
   }
@@ -207,7 +209,7 @@ const initialState = {
   isSaving: false,
   isUpdate: false,
   filters: {
-    limit: 20,
+    limit: LIMIT,
     skip: 0
   },
   items: [],

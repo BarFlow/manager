@@ -3,6 +3,8 @@ import { CALL_API } from 'redux-api-middleware'
 // ------------------------------------
 // Constants
 // ------------------------------------
+const LIMIT = 20
+
 export const PRODUCTS_FETCH_REQUEST = 'products/FETCH_REQUEST'
 export const PRODUCTS_FETCH_SUCCESS = 'products/FETCH_SUCCESS'
 export const PRODUCTS_FETCH_FAILURE = 'products/FETCH_FAILURE'
@@ -62,7 +64,7 @@ export const fetchProducts = (venueId, silent = false) => {
 export const changeProductsFilter = (filter) => ({
   type: PRODUCTS_FILTER_CHANGE,
   payload: {
-    limit: 20,
+    limit: LIMIT,
     skip: 0,
     ...filter
   }
@@ -114,7 +116,7 @@ export const deleteProduct = (payload) => {
 
 export const fetchCatalog = (filters) => {
   filters = {
-    ...{ limit: 20, skip:0 },
+    ...{ limit: LIMIT, skip:0 },
     ...filters
   }
   const params = Object.keys(filters).reduce((mem, key) =>
@@ -321,7 +323,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   isFetching: false,
   filters: {
-    limit: 20,
+    limit: LIMIT,
     skip: 0
   },
   items: [],

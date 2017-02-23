@@ -63,11 +63,11 @@ class Report extends Component {
 
     if (venueId !== nextProps.venueId) {
       // Only fetch new reports for new venue_id
-      clearTimeout(this._refreshTimer)
       fetchReport({ venueId: nextProps.venueId, reportId: nextProps.params.reportId })
     }
 
     if (venueId && venueId !== nextProps.venueId) {
+      clearTimeout(this._refreshTimer)
       this.props.router.push({
         pathname: '/stock/reports/live'
       })
