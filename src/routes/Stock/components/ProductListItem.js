@@ -56,12 +56,12 @@ class ProductListItem extends Component {
               <div className={item.order > 0 && 'low'}>
                 <label>Stock Level</label>
                 <p>{round(item.volume)}</p>
-                <span>{pluralize(item.count_by || 'bottle', item.volume < 1 ? 1 : 2)}</span>
+                <span>{pluralize(item.count_by || 'bottle', item.volume <= 1 ? 1 : 2)}</span>
               </div>
               <div>
                 <label>Par Level</label>
                 <p>{!item.par_level && item.par_level !== 0 ? 'n/a' : round(item.par_level)}</p>
-                <span>{pluralize(item.count_by || 'bottle', item.volume < 1 ? 1 : 2)}</span>
+                <span>{pluralize(item.count_by || 'bottle', item.par_level <= 1 ? 1 : 2)}</span>
               </div>
               <div>
                 <label>Value</label>
