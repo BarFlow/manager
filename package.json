@@ -109,6 +109,7 @@
     "lodash": "^4.17.4",
     "node-sass": "^3.7.0",
     "normalize.css": "^5.0.0",
+    "pluralize": "^3.1.0",
     "postcss-loader": "^1.1.0",
     "react": "^15.0.0",
     "react-bootstrap": "^0.30.6",

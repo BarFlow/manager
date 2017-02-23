@@ -31,12 +31,17 @@
     div{
       text-align: center;
       display: inline-block;
+      vertical-align: top;
       width: 90px;
       label{
         font-weight: 400;
       }
       p{
         font-size: 22px;
+        margin-bottom: 0;
+      }
+      span{
+        font-size: 12px;
       }
     }
   }

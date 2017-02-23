@@ -17,11 +17,11 @@ class CatalogListItem extends Component {
         <Media.Body>
           <Media.Heading>{name}</Media.Heading>
           <p>
-            <Label>{type}</Label>{' '}
-            <Label>{category}</Label>{' '}
+            <Label>{type}</Label>
+            <Label>{category}</Label>
             {subCategory &&
               <span>
-                <Label>{subCategory}</Label>{' '}
+                <Label>{subCategory}</Label>
               </span>
             }
             <Label>{capacity} ml</Label>

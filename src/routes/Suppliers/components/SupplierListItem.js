@@ -65,8 +65,8 @@ class SupplierListItem extends Component {
           <Media.Body>
             <Media.Heading>{name}</Media.Heading>
             <p>
-              <Label>{email}</Label>{' '}
-              <Label>{address}</Label>{' '}
+              <Label>{email}</Label>
+              <Label>{address}</Label>
               <Label>{tel}</Label>
             </p>
           </Media.Body>

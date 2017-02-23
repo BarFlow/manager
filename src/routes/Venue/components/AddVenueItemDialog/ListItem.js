@@ -14,7 +14,7 @@ class ListItem extends Component {
 
   render () {
     const { item, added, submitting } = this.props
-    const { images, name, type, category, capacity, sub_category: subCategory } = item.product_id
+    const { images, name, category, capacity, sub_category: subCategory } = item.product_id
 
     return (
       <Media>
@@ -26,11 +26,10 @@ class ListItem extends Component {
         <Media.Body>
           <Media.Heading>{name}</Media.Heading>
           <p>
-            <Label>{type}</Label>{' '}
-            <Label>{category}</Label>{' '}
-            {subCategory &&
+            <Label>{category}</Label>
+            {subCategory && subCategory !== 'other' &&
               <span>
-                <Label>{subCategory}</Label>{' '}
+                <Label>{subCategory}</Label>
               </span>
             }
             <Label>{capacity} ml</Label>

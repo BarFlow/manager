@@ -45,16 +45,16 @@ class ListItem extends Component {
         <Media.Body>
           <Media.Heading>{name}</Media.Heading>
           <p>
-            <Label>{category}</Label>{' '}
+            <Label>{category}</Label>
             {subCategory && subCategory !== 'other' &&
               <span>
-                <Label>{subCategory}</Label>{' '}
+                <Label>{subCategory}</Label>
               </span>
             }
-            <Label>{capacity} ml</Label>{' '}
+            <Label>{capacity} ml</Label>
             {item.cost_price !== undefined &&
               <span>
-                <Label>£{item.cost_price}</Label>{' '}
+                <Label>£{item.cost_price}</Label>
               </span>
             }
             {item.order > 0 &&

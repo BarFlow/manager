@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Media, Label, Panel, Collapse, Alert } from 'react-bootstrap'
 import { Link } from 'react-router'
+import pluralize from 'pluralize'
 
 class ProductListItem extends Component {
   constructor (props) {
@@ -34,25 +35,19 @@ class ProductListItem extends Component {
           <Media.Body>
             <Media.Heading>{name}</Media.Heading>
             <p>
-              <Label>{category}</Label>{' '}
+              <Label>{category}</Label>
               {subCategory && subCategory !== 'other' &&
-                <span>
-                  <Label>{subCategory}</Label>{' '}
-                </span>
+                <Label>{subCategory}</Label>
               }
-              <Label>{capacity} ml</Label>{' '}
+              <Label>{capacity} ml</Label>
               {item.cost_price !== undefined &&
-                <span><Label>£{item.cost_price}</Label>{' '}</span>
+                <Label>£{item.cost_price}</Label>
               }
               {item.supplier_id &&
-                <span>
-                  <Label>{item.supplier_id.name}</Label>{' '}
-                </span>
+                <Label>{item.supplier_id.name}</Label>
               }
               {!item.areas.length &&
-                <span>
-                  <Label bsStyle='danger'>Area/Section</Label>{' '}
-                </span>
+                <Label bsStyle='danger'>Area/Section</Label>
               }
             </p>
           </Media.Body>
@@ -61,10 +56,12 @@ class ProductListItem extends Component {
               <div>
                 <label>Stock Level</label>
                 <p>{round(item.volume)}</p>
+                <span>{pluralize(item.count_by, item.volume)}</span>
               </div>
               <div>
                 <label>Par Level</label>
                 <p>{!item.par_level && item.par_level !== 0 ? 'n/a' : round(item.par_level)}</p>
+                <span>{pluralize(item.count_by, item.par_level)}</span>
               </div>
               <div>
                 <label>Value</label>
