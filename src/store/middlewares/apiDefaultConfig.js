@@ -6,8 +6,8 @@ export default store => next => action => {
   // Check if this action is a redux-api-middleware action.
   if (callApi) {
     // Setting base API url
-    // callApi.endpoint = `https://api.stockmate.co.uk${callApi.endpoint}`
-    callApi.endpoint = `http://localhost:3333${callApi.endpoint}`
+    callApi.endpoint = `https://api.stockmate.co.uk${callApi.endpoint}`
+    // callApi.endpoint = `http://localhost:3333${callApi.endpoint}`
     // Inject the Authorization header from localStorage.
     callApi.headers = {
       ...callApi.headers,
