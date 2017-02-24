@@ -31,7 +31,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   const { filters } = state.reports
-  const filteredItems = state.reports.items.reduce((mem, item) => {
+  const filteredItems = state.reports.currentReport.data.reduce((mem, item) => {
     item.noPlacement = !!item.areas.length
     const name = new RegExp(filters.name, 'i')
     if (
@@ -48,9 +48,11 @@ const mapStateToProps = (state) => {
   return {
     reports : {
       ...state.reports,
-      filteredItems: _.orderBy(filteredItems,
-        ['noPlacement', 'product_id.category', 'product_id.sub_category', 'product_id.name'])
-
+      currentReport :{
+        ...state.reports.currentReport,
+        filteredItems: _.orderBy(filteredItems,
+          ['noPlacement', 'product_id.category', 'product_id.sub_category', 'product_id.name'])
+      }
     },
     venueId: state.venues.current,
     types: state.types,

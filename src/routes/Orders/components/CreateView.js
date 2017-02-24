@@ -15,8 +15,7 @@ class CartView extends Component {
     this.state = {
       isConfirmDialogOpen: false,
       orders: [],
-      requestedDeliveyDate: new Date().toISOString(),
-      currentReportId: 'live'
+      requestedDeliveyDate: new Date().toISOString()
     }
     this._handleOrderCreation = this._handleOrderCreation.bind(this)
     this._handleCartSubmission = this._handleCartSubmission.bind(this)
@@ -43,13 +42,9 @@ class CartView extends Component {
       fetchProducts(venueId)
     }
 
-    // Fetch reports if needed
-    if (
-      (!reports.items.length && !reports.isFetching && venueId) ||
-      // Dirty way to check if the current venue_id is valid, should be other way
-      (venueId && reports.items.length && venueId !== reports.items[0].venue_id)
-    ) {
-      fetchReport({ venueId, reportId: this.state.currentReportId })
+    // Fetch reports
+    if (venueId) {
+      fetchReport({ venueId, reportId: 'live' })
     }
 
     if (
@@ -65,7 +60,7 @@ class CartView extends Component {
     const { fetchProducts, fetchReport, fetchReports, emptyCart, venueId } = this.props
     if (nextProps.venueId !== venueId) {
       fetchProducts(nextProps.venueId)
-      fetchReport({ venueId: nextProps.venueId, reportId: this.state.currentReportId })
+      fetchReport({ venueId: nextProps.venueId, reportId: nextProps.reports.currentReport._id || 'live' })
       fetchReports(nextProps.venueId)
       emptyCart()
     }
@@ -101,14 +96,11 @@ class CartView extends Component {
 
   _handleReportIdChange (reportId) {
     // Silent fetch new report
-    this.setState({
-      currentReportId: reportId
-    })
     return this.props.fetchReport({ venueId: this.props.venueId, reportId })
   }
 
   render () {
-    const mergedProducts = this.props.reports.items.reduce((mem, item) => {
+    const mergedProducts = this.props.reports.currentReport.data.reduce((mem, item) => {
       const product = mem.find(orderItem => orderItem._id === item._id)
       if (product) {
         product.order = item.order
@@ -163,8 +155,7 @@ class CartView extends Component {
             addCartItems={this.props.addCartItems}
             updateCartItem={this.props.updateCartItem}
             isFetching={this.props.products.isFetching}
-            onReportIdChange={this._handleReportIdChange}
-            currentReportId={this.state.currentReportId} />
+            onReportIdChange={this._handleReportIdChange} />
         </div>
         <div className='col-xs-12 col-sm-5 col-lg-4'>
           <Cart

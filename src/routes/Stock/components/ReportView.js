@@ -28,7 +28,7 @@ class Report extends Component {
 
     // Fetch reports if there is new venueId or no reports in store yet
     if (
-      (venueId && !reports.items.length) ||
+      (venueId && !reports.currentReport.data.length) ||
       (venueId && venueId !== reports.filters.venue_id) ||
       (venueId && params.reportId !== reports.filters.report_id)
     ) {
@@ -133,7 +133,6 @@ class Report extends Component {
     this.props.router.push({
       pathname: `/stock/reports/${item._id}`,
       query: {
-        title: new Date(item.created_at).toString().split(' ').splice(0, 5).join(' '),
         saved: item.saved
       }
     })
@@ -161,7 +160,7 @@ class Report extends Component {
     } = this.props
     const reportId = this.props.params.reportId
 
-    const ProductList = reports.filteredItems.map(item =>
+    const ProductList = reports.currentReport.filteredItems.map(item =>
       <ProductListItem
         key={item._id}
         item={item} />
@@ -193,11 +192,14 @@ class Report extends Component {
         <SubHeader
           className='bg-blue'
           left={
-            <h3>Stock Report /
-              {!location.query.title &&
-                <span className='small'> Live <span className='glyphicon glyphicon-refresh spinning live' /></span>
+            <h3>Stock Report / {' '}
+              {!reports.currentReport.created_at &&
+                <span className='small'>Live <span className='glyphicon glyphicon-refresh spinning live' /></span>
               }
-              {location.query.title && <span className='small'>{location.query.title}</span>}
+              {reports.currentReport.created_at &&
+                <span className='small'>
+                  {new Date(reports.currentReport.created_at).toString().split(' ').splice(0, 5).join(' ')}
+                </span>}
             </h3>}
           right={reportId === 'live' ? (
             <Button
@@ -224,7 +226,7 @@ class Report extends Component {
             {!venueId || reports.isFetching ? (
               <Alert bsStyle='warning'>Loading...</Alert>
             ) : (
-              reports.filteredItems.length ? (
+              reports.currentReport.filteredItems.length ? (
                 ProductList
               ) : (
                 <Alert bsStyle='warning'>No items found.</Alert>
@@ -232,10 +234,10 @@ class Report extends Component {
             )}
           </div>
 
-          {reports.filteredItems.length > reports.filters.limit &&
+          {reports.currentReport.filteredItems.length > reports.filters.limit &&
             <div className='text-center'>
               <Pagination ellipsis boundaryLinks
-                items={Math.ceil(reports.filteredItems.length / reports.filters.limit)}
+                items={Math.ceil(reports.currentReport.filteredItems.length / reports.filters.limit)}
                 maxButtons={9}
                 activePage={(reports.filters.skip / reports.filters.limit) + 1}
                 onSelect={this._handlePaginationSelect} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, Button, Panel, Media, Modal } from 'react-bootstrap'
+import { Alert, Button, Panel, Media, Modal, Label } from 'react-bootstrap'
 import SubHeader from '../../../components/SubHeader'
 import './ArchiveView.scss'
 
@@ -38,12 +38,8 @@ class ArchiveView extends Component {
   }
 
   _viewReport (item) {
-    const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
     this.props.router.push({
-      pathname: `/stock/reports/${item._id}`,
-      query: {
-        title: itemDate
-      }
+      pathname: `/stock/reports/${item._id}`
     })
   }
 
@@ -107,6 +103,8 @@ class ArchiveView extends Component {
                     <Media>
                       <Media.Body>
                         <Media.Heading>{itemDate}</Media.Heading>
+                        <Label>Created by: {item.created_by.name}</Label>
+                        <Label>Total stock value: £{item.stats.total_value}</Label>
                       </Media.Body>
                       <Media.Right align='middle'>
                         <div className='actions'>

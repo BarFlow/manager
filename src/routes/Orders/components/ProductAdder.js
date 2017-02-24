@@ -50,7 +50,7 @@ class ProductAdder extends Component {
   }
 
   render () {
-    const { products, reports, isFetching, onReportIdChange, currentReportId } = this.props
+    const { products, reports, isFetching, onReportIdChange } = this.props
     const filteredItems = [...filterProductItems(products, this.state.filters)]
       .filter(item => {
         if (!this.state.showAdded) {
@@ -100,7 +100,7 @@ class ProductAdder extends Component {
                 <select
                   onChange={(e) => onReportIdChange(e.currentTarget.value)}
                   className='form-control'
-                  value={currentReportId}
+                  value={reports.currentReport._id || 'live'}
                   disabled={reports.isFetching}>
                   <option value='live'>current stock report</option>
                   {reports.archive.items.map((item, index) =>
@@ -151,7 +151,6 @@ ProductAdder.propTypes = {
   addCartItems: React.PropTypes.func.isRequired,
   updateCartItem: React.PropTypes.func.isRequired,
   onReportIdChange: React.PropTypes.func.isRequired,
-  currentReportId: React.PropTypes.string,
   products: React.PropTypes.array,
   reports: React.PropTypes.object,
   isFetching: React.PropTypes.bool

@@ -66,7 +66,7 @@ class ProductListItem extends Component {
               <div>
                 <label>Value</label>
                 {item.cost_price !== undefined &&
-                  <p>£{round(item.volume * item.cost_price)}</p>
+                  <p>£{item.value}</p>
                 }
                 {!item.cost_price &&
                   <p>n/a</p>

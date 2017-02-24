@@ -58,17 +58,17 @@ export const fetchReport = ({ reportId, venueId }, silent = false) => {
           }
         },
         {
-          type: REPORT_FETCH_SUCCESS,
-          payload: (action, state, res) => {
-            const contentType = res.headers.get('Content-Type')
-            if (contentType && ~contentType.indexOf('json')) {
-              // Just making sure res.json() does not raise an error
-              return res.json().then((json) => {
-                // return payload
-                return reportId === 'live' ? json : json.data
-              })
-            }
-          }
+          type: REPORT_FETCH_SUCCESS
+          // payload: (action, state, res) => {
+          //   const contentType = res.headers.get('Content-Type')
+          //   if (contentType && ~contentType.indexOf('json')) {
+          //     // Just making sure res.json() does not raise an error
+          //     return res.json().then((json) => {
+          //       // return payload
+          //       return reportId === 'live' ? json : json.data
+          //     })
+          //   }
+          // }
         },
         REPORT_FETCH_FAILURE
       ]
@@ -148,7 +148,11 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       isFetching: !action.meta.silent && true,
-      items: !action.meta.silent ? [] : state.items
+      currentReport: {
+        ...state.currentReport,
+        data: !action.meta.silent ? [] : state.currentReport.data,
+        stats: !action.meta.silent ? {} : state.currentReport.stats
+      }
     }
   },
   [REPORT_FETCH_SUCCESS] : (state, action) => {
@@ -156,7 +160,7 @@ const ACTION_HANDLERS = {
       ...state,
       isFetching: false,
       isUpdate: false,
-      items: action.payload
+      currentReport: action.payload
     }
   },
   [REPORTS_FILTER_CHANGE] : (state, action) => {
@@ -212,7 +216,10 @@ const initialState = {
     limit: LIMIT,
     skip: 0
   },
-  items: [],
+  currentReport: {
+    data: [],
+    stats: {}
+  },
   archive: {
     isFetching: false,
     items: []
