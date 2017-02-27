@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Alert, Pagination, Modal, Panel } from 'react-bootstrap'
+import _ from 'lodash'
 
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../containers/SearchBarContainer'
@@ -160,7 +161,6 @@ class Report extends Component {
     } = this.props
     const reportId = this.props.params.reportId
 
-    console.log(reports.currentReport.stats.types)
     const statTypes = reports.currentReport.stats.types
     ? Object.keys(reports.currentReport.stats.types)
       .map(type => ({
@@ -270,13 +270,13 @@ class Report extends Component {
             {reports.currentReport.stats &&
               <div>
                 <h5>Total Stock Value <span>£{reports.currentReport.stats.total_value}</span></h5>
-                {statTypes.map((type, index) =>
+                {_.orderBy(statTypes, ['value', 'name'], 'desc').map((type, index) =>
                   <div key={index}>
                     <div className='type'>{type.name} <span>£{type.value}</span></div>
-                    {type.categories.map((category, index) =>
+                    {_.orderBy(type.categories, ['value', 'name'], 'desc').map((category, index) =>
                       <div key={index}>
                         <div className='category'>{category.name} <span>£{category.value}</span></div>
-                        {category.sub_categories.map((subCat, index) =>
+                        {_.orderBy(category.sub_categories, ['value', 'name'], 'desc').map((subCat, index) =>
                           <div key={index} className='sub-category'>
                             {subCat.name} <span>£{subCat.value}</span>
                           </div>
