@@ -43,9 +43,9 @@ class ProductListItem extends Component {
               {item.cost_price !== undefined &&
                 <Label>£{item.cost_price}</Label>
               }
-              {item.supplier_id &&
+              {/* item.supplier_id &&
                 <Label>{item.supplier_id.name}</Label>
-              }
+              */}
               {!item.areas.length &&
                 <Label bsStyle='danger'>Area/Section</Label>
               }

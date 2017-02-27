@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Alert, Pagination, Modal } from 'react-bootstrap'
+import { Button, Alert, Pagination, Modal, Panel } from 'react-bootstrap'
 
 import SubHeader from '../../../components/SubHeader'
 import SearchBar from '../../../containers/SearchBarContainer'
@@ -160,6 +160,26 @@ class Report extends Component {
     } = this.props
     const reportId = this.props.params.reportId
 
+    console.log(reports.currentReport.stats.types)
+    const statTypes = reports.currentReport.stats.types
+    ? Object.keys(reports.currentReport.stats.types)
+      .map(type => ({
+        name: type,
+        value: reports.currentReport.stats.types[type].value,
+        categories:
+          Object.keys(reports.currentReport.stats.types[type].categories)
+          .map(category => ({
+            name: category,
+            value: reports.currentReport.stats.types[type].categories[category].value,
+            sub_categories:
+              Object.keys(reports.currentReport.stats.types[type].categories[category].sub_categories)
+              .map(subCat => ({
+                name: subCat,
+                value: reports.currentReport.stats.types[type].categories[category].sub_categories[subCat].value
+              }))
+          }))
+      })) : []
+
     const ProductList = reports.currentReport.filteredItems.map(item =>
       <ProductListItem
         key={item._id}
@@ -212,7 +232,7 @@ class Report extends Component {
           )
           } />
 
-        <div className='col-xs-12 col-sm-10 col-sm-offset-1 report'>
+        <div className='col-xs-12 col-sm-7 col-sm-offset-1 report'>
           {location.query.saved &&
             <Alert bsStyle='success'>
               <strong>Success!</strong> Stock report has been successfuly saved.
@@ -243,6 +263,31 @@ class Report extends Component {
                 onSelect={this._handlePaginationSelect} />
             </div>
           }
+        </div>
+
+        <div className='col-xs-12 col-sm-3 report-stats'>
+          <Panel>
+            {reports.currentReport.stats &&
+              <div>
+                <h5>Total Stock Value <span>£{reports.currentReport.stats.total_value}</span></h5>
+                {statTypes.map((type, index) =>
+                  <div key={index}>
+                    <div className='type'>{type.name} <span>£{type.value}</span></div>
+                    {type.categories.map((category, index) =>
+                      <div key={index}>
+                        <div className='category'>{category.name} <span>£{category.value}</span></div>
+                        {category.sub_categories.map((subCat, index) =>
+                          <div key={index} className='sub-category'>
+                            {subCat.name} <span>£{subCat.value}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            }
+          </Panel>
         </div>
 
       </div>
