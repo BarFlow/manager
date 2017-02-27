@@ -103,6 +103,7 @@ class CartView extends Component {
     const mergedProducts = this.props.reports.currentReport.data.reduce((mem, item) => {
       const product = mem.find(orderItem => orderItem._id === item._id)
       if (product) {
+        product.volume = item.volume
         product.order = item.order
         product.supplier_id = item.supplier_id
         product.ammount = product.ammount ? product.ammount : item.order

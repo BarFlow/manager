@@ -57,9 +57,12 @@ class ListItem extends Component {
                 <Label>£{item.cost_price}</Label>
               </span>
             }
+            {item.volume !== undefined &&
+              <Label>Stock: {Math.round(item.volume * 100) / 100}</Label>
+            }
             {item.order > 0 &&
               <span>
-                <Label bsStyle='danger'>Par Level -{item.order}</Label>
+                <Label bsStyle='danger'>Below Par: {item.order}</Label>
               </span>
             }
           </p>
