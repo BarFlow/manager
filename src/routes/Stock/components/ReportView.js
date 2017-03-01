@@ -18,8 +18,8 @@ class Report extends Component {
     this._updateReportFilterAndURI = this._updateReportFilterAndURI.bind(this)
     this._handlePaginationSelect = this._handlePaginationSelect.bind(this)
     this._refreshReport = this._refreshReport.bind(this)
-    this._viewReport = this._viewReport.bind(this)
     this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
+    this._handleReportCreation = this._handleReportCreation.bind(this)
   }
 
   componentDidMount () {
@@ -59,7 +59,7 @@ class Report extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {
-      venueId, changeReportFilters, fetchReport, location, reports, params
+      venueId, changeReportFilters, fetchReport, location, params
     } = this.props
 
     if (venueId !== nextProps.venueId) {
@@ -92,14 +92,6 @@ class Report extends Component {
       window.scrollTo(0, 0)
     }
 
-    // Redirect to saved report page
-    if (reports.isSaving && !nextProps.reports.isSaving) {
-      this._viewReport({
-        ...nextProps.reports.archive.items[0],
-        saved: true
-      })
-    }
-
     // Restart polling when we are at Live view
     if (location.pathname.indexOf('/live') === -1 && nextProps.location.pathname.indexOf('/live') > -1) {
       this._refreshReport()
@@ -121,22 +113,16 @@ class Report extends Component {
   _refreshReport () {
     clearTimeout(this._refreshTimer)
     this._refreshTimer = setTimeout(() => {
-      const { fetchReport, venueId, reports } = this.props
-      const reportId = reports.filters.report_id
-      if (venueId && reportId === 'live') {
-        fetchReport({ venueId, reportId }, true)
-      }
+      const { fetchReport, venueId } = this.props
+      fetchReport({ venueId, reportId: 'live' }, true)
       this._refreshReport()
     }, 3000)
   }
 
-  _viewReport (item) {
-    this.props.router.push({
-      pathname: `/stock/reports/${item._id}`,
-      query: {
-        saved: item.saved
-      }
-    })
+  _handleReportCreation () {
+    const { createReport, venueId, router } = this.props
+    createReport({ venue_id: venueId })
+      .then(() => router.push({ pathname: '/stock/archive', query: { saved: true } }))
   }
 
   _handlePaginationSelect (page) {
@@ -157,7 +143,7 @@ class Report extends Component {
 
   render () {
     const {
-      reports, venueId, createReport, location
+      reports, venueId, resetReport
     } = this.props
     const reportId = this.props.params.reportId
 
@@ -190,19 +176,19 @@ class Report extends Component {
       onHide={this._toggleConfirmDialog}
       className='delete-confirm-dialog'>
       <Modal.Header closeButton>
-        <Modal.Title>Save Report</Modal.Title>
+        <Modal.Title>Reset Report</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to finalize this report?
-        {' '}<strong>All current stock levels will be erased</strong>.</p>
+        <p>Are you sure you want to reset your stock levels?
+        {' '}<strong>All current levels will be erased</strong>.</p>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={this._toggleConfirmDialog}>Cancel</Button>
         <Button
-          bsStyle='primary'
+          bsStyle='danger'
           disabled={reports.isSaving}
           onClick={() =>
-            createReport({ venue_id: venueId }).then(() => this._toggleConfirmDialog())}>Save</Button>
+            resetReport({ venue_id: venueId }).then(() => this._toggleConfirmDialog())}>Reset</Button>
       </Modal.Footer>
     </Modal>
 
@@ -222,9 +208,14 @@ class Report extends Component {
                 </span>}
             </h3>}
           right={reportId === 'live' ? (
-            <Button
-              onClick={this._toggleConfirmDialog}
-              disabled={!venueId || reports.isSaving}>Save Report</Button>
+            <span>
+              <Button
+                onClick={this._handleReportCreation}
+                disabled={!venueId || reports.isSaving}>Save Report</Button>
+              <Button
+                onClick={this._toggleConfirmDialog}
+                disabled={!venueId || reports.isSaving}>Reset</Button>
+            </span>
           ) : (
             <a className='btn btn-default'
               href={`http://api.stockmate.co.uk/reports/${reportId}/export?token=${this.props.token}`}
@@ -233,11 +224,6 @@ class Report extends Component {
           } />
 
         <div className='col-xs-12 col-sm-7 col-sm-offset-1 report'>
-          {location.query.saved &&
-            <Alert bsStyle='success'>
-              <strong>Success!</strong> Stock report has been successfuly saved.
-            </Alert>
-          }
           <SearchBar
             filters={reports.filters}
             onChange={this._updateReportFilterAndURI} />
@@ -302,6 +288,7 @@ Report.propTypes = {
   fetchReport: React.PropTypes.func.isRequired,
   changeReportFilters: React.PropTypes.func.isRequired,
   createReport: React.PropTypes.func.isRequired,
+  resetReport: React.PropTypes.func.isRequired,
   reports: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
   token: React.PropTypes.string.isRequired

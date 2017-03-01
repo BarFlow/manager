@@ -63,7 +63,7 @@ class ArchiveView extends Component {
 
   render () {
     const { items, isFetching } = this.props.reports.archive
-    const { venueId, reports } = this.props
+    const { venueId, reports, location } = this.props
 
     const confirmDialog = <Modal show={this.state.isDialogOpen}
       onHide={this._toggleConfirmDialog}
@@ -72,7 +72,7 @@ class ArchiveView extends Component {
         <Modal.Title>Delete - {this.state.item.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to <strong>permanently remove {this.state.item.name}</strong> from your venue?
+        <p>Are you sure you want to <strong>permanently remove {this.state.item.name}</strong> report from your venue?
         Please note that this action is irreversible.</p>
       </Modal.Body>
       <Modal.Footer>
@@ -89,6 +89,11 @@ class ArchiveView extends Component {
         <div className='col-xs-12 col-sm-10 col-sm-offset-1 archive'>
 
           {confirmDialog}
+          {location.query.saved &&
+            <Alert bsStyle='success'>
+              <strong>Success!</strong> Stock report has been successfuly saved.
+            </Alert>
+          }
 
           {!venueId || isFetching ? (
             <Alert bsStyle='warning'>
@@ -136,6 +141,7 @@ class ArchiveView extends Component {
 ArchiveView.propTypes = {
   reports: React.PropTypes.object,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
   token: React.PropTypes.string.isRequired,
   fetchReports: React.PropTypes.func.isRequired,

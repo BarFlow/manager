@@ -17,6 +17,10 @@ export const REPORT_CREATE_REQUEST = 'reports/CREATE_REQUEST'
 export const REPORT_CREATE_SUCCESS = 'reports/CREATE_SUCCESS'
 export const REPORT_CREATE_FAILURE = 'reports/CREATE_FAILURE'
 
+export const REPORT_RESET_REQUEST = 'reports/RESET_REQUEST'
+export const REPORT_RESET_SUCCESS = 'reports/RESET_SUCCESS'
+export const REPORT_RESET_FAILURE = 'reports/RESET_FAILURE'
+
 export const REPORT_DELETE_REQUEST = 'reports/DELETE_REQUEST'
 export const REPORT_DELETE_SUCCESS = 'reports/DELETE_SUCCESS'
 export const REPORT_DELETE_FAILURE = 'reports/DELETE_FAILURE'
@@ -98,6 +102,23 @@ export const createReport = (payload) => {
       ]
     }
   }
+}
+
+export const resetReport = (payload) => {
+  return (dispatch, getState) => dispatch({
+    [CALL_API]: {
+      endpoint: `/placements`,
+      method: 'DELETE',
+      body: JSON.stringify(payload),
+      types: [
+        REPORT_RESET_REQUEST,
+        REPORT_RESET_SUCCESS,
+        REPORT_RESET_FAILURE
+      ]
+    }
+  }).then(() =>
+    fetchReport({ venueId: payload.venue_id, reportId: 'live' })
+  )
 }
 
 export const deleteReport = (reportId) => {
@@ -185,6 +206,18 @@ const ACTION_HANDLERS = {
           ...state.archive.items
         ]
       }
+    }
+  },
+  [REPORT_RESET_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      isSaving: true
+    }
+  },
+  [REPORT_RESET_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      isSaving: false
     }
   },
   [REPORT_DELETE_REQUEST] : (state, action) => {

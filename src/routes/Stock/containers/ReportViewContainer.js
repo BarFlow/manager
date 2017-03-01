@@ -5,6 +5,7 @@ import _ from 'lodash'
 import {
   fetchReport,
   createReport,
+  resetReport,
   changeReportFilters
 } from '../modules/reports'
 import { fetchSuppliers } from '../../Suppliers/modules/suppliers'
@@ -24,6 +25,7 @@ import ReportView from '../components/ReportView'
 const mapDispatchToProps = {
   fetchReport,
   createReport,
+  resetReport,
   changeReportFilters,
   fetchSuppliers,
   fetchTypes
