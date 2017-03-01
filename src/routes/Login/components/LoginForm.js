@@ -32,12 +32,12 @@ const LoginForm = ({ error, handleSubmit, submitting }) => {
 
 const { validate } = buildSchema({
   email: {
-    label: 'This',
+    label: 'Email',
     required: true,
     type: 'email'
   },
   password: {
-    label: 'This',
+    label: 'Password',
     required: true
   }
 })

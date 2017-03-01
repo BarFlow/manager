@@ -1,33 +1,39 @@
 import { connect } from 'react-redux'
-import { increment, doubleAsync } from '../modules/counter'
+import {
+  fetchUser,
+  updateUser
+} from '../../../store/auth'
+import formApiAdapter from '../../../utils/formApiAdapter'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
     wiring in the actions and state necessary to render a presentational
-    component - in this case, the counter:   */
+    component - in this case, the products:   */
 
-import Counter from '../components/Counter'
+import ProfileView from '../components/ProfileView'
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are
-    implementing our wrapper around increment; the component doesn't care   */
+    implementing our wrapper around fetchProdcusts; the component doesn't care   */
 
-const mapDispatchToProps = {
-  increment : () => increment(1),
-  doubleAsync
-}
-
-const mapStateToProps = (state) => ({
-  counter : state.counter
+const mapDispatchToProps = (dispatch) => ({
+  fetchUser: (...args) => dispatch(fetchUser(...args)),
+  updateUser: formApiAdapter(dispatch, updateUser)
 })
+
+const mapStateToProps = (state) => (
+  {
+    auth : state.auth
+  }
+)
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
 
     import { createSelector } from 'reselect'
-    const counter = (state) => state.counter
-    const tripleCount = createSelector(counter, (count) => count * 3)
+    const products = (state) => state.products
+    const tripleCount = createSelector(products, (count) => count * 3)
     const mapStateToProps = (state) => ({
-      counter: tripleCount(state)
+      products: tripleCount(state)
     })
 
     Selectors can compute derived data, allowing Redux to store the minimal possible state.
@@ -35,4 +41,4 @@ const mapStateToProps = (state) => ({
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter)
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileView)

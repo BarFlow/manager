@@ -1,8 +1,9 @@
-import { injectReducer } from '../../store/reducers'
+// import { injectReducer } from '../../store/reducers'
 import protectRoute from '../../utils/protectRoute'
 
+// Sync route definition
 export default (store) => ({
-  path : 'profile',
+  path: 'profile',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -10,17 +11,17 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Counter = require('./containers/CounterContainer').default
-      const reducer = require('./modules/counter').default
+      const ProfileView = require('./containers/ProfileViewContainer').default
+      // const reducer = require('./modules/user').default
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'counter', reducer })
+      // injectReducer(store, { key: 'user', reducer })
 
       /*  Return getComponent   */
-      cb(null, Counter)
+      cb(null, ProfileView)
 
     /* Webpack named bundle   */
-    }, 'counter')
+    }, 'profile')
   },
   onEnter: (nextState, replace) => protectRoute(nextState, replace, store)
 })

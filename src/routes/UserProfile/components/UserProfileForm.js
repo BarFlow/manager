@@ -4,9 +4,8 @@ import buildSchema from 'redux-form-schema'
 import { Alert, Button, Row } from 'react-bootstrap'
 
 import FormInput from '../../../components/FormInput'
-import FormSelect from '../../../components/FormSelect'
 
-const VenueProfileForm = ({
+const UserProfileForm = ({
   error, submitSucceeded, handleSubmit, submitting, dirty
 }) => (
   <form onSubmit={handleSubmit}>
@@ -23,9 +22,9 @@ const VenueProfileForm = ({
       <Field
         name='name'
         component={FormInput}
-        label='Venue Name'
+        label='Name'
         type='text'
-        description='The name of your business.'
+        description='Your name.'
         className={'col-xs-12'} />
     </Row>
     <Row>
@@ -34,42 +33,34 @@ const VenueProfileForm = ({
         component={FormInput}
         label='E-mail'
         type='text'
-        description='The primary email address of your venue.'
+        description='The primary email you use (used to log-in and acces all your venues).'
         className={'col-xs-12'} />
     </Row>
     <Row>
       <Field
-        name='tel'
+        name='password'
         component={FormInput}
-        label='Telephone'
-        type='text'
-        description='The telephone number of your venue.'
+        label='New password'
+        type='password'
+        description='Fill this to change your current password.'
         className={'col-xs-12'} />
     </Row>
     <Row>
       <Field
-        name='address'
+        name='rePassword'
         component={FormInput}
-        label='Address'
-        type='text'
-        description='The address of your venue (it will be used for order sheet generations).'
+        label='New password again'
+        type='password'
+        description='Fill this to change your current password.'
         className={'col-xs-12'} />
     </Row>
     <Row>
       <Field
-        name='type'
-        component={FormSelect}
-        label='Type'
-        type='select'
-        description='The type of your establishment.'
-        valueKey='name'
-        options={[
-          { name: 'restaurant' },
-          { name: 'pub' },
-          { name: 'cocktail bar' },
-          { name: 'hotel' },
-          { name: 'club' }
-        ]}
+        name='current_password'
+        component={FormInput}
+        label='Current Password'
+        type='password'
+        description='Enter your current password.'
         className={'col-xs-12'} />
     </Row>
     <div className='form-footer'>
@@ -87,21 +78,30 @@ const { validate } = buildSchema({
     required: true,
     error: 'This field is required.'
   },
-  tel: {
+  current_password: {
     required: true,
-    error: 'This field is required.'
+    error: 'You must enter your current password to make changes.'
   },
-  address: {
-    required: true,
-    error: 'This field is required.'
+  password: {
+    label: 'Password',
+    validate: {
+      length: {
+        min: 6,
+        max: 20
+      }
+    }
   },
-  type: {
-    required: true,
-    error: 'This field is required.'
+  rePassword: {
+    validate: {
+      passMatch: (fields, fieldValue) => {
+        return fields.password === fieldValue
+      }
+    },
+    error: 'Passwords do not match.'
   }
 })
 
-VenueProfileForm.propTypes = {
+UserProfileForm.propTypes = {
   submitting: React.PropTypes.bool.isRequired,
   error: React.PropTypes.string,
   submitSucceeded: React.PropTypes.bool,
@@ -111,4 +111,4 @@ VenueProfileForm.propTypes = {
 
 export default reduxForm({
   validate
-})(VenueProfileForm)
+})(UserProfileForm)

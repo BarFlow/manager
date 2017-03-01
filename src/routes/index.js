@@ -7,7 +7,7 @@ import ProductsRoute from './Products'
 import VenueRoute from './Venue'
 import SuppliersRoute from './Suppliers'
 import SettingsRoute from './Settings'
-import CounterRoute from './Counter'
+import ProfileRoute from './UserProfile'
 import LoginRoute from './Login'
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -29,7 +29,7 @@ export const createRoutes = (store) => ({
         OrdersRoute(store)
       ]
     },
-    CounterRoute(store),
+    ProfileRoute(store),
     LoginRoute(store)
   ]
 })

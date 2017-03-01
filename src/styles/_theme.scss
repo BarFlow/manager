@@ -140,6 +140,9 @@ body{
   .bg-deepRed{
     background-color: $deepRed;
   }
+  .bg-grey{
+    background-color: $darkGrey;
+  }
 
   @keyframes spin {
       from { transform: scale(1) rotate(0deg); }
