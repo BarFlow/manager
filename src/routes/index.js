@@ -6,6 +6,7 @@ import OrdersRoute from './Orders'
 import ProductsRoute from './Products'
 import VenueRoute from './Venue'
 import SuppliersRoute from './Suppliers'
+import SettingsRoute from './Settings'
 import CounterRoute from './Counter'
 import LoginRoute from './Login'
 
@@ -24,6 +25,7 @@ export const createRoutes = (store) => ({
         ProductsRoute(store),
         VenueRoute(store),
         SuppliersRoute(store),
+        SettingsRoute(store),
         OrdersRoute(store)
       ]
     },
