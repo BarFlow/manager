@@ -7,6 +7,14 @@ export const VENUES_FETCH_REQUEST = 'venues/FETCH_REQUEST'
 export const VENUES_FETCH_SUCCESS = 'venues/FETCH_SUCCESS'
 export const VENUES_FETCH_FAILURE = 'venues/FETCH_FAILURE'
 
+export const VENUES_ADD_REQUEST = 'venues/ADD_REQUEST'
+export const VENUES_ADD_SUCCESS = 'venues/ADD_SUCCESS'
+export const VENUES_ADD_FAILURE = 'venues/ADD_FAILURE'
+
+export const VENUES_UPDATE_REQUEST = 'venues/UPDATE_REQUEST'
+export const VENUES_UPDATE_SUCCESS = 'venues/UPDATE_SUCCESS'
+export const VENUES_UPDATE_FAILURE = 'venues/UPDATE_FAILURE'
+
 export const VENUES_CURRENT_CHANGE = 'venues/CURRENT_CHANGE'
 
 // ------------------------------------
@@ -21,6 +29,36 @@ export const fetchVenues = () => {
         VENUES_FETCH_REQUEST,
         VENUES_FETCH_SUCCESS,
         VENUES_FETCH_FAILURE
+      ]
+    }
+  }
+}
+
+export const addVenue = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/venues/${payload._id}`,
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      types: [
+        VENUES_ADD_REQUEST,
+        VENUES_ADD_SUCCESS,
+        VENUES_ADD_FAILURE
+      ]
+    }
+  }
+}
+
+export const updateVenue = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/venues/${payload._id}`,
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      types: [
+        VENUES_UPDATE_REQUEST,
+        VENUES_UPDATE_SUCCESS,
+        VENUES_UPDATE_FAILURE
       ]
     }
   }
@@ -61,6 +99,41 @@ const ACTION_HANDLERS = {
       ...state,
       current: action.payload
     }
+  },
+  [VENUES_UPDATE_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      isSaving: true
+    }
+  },
+  [VENUES_UPDATE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      isSaving: false,
+      items: state.items.map((item) => {
+        if (item._id === action.payload._id) {
+          item = action.payload
+        }
+        return item
+      })
+    }
+  },
+  [VENUES_ADD_REQUEST] : (state, action) => {
+    return {
+      ...state,
+      isSaving: true
+    }
+  },
+  [VENUES_ADD_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      isSaving: false,
+      items: [
+        ...state.items,
+        action.payload
+      ],
+      current: action.payload._id
+    }
   }
 }
 
@@ -69,6 +142,7 @@ const ACTION_HANDLERS = {
 // -----------------------------------
 const initialState = {
   isFetching: false,
+  isSaving: false,
   items: [],
   current: null
 }

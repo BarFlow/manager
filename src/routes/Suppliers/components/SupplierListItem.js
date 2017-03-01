@@ -64,11 +64,11 @@ class SupplierListItem extends Component {
         <Media>
           <Media.Body>
             <Media.Heading>{name}</Media.Heading>
-            <p>
+            <div>
               <Label>{email}</Label>
               <Label>{address}</Label>
               <Label>{tel}</Label>
-            </p>
+            </div>
           </Media.Body>
           <Media.Right>
             <Button onClick={this._toggleCollapse}>

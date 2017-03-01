@@ -60,7 +60,7 @@ class Suppliers extends Component {
             </div>
           } />
 
-        <div className='col-xs-12 col-sm-10 col-sm-offset-1 products'>
+        <div className='col-xs-12 col-sm-10 col-sm-offset-1'>
 
           <div className='items'>
             {!venueId || suppliers.isFetching ? (
