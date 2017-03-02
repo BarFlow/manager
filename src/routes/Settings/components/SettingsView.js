@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { Panel, Alert } from 'react-bootstrap'
+import { Panel, Alert, Label } from 'react-bootstrap'
 
 import SubHeader from '../../../components/SubHeader'
 import VenueProfileForm from './VenueProfileForm'
+import Members from './Members'
+
+import './SettingsView.scss'
 
 class SettingsView extends Component {
   constructor (props) {
@@ -21,18 +24,19 @@ class SettingsView extends Component {
   }
 
   render () {
-    const { venues } = this.props
+    const { venues, addVenueMember, updateVenueMember, removeVenueMember } = this.props
     const currentVenue = venues && venues.items.find(item => item._id === venues.current)
 
     return (
-      <div className='row'>
+      <div className='row settings'>
         <SubHeader
           className='bg-deepRed'
           left={<h3>Settings</h3>}
           />
 
-        <div className='col-xs-12 col-sm-10 col-sm-offset-1 settings'>
+        <div className='col-xs-12 col-sm-6 col-sm-offset-1'>
           <Panel>
+            <h4>Profile</h4>
             {currentVenue ? (
               <VenueProfileForm
                 form='settings'
@@ -45,6 +49,33 @@ class SettingsView extends Component {
           </Panel>
         </div>
 
+        <div className='col-xs-12 col-sm-4'>
+          <Panel>
+            <h4 className='clearfix'>Members</h4>
+            {currentVenue
+              ? (
+                <Members
+                  items={currentVenue.members}
+                  addVenueMember={addVenueMember}
+                  updateVenueMember={updateVenueMember}
+                  removeVenueMember={removeVenueMember}
+                  venueId={currentVenue._id} />
+            ) : (
+              <Alert bsStyle='warning'>Loading...</Alert>
+            )}
+          </Panel>
+          <Panel>
+            <h4>Invited Users</h4>
+            {currentVenue
+              ? currentVenue.invited.map((invited, index) =>
+                <Label key={index}>{invited.email} - {invited.role}</Label>
+              ) : (
+                <Alert bsStyle='warning'>Loading...</Alert>
+              )
+            }
+          </Panel>
+        </div>
+
       </div>
     )
   }
@@ -52,7 +83,10 @@ class SettingsView extends Component {
 
 SettingsView.propTypes = {
   venues: React.PropTypes.object.isRequired,
-  updateVenue: React.PropTypes.func.isRequired
+  updateVenue: React.PropTypes.func.isRequired,
+  addVenueMember: React.PropTypes.func.isRequired,
+  updateVenueMember: React.PropTypes.func.isRequired,
+  removeVenueMember: React.PropTypes.func.isRequired
 }
 
 export default SettingsView

@@ -1,8 +1,9 @@
 import React from 'react'
 import { FormGroup, ControlLabel, HelpBlock, FormControl } from 'react-bootstrap'
 
-const Field = ({ meta, label, input, description, options, className, valueKey = '_id', displayKey = 'name' }) => {
-  const Formcontrol = <FormControl componentClass='select' {...input}>
+const Field = (
+  { meta, label, input, description, options, className, valueKey = '_id', displayKey = 'name', disabled }) => {
+  const Formcontrol = <FormControl componentClass='select' {...input} disabled={disabled}>
     <option value={null} />
     {options.map((item, index) =>
       <option key={`${item._id}-${index}`} value={item[valueKey]}>{item[displayKey]}</option>)}
@@ -34,6 +35,7 @@ Field.propTypes = {
   type : React.PropTypes.string,
   className : React.PropTypes.string,
   displayKey : React.PropTypes.string,
+  disabled : React.PropTypes.bool,
   valueKey : React.PropTypes.string
 }
 

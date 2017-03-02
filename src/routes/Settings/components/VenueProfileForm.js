@@ -73,7 +73,7 @@ const VenueProfileForm = ({
         className={'col-xs-12'} />
     </Row>
     <div className='form-footer'>
-      <Button bsStyle='primary' type='submit' disabled={submitting || !dirty}>Save</Button>
+      <Button type='submit' disabled={submitting || !dirty}>Save</Button>
     </div>
   </form>
 )

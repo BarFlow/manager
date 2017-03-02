@@ -1,13 +1,13 @@
 import React from 'react'
 import { FormGroup, ControlLabel, HelpBlock, FormControl, InputGroup } from 'react-bootstrap'
 
-const Field = ({ meta, label, input, description, type, className, addon }) => {
+const Field = ({ meta, label, input, description, type, className, addon, disabled }) => {
   const Formcontrol = addon
   ? <InputGroup>
     <InputGroup.Addon>{addon}</InputGroup.Addon>
-    <FormControl type={type || 'text'} {...input} />
+    <FormControl type={type || 'text'} {...input} disabled={disabled} />
   </InputGroup>
-  : <FormControl type={type || 'text'} {...input} />
+  : <FormControl type={type || 'text'} {...input} disabled={disabled} />
 
   return (
     <FormGroup className={className}
@@ -33,6 +33,7 @@ Field.propTypes = {
   addon : React.PropTypes.string,
   description : React.PropTypes.string,
   type : React.PropTypes.string,
+  disabled : React.PropTypes.bool,
   className : React.PropTypes.string
 }
 

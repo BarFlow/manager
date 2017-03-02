@@ -2,7 +2,10 @@ import { connect } from 'react-redux'
 import {
   fetchVenues,
   addVenue,
-  updateVenue
+  updateVenue,
+  addVenueMember,
+  updateVenueMember,
+  removeVenueMember
 } from '../../../store/venues'
 import formApiAdapter from '../../../utils/formApiAdapter'
 
@@ -20,7 +23,10 @@ import SettingsView from '../components/SettingsView'
 const mapDispatchToProps = (dispatch) => ({
   fetchVenues: (...args) => dispatch(fetchVenues(...args)),
   updateVenue: formApiAdapter(dispatch, updateVenue),
-  addVenue: formApiAdapter(dispatch, addVenue)
+  addVenue: formApiAdapter(dispatch, addVenue),
+  addVenueMember: formApiAdapter(dispatch, addVenueMember),
+  updateVenueMember: formApiAdapter(dispatch, updateVenueMember),
+  removeVenueMember: formApiAdapter(dispatch, removeVenueMember)
 })
 
 const mapStateToProps = (state) => (

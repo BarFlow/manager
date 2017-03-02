@@ -57,7 +57,6 @@ export const login = (creds) => {
       ]
     } })
     .then(response => {
-      console.log(response)
       if (!response.error) {
         const redirectTo = getState().location ? getState().location.query.next || '/' : '/'
         browserHistory.push(redirectTo)

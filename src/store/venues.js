@@ -64,6 +64,50 @@ export const updateVenue = (payload) => {
   }
 }
 
+export const addVenueMember = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/venues/${payload.venue_id}/members`,
+      method: 'POST',
+      body: JSON.stringify(payload),
+      types: [
+        VENUES_UPDATE_REQUEST,
+        VENUES_UPDATE_SUCCESS,
+        VENUES_UPDATE_FAILURE
+      ]
+    }
+  }
+}
+
+export const updateVenueMember = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/venues/${payload.venue_id}/members/${payload._id}`,
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      types: [
+        VENUES_UPDATE_REQUEST,
+        VENUES_UPDATE_SUCCESS,
+        VENUES_UPDATE_FAILURE
+      ]
+    }
+  }
+}
+
+export const removeVenueMember = (payload) => {
+  return {
+    [CALL_API]: {
+      endpoint: `/venues/${payload.venue_id}/members/${payload._id}`,
+      method: 'DELETE',
+      types: [
+        VENUES_UPDATE_REQUEST,
+        VENUES_UPDATE_SUCCESS,
+        VENUES_UPDATE_FAILURE
+      ]
+    }
+  }
+}
+
 export const changeCurrentVenue = (newId) => {
   return {
     type: VENUES_CURRENT_CHANGE,
@@ -73,7 +117,10 @@ export const changeCurrentVenue = (newId) => {
 
 export const actions = {
   fetchVenues,
-  changeCurrentVenue
+  changeCurrentVenue,
+  addVenueMember,
+  updateVenueMember,
+  removeVenueMember
 }
 
 // ------------------------------------
