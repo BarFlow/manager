@@ -75,8 +75,9 @@ const { validate } = buildSchema({
     error: 'This field is required.'
   },
   email: {
+    label: 'This',
     required: true,
-    error: 'This field is required.'
+    type: 'email'
   },
   current_password: {
     required: true,
