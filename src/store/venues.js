@@ -22,7 +22,7 @@ export const VENUES_CURRENT_CHANGE = 'venues/CURRENT_CHANGE'
 // Actions
 // ------------------------------------
 export const fetchVenues = () => {
-  return {
+  return (dispatch) => dispatch({
     [CALL_API]: {
       endpoint: '/venues',
       method: 'GET',
@@ -32,13 +32,13 @@ export const fetchVenues = () => {
         VENUES_FETCH_FAILURE
       ]
     }
-  }
+  }).then(() => dispatch(refreshToken()))
 }
 
 export const addVenue = (payload) => {
-  return (dispatch, state) => dispatch({
+  return (dispatch) => dispatch({
     [CALL_API]: {
-      endpoint: '/venues/',
+      endpoint: '/venues',
       method: 'POST',
       body: JSON.stringify(payload),
       types: [

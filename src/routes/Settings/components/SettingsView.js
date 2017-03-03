@@ -66,7 +66,7 @@ class SettingsView extends Component {
               <Alert bsStyle='warning'>Loading...</Alert>
             )}
           </Panel>
-          {currentVenue && currentVenue.invited.length &&
+          {currentVenue && !!currentVenue.invited.length &&
           <Panel>
             <h4>Invited Users</h4>
             <p>They'll automatically receive access to this venue once they sign up and confirm their email address.</p>
