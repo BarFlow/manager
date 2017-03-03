@@ -24,7 +24,7 @@ export const makeRootReducer = (asyncReducers) => {
   })
 
   return (state, action) => {
-    if (action.type === 'USER_LOGOUT') {
+    if (action.type === 'auth/USER_LOGOUT') {
       state = undefined
     }
 

@@ -1,13 +1,9 @@
 // import { injectReducer } from '../../store/reducers'
+import protectRoute from '../../utils/protectRoute'
 
+// Sync route definition
 export default (store) => ({
-  path : 'signup',
-  onEnter: (nextState, replace) => {
-    const state = store.getState()
-    if (state.auth && state.auth.isAuthenticated) {
-      replace('/')
-    }
-  },
+  path: 'venues',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -15,16 +11,17 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Signup = require('./containers/SignupContainer').default
-      // const reducer = require('./modules/signup').default
+      const VenuesView = require('./containers/VenuesViewContainer').default
+      // const reducer = require('./modules/user').default
 
-      /*  Add the reducer to the store on key 'signup'  */
-      // injectReducer(store, { key: 'signup', reducer })
+      /*  Add the reducer to the store on key 'counter'  */
+      // injectReducer(store, { key: 'user', reducer })
 
       /*  Return getComponent   */
-      cb(null, Signup)
+      cb(null, VenuesView)
 
     /* Webpack named bundle   */
-    }, 'signup')
-  }
+    }, 'venues')
+  },
+  onEnter: (nextState, replace) => protectRoute(nextState, replace, store)
 })

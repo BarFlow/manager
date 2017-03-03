@@ -17,6 +17,10 @@ export const USER_FETCH_REQUEST = 'auth/USER_FETCH_REQUEST'
 export const USER_FETCH_SUCCESS = 'auth/USER_FETCH_SUCCESS'
 export const USER_FETCH_FAILURE = 'auth/USER_FETCH_FAILURE'
 
+export const TOKEN_REFRESH_REQUEST = 'auth/TOKEN_REFRESH_REQUEST'
+export const TOKEN_REFRESH_SUCCESS = 'auth/TOKEN_REFRESH_SUCCESS'
+export const TOKEN_REFRESH_FAILURE = 'auth/TOKEN_REFRESH_FAILURE'
+
 export const USER_LOGOUT = 'auth/USER_LOGOUT'
 
 // ------------------------------------
@@ -69,7 +73,7 @@ export const login = (creds, signup = false) => {
 export function logout () {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
-  browserHistory.push('/login')
+  setTimeout(() => browserHistory.push('/login'), 100)
   return {
     type: USER_LOGOUT
   }
@@ -102,7 +106,7 @@ export const updateUser = (payload) => {
           payload: (action, state, res) => {
             return res.json().then((update) => {
               const user = {
-                ...state.user,
+                ...state.auth.user,
                 ...update
               }
               localStorage.setItem('user', JSON.stringify(user))
@@ -116,11 +120,42 @@ export const updateUser = (payload) => {
   }
 }
 
+export const refreshToken = () => {
+  return (dispatch, state) => dispatch({
+    [CALL_API]: {
+      endpoint: '/auth/refreshToken',
+      method: 'GET',
+      types: [
+        TOKEN_REFRESH_REQUEST,
+        {
+          type: LOGIN_SUCCESS,
+          payload: (action, state, res) => {
+            return res.json().then((json) => {
+              const user = {
+                ...state.auth.user,
+                ...json.payload
+              }
+              localStorage.setItem('user', JSON.stringify(user))
+              localStorage.setItem('token', json.token)
+              return {
+                user,
+                token: json.token
+              }
+            })
+          }
+        },
+        USER_LOGOUT
+      ]
+    }
+  })
+}
+
 export const actions = {
   login,
   logout,
   fetchUser,
-  updateUser
+  updateUser,
+  refreshToken
 }
 
 // ------------------------------------

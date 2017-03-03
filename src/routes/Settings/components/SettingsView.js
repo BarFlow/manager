@@ -66,17 +66,15 @@ class SettingsView extends Component {
               <Alert bsStyle='warning'>Loading...</Alert>
             )}
           </Panel>
+          {currentVenue && currentVenue.invited.length &&
           <Panel>
             <h4>Invited Users</h4>
             <p>They'll automatically receive access to this venue once they sign up and confirm their email address.</p>
-            {currentVenue
-              ? currentVenue.invited.map((invited, index) =>
-                <Label key={index}>{invited.email} - {invited.role}</Label>
-              ) : (
-                <Alert bsStyle='warning'>Loading...</Alert>
-              )
-            }
+            {currentVenue.invited.map((invited, index) =>
+              <Label key={index}>{invited.email} - {invited.role}</Label>
+            )}
           </Panel>
+          }
         </div>
 
       </div>

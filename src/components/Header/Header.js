@@ -23,8 +23,9 @@ export const Header = ({ user, handleLogOut }) => (
           <span><span className='glyphicon glyphicon-user' /> {user.name}</span>
         } id='basic-nav-dropdown'>
           <LinkContainer to='/profile'><MenuItem eventKey={1.1}>Profile</MenuItem></LinkContainer>
+          <LinkContainer to='/venues'><MenuItem eventKey={1.2}>Venues</MenuItem></LinkContainer>
           <MenuItem divider />
-          <MenuItem eventKey={1.2} onSelect={handleLogOut}>Log out</MenuItem>
+          <MenuItem eventKey={1.3} onSelect={handleLogOut}>Log out</MenuItem>
         </NavDropdown>
       </Nav>
     </Navbar.Collapse>

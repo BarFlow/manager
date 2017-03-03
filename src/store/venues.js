@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware'
+import { refreshToken } from './auth'
 
 // ------------------------------------
 // Constants
@@ -35,10 +36,10 @@ export const fetchVenues = () => {
 }
 
 export const addVenue = (payload) => {
-  return {
+  return (dispatch, state) => dispatch({
     [CALL_API]: {
-      endpoint: `/venues/${payload._id}`,
-      method: 'PUT',
+      endpoint: '/venues/',
+      method: 'POST',
       body: JSON.stringify(payload),
       types: [
         VENUES_ADD_REQUEST,
@@ -46,7 +47,7 @@ export const addVenue = (payload) => {
         VENUES_ADD_FAILURE
       ]
     }
-  }
+  }).then(() => dispatch(refreshToken()))
 }
 
 export const updateVenue = (payload) => {
@@ -138,7 +139,7 @@ const ACTION_HANDLERS = {
       ...state,
       isFetching: false,
       items: action.payload,
-      current: state.current || action.payload[0]._id
+      current: state.current || (action.payload[0] && action.payload[0]._id) || null
     }
   },
   [VENUES_CURRENT_CHANGE] : (state, action) => {

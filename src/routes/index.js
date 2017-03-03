@@ -8,6 +8,7 @@ import VenueRoute from './Venue'
 import SuppliersRoute from './Suppliers'
 import SettingsRoute from './Settings'
 import ProfileRoute from './UserProfile'
+import VenuesRoute from './Venues'
 import LoginRoute from './Login'
 import SignupRoute from './Signup'
 
@@ -17,9 +18,16 @@ import SignupRoute from './Signup'
 export const createRoutes = (store) => ({
   path        : '/',
   component   : BaseLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/stock') },
+  indexRoute: { onEnter: (nextState, replace) => replace('/stock')
+  },
   childRoutes : [
     {
+      onEnter: (nextState, replace) => {
+        const state = store.getState()
+        if (state.auth && state.auth.user && !Object.keys(state.auth.user.roles).length) {
+          replace('/venues')
+        }
+      },
       component: CoreLayout,
       childRoutes: [
         StockRoute(store),
@@ -31,6 +39,7 @@ export const createRoutes = (store) => ({
       ]
     },
     ProfileRoute(store),
+    VenuesRoute(store),
     LoginRoute(store),
     SignupRoute(store)
   ]

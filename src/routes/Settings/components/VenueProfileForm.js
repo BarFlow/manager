@@ -7,7 +7,7 @@ import FormInput from '../../../components/FormInput'
 import FormSelect from '../../../components/FormSelect'
 
 const VenueProfileForm = ({
-  error, submitSucceeded, handleSubmit, submitting, dirty
+  error, submitSucceeded, handleSubmit, submitting, dirty, onCancel
 }) => (
   <form onSubmit={handleSubmit}>
     <Row>
@@ -73,7 +73,10 @@ const VenueProfileForm = ({
       <strong>Success!</strong> Your changes have been saved successfully.
     </Alert>}
     <div className='form-footer'>
-      <Button type='submit' disabled={submitting || !dirty}>Save</Button>
+      {onCancel &&
+        <Button onClick={onCancel} disabled={submitting}>Cancel</Button>
+      }
+      <Button type='submit' bsStyle={onCancel && 'primary'} disabled={submitting || !dirty}>Save</Button>
     </div>
   </form>
 )
@@ -107,6 +110,7 @@ VenueProfileForm.propTypes = {
   error: React.PropTypes.string,
   submitSucceeded: React.PropTypes.bool,
   handleSubmit: React.PropTypes.func.isRequired,
+  onCancel: React.PropTypes.func,
   dirty: React.PropTypes.bool
 }
 
