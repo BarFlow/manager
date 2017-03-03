@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
+
+import SubHeader from '../../../components/SubHeader'
 import LoginForm from './LoginForm'
 import './Login.scss'
 
@@ -15,8 +18,16 @@ class Login extends Component {
   render () {
     return (
       <div className='row login'>
-        <div className='col-sx-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3'>
+        <SubHeader
+          className='bg-grey'
+          left={<h3>Log In</h3>}
+          />
+        <div className='col-sx-12 col-sm-6 col-sm-offset-3'>
           <LoginForm onSubmit={this.formSubmit} />
+          <div className='text-center'>
+            <span>Or if you do not have an account:</span>
+            <Link to='/signup'>Sign up now</Link>
+          </div>
         </div>
       </div>
     )

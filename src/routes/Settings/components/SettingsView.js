@@ -52,6 +52,8 @@ class SettingsView extends Component {
         <div className='col-xs-12 col-sm-4'>
           <Panel>
             <h4 className='clearfix'>Members</h4>
+            <p>The following users have access to this venue. There are multiple access level supported:
+              owner, manager, staff.</p>
             {currentVenue
               ? (
                 <Members
@@ -66,6 +68,7 @@ class SettingsView extends Component {
           </Panel>
           <Panel>
             <h4>Invited Users</h4>
+            <p>They'll automatically receive access to this venue once they sign up and confirm their email address.</p>
             {currentVenue
               ? currentVenue.invited.map((invited, index) =>
                 <Label key={index}>{invited.email} - {invited.role}</Label>

@@ -22,10 +22,10 @@ export const USER_LOGOUT = 'auth/USER_LOGOUT'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const login = (creds) => {
+export const login = (creds, signup = false) => {
   return (dispatch, getState) => {
     return dispatch({ [CALL_API]: {
-      endpoint: '/auth/login',
+      endpoint: !signup ? '/auth/login' : '/auth/signup',
       method: 'POST',
       body: JSON.stringify(creds),
       types: [

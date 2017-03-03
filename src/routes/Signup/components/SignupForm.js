@@ -24,34 +24,25 @@ const UserProfileForm = ({
         component={FormInput}
         label='E-mail'
         type='text'
-        description='The primary email you use (used to log-in and acces all your venues).'
+        description='The primary email you use.'
         className={'col-xs-12'} />
     </Row>
     <Row>
       <Field
         name='password'
         component={FormInput}
-        label='New password'
+        label='Password'
         type='password'
-        description='Fill this to change your current password.'
+        description='Set your password.'
         className={'col-xs-12'} />
     </Row>
     <Row>
       <Field
         name='rePassword'
         component={FormInput}
-        label='New password again'
+        label='Password again'
         type='password'
-        description='Fill this to change your current password.'
-        className={'col-xs-12'} />
-    </Row>
-    <Row>
-      <Field
-        name='current_password'
-        component={FormInput}
-        label='Current Password'
-        type='password'
-        description='Enter your current password.'
+        description='Re-enter your password.'
         className={'col-xs-12'} />
     </Row>
     {error &&
@@ -59,12 +50,8 @@ const UserProfileForm = ({
         <strong>Woops!</strong> {error}
       </Alert>
     }
-    {submitSucceeded && !submitting && !dirty &&
-    <Alert bsStyle='success'>
-      <strong>Success!</strong> Your changes have been saved successfully.
-    </Alert>}
     <div className='form-footer'>
-      <Button bsStyle='primary' type='submit' disabled={submitting || !dirty}>Save</Button>
+      <Button bsStyle='primary' type='submit' disabled={submitting || !dirty}>Register</Button>
     </div>
   </form>
 )
@@ -79,12 +66,9 @@ const { validate } = buildSchema({
     required: true,
     type: 'email'
   },
-  current_password: {
-    required: true,
-    error: 'You must enter your current password to make changes.'
-  },
   password: {
     label: 'Password',
+    required: true,
     validate: {
       length: {
         min: 6,
@@ -93,6 +77,7 @@ const { validate } = buildSchema({
     }
   },
   rePassword: {
+    required: true,
     validate: {
       passMatch: (fields, fieldValue) => {
         return fields.password === fieldValue

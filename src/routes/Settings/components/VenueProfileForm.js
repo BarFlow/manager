@@ -10,15 +10,6 @@ const VenueProfileForm = ({
   error, submitSucceeded, handleSubmit, submitting, dirty
 }) => (
   <form onSubmit={handleSubmit}>
-    {error &&
-      <Alert bsStyle='danger'>
-        <strong>Woops!</strong> {error}
-      </Alert>
-    }
-    {submitSucceeded && !submitting && !dirty &&
-    <Alert bsStyle='success'>
-      <strong>Success!</strong> Your changes have been saved successfully.
-    </Alert>}
     <Row>
       <Field
         name='name'
@@ -72,6 +63,15 @@ const VenueProfileForm = ({
         ]}
         className={'col-xs-12'} />
     </Row>
+    {error &&
+      <Alert bsStyle='danger'>
+        <strong>Woops!</strong> {error}
+      </Alert>
+    }
+    {submitSucceeded && !submitting && !dirty &&
+    <Alert bsStyle='success'>
+      <strong>Success!</strong> Your changes have been saved successfully.
+    </Alert>}
     <div className='form-footer'>
       <Button type='submit' disabled={submitting || !dirty}>Save</Button>
     </div>

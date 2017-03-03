@@ -24,9 +24,11 @@ const LoginForm = ({ error, handleSubmit, submitting }) => {
         <strong>Woops!</strong> {error}
       </Alert>
     }
-    <Button type='submit' disabled={submitting}>
-      Login
-    </Button>
+    <div className='text-right'>
+      <Button type='submit' disabled={submitting}>
+        Login
+      </Button>
+    </div>
   </form>
 }
 

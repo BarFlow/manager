@@ -9,6 +9,7 @@ import SuppliersRoute from './Suppliers'
 import SettingsRoute from './Settings'
 import ProfileRoute from './UserProfile'
 import LoginRoute from './Login'
+import SignupRoute from './Signup'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -30,7 +31,8 @@ export const createRoutes = (store) => ({
       ]
     },
     ProfileRoute(store),
-    LoginRoute(store)
+    LoginRoute(store),
+    SignupRoute(store)
   ]
 })
 
