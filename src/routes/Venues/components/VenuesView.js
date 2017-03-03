@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Panel, Button, Alert, Modal } from 'react-bootstrap'
+import { Panel, Button, Alert, Modal, Label } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
 import VenueProfileForm from '../../Settings/components/VenueProfileForm'
+
+import './VenuesView.scss'
 
 class VenuesView extends Component {
   constructor (props) {
@@ -53,7 +55,7 @@ class VenuesView extends Component {
       </Modal>
 
     return (
-      <div className='row'>
+      <div className='row venues'>
         {createVenueDialog}
         <SubHeader
           className='bg-grey'
@@ -66,17 +68,20 @@ class VenuesView extends Component {
             <Alert bsStyle='warning'>Loading...</Alert>
           }
           {!venues.isFetching && !venues.items.length &&
-            <Alert bsStyle='warning'>
-              It looks like you are not a meber of any venue yet,
-              {' '}create one now or ask your manager to add you to one.</Alert>
+            <Alert bsStyle='info'>
+              <strong>Welcome!</strong> It looks like you are not a member of any venue yet.
+              {' '}Create one now or ask your manager to add you to one.</Alert>
           }
           {!venues.isFetching && venues.items.map(venue =>
             <Panel key={venue._id}>
-              <h5>{venue.profile.name}</h5>
+              <h4>{venue.profile.name}{' '}<Label bsStyle='info'>{venue.role}</Label></h4>
+              <Label>{venue.profile.email}</Label>
+              <Label>{venue.profile.tel}</Label>
+              <Label>{venue.profile.type}</Label>
+              <Label>{venue.profile.address}</Label>
             </Panel>
           )}
         </div>
-
       </div>
     )
   }
