@@ -39,7 +39,8 @@ class ProductAdder extends Component {
     return this.props[method]({
       ...values,
       product_id: this.product_id || values.product_id._id,
-      count_as_full: values.count_as_full / 100
+      count_as_full: values.count_as_full / 100,
+      supplier_product_code: values.supplier_product_code.toString()
     }).then(() => {
       this.product_id = undefined
     })
@@ -65,7 +66,7 @@ class ProductAdder extends Component {
   render () {
     const { product, products, percent = 0, catalog } = this.props
     const addedProduct = products.find(productsItem =>
-      productsItem.supplier_product_code === product.supplier_product_code) || {}
+      productsItem.supplier_product_code.toString() === product.supplier_product_code.toString()) || {}
 
     return (
       <div className='product-adder row'>
@@ -79,10 +80,9 @@ class ProductAdder extends Component {
             <ProductItemForm
               ref='ProductItemForm'
               initialValues={{
-                count_as_full: 50,
                 ...{
                   ...addedProduct,
-                  count_as_full: addedProduct.count_as_full * 100
+                  count_as_full: addedProduct.count_as_full * 100 || 50
                 },
                 ...product
               }}

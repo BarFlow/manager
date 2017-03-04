@@ -169,9 +169,10 @@ class ProductListItem extends Component {
                     enableReinitialize
                     suppliers={this.props.suppliers}
                     onSubmit={(values) => {
-                      this.props.updateProduct({
+                      return this.props.updateProduct({
                         ...values,
-                        count_as_full: values.count_as_full / 100
+                        count_as_full: values.count_as_full / 100,
+                        supplier_product_code: values.supplier_product_code.toString()
                       })
                     }}
                     handleDelete={this._toggleConfirmDialog} />
