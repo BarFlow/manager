@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Panel, Alert, Label } from 'react-bootstrap'
+import { browserHistory } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
 import VenueProfileForm from './VenueProfileForm'
@@ -12,6 +13,22 @@ class SettingsView extends Component {
     super(props)
 
     this._handleProfileFormSubmit = this._handleProfileFormSubmit.bind(this)
+  }
+
+  componentDidMount () {
+    const { venues } = this.props
+    const currentVenue = venues.items.find(item => item._id === venues.current)
+    if (currentVenue && currentVenue.role !== 'owner') {
+      browserHistory.push('/')
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { venues } = nextProps
+    const currentVenue = venues.items.find(item => item._id === venues.current)
+    if (currentVenue && currentVenue.role !== 'owner') {
+      browserHistory.push('/')
+    }
   }
 
   _handleProfileFormSubmit (values) {

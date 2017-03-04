@@ -135,11 +135,12 @@ const ACTION_HANDLERS = {
     }
   },
   [VENUES_FETCH_SUCCESS] : (state, action) => {
+    const manageableVenues = action.payload.filter(venue => venue.role !== 'staff')
     return {
       ...state,
       isFetching: false,
       items: action.payload,
-      current: state.current || (action.payload[0] && action.payload[0]._id) || null
+      current: state.current || (manageableVenues.length && manageableVenues[0]._id) || null
     }
   },
   [VENUES_CURRENT_CHANGE] : (state, action) => {

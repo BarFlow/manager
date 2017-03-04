@@ -31,12 +31,12 @@ class Sidebar extends Component {
 
   render () {
     const { className = '', venues = { items:[] }, handleVenueChange } = this.props
-    const venueItems = venues.items.map(item =>
+    const manageableVenueItems = venues.items.filter(venue => venue.role !== 'staff').map(item =>
       <option key={item._id} value={item._id}>
         {item.profile.name}
       </option>
     )
-
+    const currentVenue = venues.items.find(venue => venue._id === venues.current)
     const stockSubItemsHidden = false // location.pathname.match(/^\/stock/) ? '' : 'hidden'
     const ordersSubItemsHidden = false // location.pathname.match(/^\/orders/) ? '' : 'hidden'
 
@@ -47,7 +47,7 @@ class Sidebar extends Component {
             componentClass='select'
             onChange={(event) => handleVenueChange(event.target.value)}
             value={venues.current || ''}>
-            {venueItems}
+            {manageableVenueItems}
           </FormControl>
         </div>
         <Nav>
@@ -84,9 +84,11 @@ class Sidebar extends Component {
           <LinkContainer to='/suppliers' activeHref='active'>
             <NavItem>Suppliers</NavItem>
           </LinkContainer>
+          {currentVenue && currentVenue.role === 'owner' &&
           <LinkContainer to='/settings' activeHref='active'>
             <NavItem>Settings</NavItem>
           </LinkContainer>
+          }
         </Nav>
       </div>
     )
