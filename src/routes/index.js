@@ -24,9 +24,9 @@ export const createRoutes = (store) => ({
     {
       onEnter: (nextState, replace) => {
         const state = store.getState()
-        const manageableVenues =
+        const manageableVenues = state.auth.user && state.auth.user.roles &&
           Object.keys(state.auth.user.roles)
-          .filter(key => state.auth.user.roles[key] !== 'staff')
+          .filter(key => state.auth.user.roles[key] !== 'staff') || []
         if (state.auth && state.auth.user && !manageableVenues.length) {
           replace('/venues')
         }

@@ -81,7 +81,7 @@ export const addVenueMember = (payload) => {
 }
 
 export const updateVenueMember = (payload) => {
-  return {
+  return (dispatch) => dispatch({
     [CALL_API]: {
       endpoint: `/venues/${payload.venue_id}/members/${payload._id}`,
       method: 'PUT',
@@ -92,11 +92,11 @@ export const updateVenueMember = (payload) => {
         VENUES_UPDATE_FAILURE
       ]
     }
-  }
+  }).then(() => dispatch(refreshToken()))
 }
 
 export const removeVenueMember = (payload) => {
-  return {
+  return (dispatch) => dispatch({
     [CALL_API]: {
       endpoint: `/venues/${payload.venue_id}/members/${payload._id}`,
       method: 'DELETE',
@@ -106,7 +106,7 @@ export const removeVenueMember = (payload) => {
         VENUES_UPDATE_FAILURE
       ]
     }
-  }
+  }).then(() => dispatch(refreshToken()))
 }
 
 export const changeCurrentVenue = (newId) => {
