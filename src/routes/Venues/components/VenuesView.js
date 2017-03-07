@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Panel, Button, Alert, Modal, Label } from 'react-bootstrap'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 
 import SubHeader from '../../../components/SubHeader'
 import VenueProfileForm from '../../Settings/components/VenueProfileForm'
@@ -74,7 +74,17 @@ class VenuesView extends Component {
           }
           {!venues.isFetching && venues.items.map(venue =>
             <Panel key={venue._id}>
-              <h4>{venue.profile.name}{' '}<Label bsStyle='info'>{venue.role}</Label></h4>
+              {venue.role === 'staff' ? (
+                <h4>
+                  <span style={{ cursor: 'not-allowed' }}>{venue.profile.name}</span>
+                  {' '}<Label bsStyle='info'>{venue.role}</Label></h4>
+              ) : (
+                <h4>
+                  <Link to={`/stock/reports/live?venue_id=${venue._id}`}>
+                    {venue.profile.name}
+                  </Link>{' '}<Label bsStyle='info'>{venue.role}</Label>
+                </h4>
+              )}
               <Label>{venue.profile.email}</Label>
               <Label>{venue.profile.tel}</Label>
               <Label>{venue.profile.type}</Label>
