@@ -162,6 +162,7 @@ class CartView extends Component {
           <Cart
             deleteCartItem={this.props.deleteCartItem}
             updateCartItem={this.props.updateCartItem}
+            emptyCart={this.props.emptyCart}
             onSubmit={this._handleCartSubmission}
             venueId={this.props.venueId}
             orders={this.props.orders} />
