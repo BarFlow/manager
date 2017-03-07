@@ -46,6 +46,7 @@ const config = {
   },
   compiler_vendors : [
     'react',
+    'react-dom',
     'react-redux',
     'react-router',
     'redux'

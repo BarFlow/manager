@@ -190,7 +190,6 @@ PlacementAdder.propTypes = {
   addVenueItem: React.PropTypes.func.isRequired,
   fetchProducts: React.PropTypes.func.isRequired,
   products: React.PropTypes.object,
-  currentType: React.PropTypes.string.isRequired,
   venueId: React.PropTypes.string.isRequired,
   params: React.PropTypes.object.isRequired
 }

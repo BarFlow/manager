@@ -28,15 +28,9 @@ class AddVenueItemDialog extends Component {
 }
 
 AddVenueItemDialog.propTypes = {
-  venue: React.PropTypes.object,
   isOpen: React.PropTypes.bool.isRequired,
   close: React.PropTypes.func.isRequired,
-  addVenueItem: React.PropTypes.func.isRequired,
-  fetchProducts: React.PropTypes.func.isRequired,
-  products: React.PropTypes.object,
-  currentType: React.PropTypes.string.isRequired,
-  venueId: React.PropTypes.string.isRequired,
-  params: React.PropTypes.object.isRequired
+  currentType: React.PropTypes.string.isRequired
 }
 
 export default AddVenueItemDialog

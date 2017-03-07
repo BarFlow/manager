@@ -4,7 +4,7 @@ function formApiAdapter (dispatch, actionCreator) {
   return (...args) =>
     dispatch(actionCreator(...args)).then(response => {
       if (response.error) {
-        throw new SubmissionError({ _error: response.payload.response.message })
+        throw new SubmissionError({ _error: response.payload.response && response.payload.response.message })
       }
     })
 }

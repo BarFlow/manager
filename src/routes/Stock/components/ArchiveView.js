@@ -143,7 +143,6 @@ ArchiveView.propTypes = {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   venueId: React.PropTypes.string,
-  token: React.PropTypes.string.isRequired,
   fetchReports: React.PropTypes.func.isRequired,
   deleteReport: React.PropTypes.func.isRequired
 }

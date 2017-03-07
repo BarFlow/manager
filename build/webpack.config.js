@@ -20,7 +20,9 @@ const webpackConfig = {
     root       : paths.client(),
     extensions : ['', '.js', '.jsx', '.json']
   },
-  module : {},
+  module: {
+    noParse: [/jszip.js$/]
+  },
   node: {
     fs: 'empty'
   }
@@ -32,8 +34,9 @@ const APP_ENTRY = paths.client('main.js')
 
 webpackConfig.entry = {
   app : __DEV__
-    ? [APP_ENTRY].concat(`webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`)
-    : [APP_ENTRY],
+    ? ['babel-polyfill', APP_ENTRY]
+      .concat(`webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`)
+    : ['babel-polyfill', APP_ENTRY],
   vendor : config.compiler_vendors
 }
 
@@ -51,7 +54,7 @@ webpackConfig.output = {
 // ------------------------------------
 webpackConfig.externals = {
   './cptable': 'var cptable',
-  './jszip': 'jszip'
+  '../xlsx.js': 'var _XLSX'
 }
 webpackConfig.externals['react/lib/ExecutionEnvironment'] = true
 webpackConfig.externals['react/lib/ReactContext'] = true

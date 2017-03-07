@@ -113,7 +113,6 @@ class AddProductDialog extends Component {
 AddProductDialog.propTypes = {
   handleSearch : React.PropTypes.func.isRequired,
   products : React.PropTypes.object,
-  close: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string.isRequired
 }

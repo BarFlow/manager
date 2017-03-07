@@ -32,7 +32,6 @@ Field.propTypes = {
   label : React.PropTypes.string,
   options : React.PropTypes.array,
   description : React.PropTypes.string,
-  type : React.PropTypes.string,
   className : React.PropTypes.string,
   displayKey : React.PropTypes.string,
   disabled : React.PropTypes.bool,

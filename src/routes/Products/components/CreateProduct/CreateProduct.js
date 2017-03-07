@@ -101,8 +101,6 @@ CreateProduct.propTypes = {
   types: React.PropTypes.object,
   initialValues: React.PropTypes.object,
   fetchTypes: React.PropTypes.func.isRequired,
-  addCatalogItem: React.PropTypes.func.isRequired,
-  updateCatalogItem: React.PropTypes.func.isRequired,
   token: React.PropTypes.string.isRequired,
   user: React.PropTypes.object.isRequired,
   close: React.PropTypes.func,

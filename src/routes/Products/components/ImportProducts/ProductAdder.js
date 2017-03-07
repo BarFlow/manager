@@ -131,8 +131,6 @@ class ProductAdder extends Component {
 }
 
 ProductAdder.propTypes = {
-  onAdd: React.PropTypes.func.isRequired,
-  onUpdate: React.PropTypes.func.isRequired,
   onSkip: React.PropTypes.func.isRequired,
   product: React.PropTypes.object.isRequired,
   products: React.PropTypes.array.isRequired,

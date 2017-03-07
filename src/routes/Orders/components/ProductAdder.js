@@ -149,7 +149,6 @@ class ProductAdder extends Component {
 
 ProductAdder.propTypes = {
   addCartItems: React.PropTypes.func.isRequired,
-  updateCartItem: React.PropTypes.func.isRequired,
   onReportIdChange: React.PropTypes.func.isRequired,
   products: React.PropTypes.array,
   reports: React.PropTypes.object,

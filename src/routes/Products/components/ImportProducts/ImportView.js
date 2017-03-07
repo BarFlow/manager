@@ -109,14 +109,12 @@ class ImportView extends Component {
 
 ImportView.propTypes = {
   fetchProducts: React.PropTypes.func.isRequired,
-  fetchTypes: React.PropTypes.func.isRequired,
   fetchCatalog: React.PropTypes.func.isRequired,
   fetchSuppliers: React.PropTypes.func.isRequired,
   addProduct: React.PropTypes.func.isRequired,
   updateProduct: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string,
   products : React.PropTypes.object,
-  types: React.PropTypes.object,
   suppliers: React.PropTypes.object
 }
 export default ImportView

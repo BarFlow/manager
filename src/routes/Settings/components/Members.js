@@ -118,8 +118,6 @@ class Members extends Component {
 
 Members.propTypes = {
   items: React.PropTypes.array.isRequired,
-  addVenueMember: React.PropTypes.func.isRequired,
-  updateVenueMember: React.PropTypes.func.isRequired,
   removeVenueMember: React.PropTypes.func.isRequired,
   venueId: React.PropTypes.string.isRequired
 }
