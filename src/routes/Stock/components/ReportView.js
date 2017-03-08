@@ -192,6 +192,8 @@ class Report extends Component {
       </Modal.Footer>
     </Modal>
 
+    const apiUrl = `${window.__API_HOST__}${window.__API_VERSION__}`
+
     return (
       <div className='row'>
         {confirmDialog}
@@ -218,7 +220,7 @@ class Report extends Component {
             </span>
           ) : (
             <a className='btn btn-default'
-              href={`http://api.stockmate.co.uk/reports/${reportId}/export?token=${this.props.token}`}
+              href={`${apiUrl}/reports/${reportId}/export?token=${this.props.token}`}
               target='_blank'>Export Report</a>
           )
           } />

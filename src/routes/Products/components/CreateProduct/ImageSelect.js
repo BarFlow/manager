@@ -32,7 +32,7 @@ class ImageSelect extends Component {
     })
     const data = new FormData()
     data.append('image', this.state.file)
-    fetch('https://api.stockmate.co.uk/uploads', {
+    fetch(`${window.__API_HOST__}${window.__API_VERSION__}/uploads`, {
       method: 'POST',
       body: data,
       headers: {

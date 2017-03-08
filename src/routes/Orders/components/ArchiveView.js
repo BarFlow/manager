@@ -112,6 +112,7 @@ class ArchiveView extends Component {
                 const itemDate = new Date(item.created_at).toString().split(' ').splice(0, 5).join(' ')
                 const supplier = item.supplier_id && item.supplier_id.name ? item.supplier_id.name : 'Other Supplier'
                 const totalInvoiceValue = Math.round(item.total_invoice_value * 100) / 100
+                const apiUrl = `${window.__API_HOST__}${window.__API_VERSION__}`
                 return (
                   <Panel key={index}>
                     <Media>
@@ -124,7 +125,7 @@ class ArchiveView extends Component {
                       <Media.Right align='middle'>
                         <div className='actions'>
                           <a className='btn btn-default'
-                            href={`http://api.stockmate.co.uk/orders/${item._id}/export?token=${this.props.token}`}
+                            href={`${apiUrl}/orders/${item._id}/export?token=${this.props.token}`}
                             target='_blank'>Download</a>
                           <Button
                             bsStyle='danger'
