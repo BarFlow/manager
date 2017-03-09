@@ -44,7 +44,12 @@ export const createRoutes = (store) => ({
     ProfileRoute(store),
     VenuesRoute(store),
     LoginRoute(store),
-    SignupRoute(store)
+    SignupRoute(store),
+    // If route not found, redirect to root
+    {
+      path: '*',
+      onEnter: (nextState, replace) => replace('/')
+    }
   ]
 })
 
