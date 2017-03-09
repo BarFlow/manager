@@ -117,10 +117,12 @@ class Cart extends Component {
         </Panel>
         <div className='empty-cart'>
           {confirmDialog}
-          <Button
-            bsStyle='danger'
-            bsSize='xsmall'
-            onClick={this._toggleConfirmDialog}>Empty Cart</Button>
+          {!!this.props.orders.cart.length &&
+            <Button
+              bsStyle='danger'
+              bsSize='xsmall'
+              onClick={this._toggleConfirmDialog}>Empty Basket</Button>
+          }
         </div>
       </div>
     )
