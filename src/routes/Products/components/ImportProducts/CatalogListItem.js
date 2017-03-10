@@ -5,7 +5,7 @@ class CatalogListItem extends Component {
 
   render () {
     const { item, onSelect, isAdded, isDisabled } = this.props
-    const { images, name, type, category, capacity, sub_category: subCategory } = item
+    const { images, name, type, category, capacity, sub_category: subCategory, measure_unit: measureUnit } = item
 
     return (
       <Media className='catalog-item'>
@@ -24,7 +24,7 @@ class CatalogListItem extends Component {
                 <Label>{subCategory}</Label>
               </span>
             }
-            <Label>{capacity} ml</Label>
+            <Label>{capacity} {measureUnit}</Label>
           </p>
         </Media.Body>
         <Media.Right align='middle'>

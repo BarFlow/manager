@@ -15,6 +15,7 @@ class CreateProduct extends Component {
       currentStep: 0,
       product: {
         type: 'beverage',
+        measure_unit: 'ml',
         measurable: false
       }
     }

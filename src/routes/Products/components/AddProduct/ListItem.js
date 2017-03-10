@@ -19,7 +19,7 @@ class ListItem extends Component {
 
   render () {
     const { item, added } = this.props
-    const { images, name, category, capacity, sub_category: subCategory } = item
+    const { images, name, category, capacity, sub_category: subCategory, measure_unit: measureUnit } = item
 
     return (
       <Media>
@@ -37,7 +37,7 @@ class ListItem extends Component {
                 <Label>{subCategory}</Label>
               </span>
             }
-            <Label>{capacity} ml</Label>
+            <Label>{capacity} {measureUnit}</Label>
           </p>
         </Media.Body>
         <Media.Right align='middle'>

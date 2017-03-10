@@ -18,7 +18,13 @@ class ProductListItem extends Component {
   }
 
   render () {
-    const { name, category, sub_category: subCategory, capacity, images } = this.props.item.product_id
+    const {
+      name,
+      category,
+      sub_category: subCategory,
+      measure_unit: measureUnit,
+      capacity,
+      images } = this.props.item.product_id
     const { item } = this.props
 
     const round = (value) =>
@@ -39,7 +45,7 @@ class ProductListItem extends Component {
               {subCategory && subCategory !== 'other' &&
                 <Label>{subCategory}</Label>
               }
-              <Label>{capacity} ml</Label>
+              <Label>{capacity} {measureUnit}</Label>
               {item.cost_price !== undefined &&
                 <Label>£{item.cost_price}</Label>
               }
@@ -115,6 +121,7 @@ ProductListItem.propTypes = {
       category: React.PropTypes.string.isRequired,
       sub_category: React.PropTypes.string,
       capacity: React.PropTypes.number.isRequired,
+      measure_unit: React.PropTypes.string.isRequired,
       images: React.PropTypes.object
     })
   })

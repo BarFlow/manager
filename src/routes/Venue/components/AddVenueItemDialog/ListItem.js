@@ -14,7 +14,7 @@ class ListItem extends Component {
 
   render () {
     const { item, added, submitting } = this.props
-    const { images, name, category, capacity, sub_category: subCategory } = item.product_id
+    const { images, name, category, capacity, sub_category: subCategory, measure_unit: measureUnit } = item.product_id
 
     return (
       <Media>
@@ -32,7 +32,7 @@ class ListItem extends Component {
                 <Label>{subCategory}</Label>
               </span>
             }
-            <Label>{capacity} ml</Label>
+            <Label>{capacity} {measureUnit}</Label>
           </p>
         </Media.Body>
         <Media.Right align='middle'>

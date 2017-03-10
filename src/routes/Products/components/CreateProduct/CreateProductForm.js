@@ -62,9 +62,25 @@ let CreateProductForm = ({
       component={FormInput}
       label='Capacity'
       type='number'
-      addon='ml'
-      description='The volume of the product (ml).'
+      description='The volume of the product.'
       className={'col-xs-12'} />
+
+    <Field
+      name='measure_unit'
+      component={FormSelect}
+      label='Measure Unit'
+      addon='ml'
+      description='The measure unit of the product.'
+      className={'col-xs-12'}
+      options={[
+        { name: 'ml' },
+        { name: 'cl' },
+        { name: 'l' },
+        { name: 'g' },
+        { name: 'dkg' },
+        { name: 'kg' }
+      ]}
+      valueKey='name' />
 
     <Field
       name='measurable'
@@ -97,6 +113,10 @@ const { validate } = buildSchema({
   capacity: {
     required: true,
     label: 'Capacity'
+  },
+  measure_unit: {
+    required: true,
+    label: 'Measure'
   }
 })
 

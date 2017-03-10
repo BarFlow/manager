@@ -65,7 +65,8 @@ class ProductListItem extends Component {
       category,
       sub_category: subCategory,
       capacity,
-      images
+      images,
+      measure_unit: measureUnit
     } = this.props.item.product_id
 
     const {
@@ -73,7 +74,8 @@ class ProductListItem extends Component {
       cost_price: costPrice,
       par_level: parLevel,
       supplier_product_code: sku,
-      supplier_id: supplierId
+      supplier_id: supplierId,
+      count_by: countBy
     } = this.props.item
 
     const selectedSupplier = this.props.suppliers.items.find(item => item._id === supplierId)
@@ -124,10 +126,11 @@ class ProductListItem extends Component {
               {subCategory && subCategory !== 'other' &&
                 <Label>{subCategory}</Label>
               }
-              <Label>{capacity} ml</Label>
+              <Label>{capacity} {measureUnit}</Label>
               <Label>{costPrice && `£ ${costPrice}`}</Label>
               {!!parLevel && <Label>Par level: {parLevel}</Label>}
               <Label>{selectedSupplier && selectedSupplier.name}</Label>
+              <Label>Count by: {countBy}</Label>
               <Label bsStyle='danger'>
                 {!sku && 'SKU'}
               </Label>
