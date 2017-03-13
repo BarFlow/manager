@@ -65,7 +65,7 @@ class ProductAdder extends Component {
 
   render () {
     const { product, products, percent = 0, catalog } = this.props
-    const addedProduct = products.find(productsItem =>
+    const addedProduct = products.find(productsItem => productsItem.supplier_product_code &&
       productsItem.supplier_product_code.toString() === product.supplier_product_code.toString()) || {}
 
     return (

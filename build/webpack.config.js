@@ -18,13 +18,18 @@ const webpackConfig = {
   devtool : config.compiler_devtool,
   resolve : {
     root       : paths.client(),
-    extensions : ['', '.js', '.jsx', '.json']
+    extensions : ['', '.js', '.jsx', '.json'],
+    alias: {
+      './dist/cpexcel.js': '',
+      './dist/jszip.js': ''
+    }
   },
   module: {
     noParse: [/jszip.js$/]
   },
   node: {
-    fs: 'empty'
+    fs: false,
+    Buffer: false
   }
 }
 // ------------------------------------
