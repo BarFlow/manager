@@ -110,12 +110,19 @@ body{
   }
 
   .form-footer{
-    padding-top: 10px;
+    padding-top: 15px;
     text-align: right;
     border-top: 1px solid #e5e5e5;
     .btn+.btn {
       margin-bottom: 0;
       margin-left: 5px;
+    }
+  }
+
+  .modal-dialog{
+    .form-footer{
+      margin: 0 -15px;
+      padding: 15px 15px 0 15px;
     }
   }
 
@@ -155,6 +162,10 @@ body{
       z-index: 1040 !important;
     }
   }
+}
+
+.checkbox{
+  margin: 0 auto;
 }
 
 input[type=number]::-webkit-inner-spin-button,

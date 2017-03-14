@@ -117,7 +117,10 @@ class ArchiveView extends Component {
                   <Panel key={index}>
                     <Media>
                       <Media.Body>
-                        <Media.Heading>{supplier}</Media.Heading>
+                        <Media.Heading>
+                          {supplier} {' '}
+                          <Label bsStyle='info'>{item.status}</Label>
+                        </Media.Heading>
                         <Label>{itemDate}</Label>
                         <Label>£{totalInvoiceValue}</Label>
                         <Label>Placed by: {item.placed_by}</Label>
@@ -126,7 +129,7 @@ class ArchiveView extends Component {
                         <div className='actions'>
                           <a className='btn btn-default'
                             href={`${apiUrl}/orders/${item._id}/export?token=${this.props.token}`}
-                            target='_blank'>Download</a>
+                            target='_blank'>Export</a>
                           <Button
                             bsStyle='danger'
                             onClick={(e) => {

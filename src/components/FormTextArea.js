@@ -1,19 +1,12 @@
 import React from 'react'
-import { FormGroup, ControlLabel, HelpBlock, FormControl, InputGroup } from 'react-bootstrap'
+import { FormGroup, ControlLabel, HelpBlock, FormControl } from 'react-bootstrap'
 
-const Field = ({ meta, label, input, description, type, className, addon, disabled }) => {
-  const Formcontrol = addon
-  ? <InputGroup>
-    <InputGroup.Addon>{addon}</InputGroup.Addon>
-    <FormControl type={type || 'text'} {...input} disabled={disabled} />
-  </InputGroup>
-  : <FormControl type={type || 'text'} {...input} disabled={disabled} />
-
+const Field = ({ meta, label, input, description, placeholder, className, addon, disabled }) => {
   return (
     <FormGroup className={className}
       validationState={(meta.touched && meta.error) ? ('error') : undefined}>
       <ControlLabel>{label}</ControlLabel>
-      {Formcontrol}
+      <FormControl componentClass='textarea' placeholder={placeholder} {...input} />
       <HelpBlock>
         {meta.touched && meta.error ? (
           <div>{meta.error}</div>
@@ -32,7 +25,7 @@ Field.propTypes = {
   label : React.PropTypes.string,
   addon : React.PropTypes.string,
   description : React.PropTypes.string,
-  type : React.PropTypes.string,
+  placeholder : React.PropTypes.string,
   disabled : React.PropTypes.bool,
   className : React.PropTypes.string
 }

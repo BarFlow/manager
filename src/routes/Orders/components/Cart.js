@@ -21,24 +21,35 @@ class Cart extends Component {
   _handleOnSubmit () {
     const { onSubmit, venueId } = this.props
     const groupedItems = _.groupBy(this.props.orders.cart, 'supplier_id._id')
-    const payload = Object.keys(groupedItems).map((key, index) => ({
-      venue_id: venueId,
-      supplier_id: groupedItems[key].length && groupedItems[key][0].supplier_id && groupedItems[key][0].supplier_id._id,
-      items: groupedItems[key].map(item => ({
-        inventory_item: {
-          _id: item._id,
-          product_id: {
-            name: item.product_id.name,
-            type: item.product_id.type,
-            category: item.product_id.category,
-            sub_category: item.product_id.sub_category
-          },
-          supplier_product_code: item.supplier_product_code,
-          cost_price: item.cost_price
-        },
-        ammount: item.ammount
-      }))
-    }))
+    const payload = Object.keys(groupedItems).map((key, index) => {
+      let subTotal = 0
+      return {
+        venue_id: venueId,
+        supplier_id:
+          groupedItems[key].length && groupedItems[key][0].supplier_id && groupedItems[key][0].supplier_id._id,
+        supplier:
+          groupedItems[key].length && groupedItems[key][0].supplier_id && groupedItems[key][0].supplier_id,
+        items: groupedItems[key].map(item => {
+          subTotal = Math.round((subTotal + item.cost_price) * 100) / 100
+          return {
+            inventory_item: {
+              _id: item._id,
+              product_id: {
+                name: item.product_id.name,
+                type: item.product_id.type,
+                category: item.product_id.category,
+                sub_category: item.product_id.sub_category,
+                images: item.product_id.images
+              },
+              supplier_product_code: item.supplier_product_code,
+              cost_price: item.cost_price
+            },
+            ammount: item.ammount
+          }
+        }),
+        subTotal
+      }
+    })
     onSubmit(payload)
   }
 

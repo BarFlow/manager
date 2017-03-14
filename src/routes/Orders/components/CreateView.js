@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
-import DatePicker from 'react-bootstrap-date-picker'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 
 import SubHeader from '../../../components/SubHeader'
 import ProductAdder from './ProductAdder'
 import Cart from './Cart'
+import OrderDetailsForm from './OrderDetailsForm'
 
 import './CreateView.scss'
 
@@ -14,13 +14,11 @@ class CartView extends Component {
     super(props)
     this.state = {
       isConfirmDialogOpen: false,
-      orders: [],
-      requestedDeliveyDate: new Date().toISOString()
+      orders: []
     }
     this._handleOrderCreation = this._handleOrderCreation.bind(this)
     this._handleCartSubmission = this._handleCartSubmission.bind(this)
     this._toggleConfirmDialog = this._toggleConfirmDialog.bind(this)
-    this._handleDeliveryDateChange = this._handleDeliveryDateChange.bind(this)
     this._handleReportIdChange = this._handleReportIdChange.bind(this)
   }
   componentDidMount () {
@@ -67,30 +65,19 @@ class CartView extends Component {
   }
 
   _handleCartSubmission (payload) {
-    this._toggleConfirmDialog()
     this.setState({
       orders: payload
-    })
+    }, () => this._toggleConfirmDialog())
   }
 
-  _handleOrderCreation () {
-    const payload = this.state.orders.map(order => ({
-      ...order,
-      req_delivery_date: this.state.requestedDeliveyDate
-    }))
-    this.props.createOrder(payload)
+  _handleOrderCreation (values) {
+    return this.props.createOrder(values.orders)
       .then(() => this.props.router.push({ pathname: '/orders/archive', query: { saved: true } }))
   }
 
   _toggleConfirmDialog () {
     this.setState({
       isConfirmDialogOpen: !this.state.isConfirmDialogOpen
-    })
-  }
-
-  _handleDeliveryDateChange (value) {
-    this.setState({
-      requestedDeliveyDate: value
     })
   }
 
@@ -123,24 +110,15 @@ class CartView extends Component {
       onHide={this._toggleConfirmDialog}
       className='delete-confirm-dialog'>
       <Modal.Header closeButton>
-        <Modal.Title>Delivery Details</Modal.Title>
+        <Modal.Title>Order Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Please set a requested delivery date for your orders:</p>
-        <DatePicker
-          onChange={this._handleDeliveryDateChange}
-          value={this.state.requestedDeliveyDate}
-          dateFormat={'DD/MM/YYYY'} />
+        <OrderDetailsForm
+          initialValues={{
+            orders: this.state.orders
+          }}
+          onSubmit={this._handleOrderCreation} />
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={this._toggleConfirmDialog}>Cancel</Button>
-        <Button
-          bsStyle='primary'
-          onClick={this._handleOrderCreation}
-          disabled={this.props.orders.isSaving}>
-          {(this.props.orders.isSaving) ? 'Loading...' : 'Submit'}
-        </Button>
-      </Modal.Footer>
     </Modal>
 
     return (

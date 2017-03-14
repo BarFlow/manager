@@ -1,7 +1,12 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-export const CartSupplierGroup = ({ supplier = { name: 'Other Supplier' }, items, deleteCartItem, updateCartItem }) => {
+export const CartSupplierGroup = ({
+  supplier = { name: 'Supplier not set' },
+  items,
+  deleteCartItem,
+  updateCartItem
+}) => {
   let subTotal = 0
   return <div className='supplier-group'>
     <h4>{supplier.name}</h4>

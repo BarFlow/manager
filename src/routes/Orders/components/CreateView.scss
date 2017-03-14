@@ -1,3 +1,18 @@
 .orders-create-cart{
   margin-left: -15px;
 }
+
+.order-details{
+  >div{
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    h5{
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+  >div:last-of-type{
+    border-bottom: none;
+  }
+}

@@ -4,9 +4,10 @@ import { reduxForm, Field, formValueSelector } from 'redux-form'
 import buildSchema from 'redux-form-schema'
 import _ from 'lodash'
 
-import { Button, Alert, Checkbox, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
+import { Button, Alert } from 'react-bootstrap'
 import FormInput from '../../../../components/FormInput'
 import FormSelect from '../../../../components/FormSelect'
+import FormCheckbox from '../../../../components/FormCheckbox'
 
 const other = {
   _id: 'other',
@@ -84,7 +85,11 @@ let CreateProductForm = ({
 
     <Field
       name='measurable'
-      component={MeasuraleCheckbox} />
+      component={FormCheckbox}
+      label='Measurable product'
+      option='Measurable'
+      className={'col-xs-12'}
+      description='Select this if you wish to measure open bottles during stock take.' />
 
     <div className={'col-xs-12'}>
       {error &&
@@ -140,27 +145,3 @@ const selector = formValueSelector('createProduct')
 export default connect(state => ({
   category: selector(state, 'category')
 }))(CreateProductForm)
-
-const MeasuraleCheckbox = ({ meta, input }) =>
-  <FormGroup className={'col-xs-12'}
-    validationState={(meta.touched && meta.error) ? ('error') : undefined}>
-    <ControlLabel>Measurable product</ControlLabel>
-    <Checkbox checked={input.value} {...input}>
-      Measurable
-    </Checkbox>
-    <HelpBlock>
-      {meta.touched && meta.error ? (
-        <div>{meta.error}</div>
-        ) : (
-          <div>Select this if you wish to measure open bottles during stock take.</div>
-        )
-      }
-    </HelpBlock>
-  </FormGroup>
-
-MeasuraleCheckbox.propTypes = {
-  input: React.PropTypes.object,
-  meta: React.PropTypes.object
-}
-
-export { MeasuraleCheckbox }
